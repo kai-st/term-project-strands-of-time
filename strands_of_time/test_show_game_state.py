@@ -2,13 +2,13 @@ import io
 from unittest import TestCase
 from unittest.mock import patch
 
-from strands_of_time import game
+import game
 
 
-class TestDisplayGameState(TestCase):
+class TestShowGameState(TestCase):
 
     @patch('sys.stdout', new_callable=io.StringIO)
-    def test_display_game_state_smallest_board_initial_state(self, mock_stdout):
+    def test_show_game_state_smallest_board_initial_state(self, mock_stdout):
         test_board = {(0, 0): "room description"}
         test_character = {"X-coordinate": 0, "Y-coordinate": 0, "Current HP": 5}
         game.show_game_state(test_board, test_character)
@@ -17,7 +17,7 @@ class TestDisplayGameState(TestCase):
         self.assertEqual(expected, mock_stdout.getvalue())
 
     @patch('sys.stdout', new_callable=io.StringIO)
-    def test_display_game_state_board_2_by_2_initial_state(self, mock_stdout):
+    def test_show_game_state_board_2_by_2_initial_state(self, mock_stdout):
         test_board = {(0, 0): "room description",
                       (1, 0): "room description",
                       (0, 1): "room description",
@@ -30,7 +30,7 @@ class TestDisplayGameState(TestCase):
         self.assertEqual(expected, mock_stdout.getvalue())
 
     @patch('sys.stdout', new_callable=io.StringIO)
-    def test_display_game_state_hp_3(self, mock_stdout):
+    def test_show_game_state_hp_3(self, mock_stdout):
         test_board = {(0, 0): "room description",
                       (1, 0): "room description",
                       (0, 1): "room description",
@@ -43,7 +43,7 @@ class TestDisplayGameState(TestCase):
         self.assertEqual(expected, mock_stdout.getvalue())
 
     @patch('sys.stdout', new_callable=io.StringIO)
-    def test_display_game_state_character_location_x_1(self, mock_stdout):
+    def test_show_game_state_character_location_x_1(self, mock_stdout):
         test_board = {(0, 0): "room description",
                       (1, 0): "room description",
                       (0, 1): "room description",
@@ -56,7 +56,7 @@ class TestDisplayGameState(TestCase):
         self.assertEqual(expected, mock_stdout.getvalue())
 
     @patch('sys.stdout', new_callable=io.StringIO)
-    def test_display_game_state_character_location_y_1(self, mock_stdout):
+    def test_show_game_state_character_location_y_1(self, mock_stdout):
         test_board = {(0, 0): "room description",
                       (1, 0): "room description",
                       (0, 1): "room description",
