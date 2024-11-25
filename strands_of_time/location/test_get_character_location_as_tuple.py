@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import game
+from strands_of_time import game
 
 
 class TestGetCharacterLocationAsTuple(TestCase):

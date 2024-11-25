@@ -2,8 +2,7 @@ import io
 from unittest import TestCase
 from unittest.mock import patch
 
-
-import game
+from strands_of_time import game
 
 
 class TestGetUserChoice(TestCase):
