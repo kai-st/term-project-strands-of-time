@@ -10,8 +10,8 @@ def create_character():
     "Orange": 3, "Yellow": 3, "Green": 3, "Blue": 3, "Violet": 3}
 
     >>> create_character()
-    {"X-coordinate": -1, "Y-coordinate": -1, "level": 1, "last distance to goal": None,
-    "Strands": {"Red": 3, "Orange": 3, "Yellow": 3, "Green": 3, "Blue": 3, "Violet": 3}}
+    {'X-coordinate': -1, 'Y-coordinate': -1, 'level': 1, 'last distance to goal': None,\
+ 'Strands': {'Red': 3, 'Orange': 3, 'Yellow': 3, 'Green': 3, 'Blue': 3, 'Violet': 3}}
     """
     return {"X-coordinate": -1, "Y-coordinate": -1, "level": 1,
             "last distance to goal": None, "Strands": {"Red": 3, "Orange": 3, "Yellow": 3,
