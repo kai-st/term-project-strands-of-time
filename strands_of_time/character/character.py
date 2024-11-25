@@ -1,36 +1,21 @@
-def damage_character(character):
-    """
-    Reduce the current HP of the character by 1.
-
-    :param character: a well-formed character dictionary
-    :precondition: character must be a dictionary with a "Current HP" key
-    :postcondition: reduces the value of character["Current HP"] by 1
-
-    >>> new_character = create_character()
-    >>> damage_character(new_character)
-    >>> new_character
-    {'X-coordinate': 0, 'Y-coordinate': 0, 'Current HP': 4}
-    >>> dying_character = {"X-coordinate": 2, "Y-coordinate": 3, "Current HP": 1}
-    >>> damage_character(dying_character)
-    >>> dying_character
-    {'X-coordinate': 2, 'Y-coordinate': 3, 'Current HP': 0}
-    """
-    character["Current HP"] -= 1
-
-
 def create_character():
     """
-    Create a character with an initial state of 5 hp, positioned at x-coordinate 0, y-coordinate 0.
+    Create a character with X and Y coordinates, level, last distance to goal, and Strands.
 
-    :postcondition: creates a character dictionary with the key-value pairs "X-coordinate": 0,
-    "Y-coordinate": 0, "Current HP": 5
-    :return: a character dictionary with the key-value pairs "X-coordinate": 0,
-    "Y-coordinate": 0, "Current HP": 5
+    :postcondition: creates a character dictionary with the key-value pairs "X-coordinate": -1,
+    "Y-coordinate": -1, "level": 1, "last distance to goal": None, "Strands": {"Red": 3,
+    "Orange": 3, "Yellow": 3, "Green": 3, "Blue": 3, "Violet": 3}
+    :return: a character dictionary with the key-value pairs key-value pairs "X-coordinate": -1,
+    "Y-coordinate": -1, "level": 1, "last distance to goal": None, "Strands": {"Red": 3,
+    "Orange": 3, "Yellow": 3, "Green": 3, "Blue": 3, "Violet": 3}
 
     >>> create_character()
-    {'X-coordinate': 0, 'Y-coordinate': 0, 'Current HP': 5}
+    {"X-coordinate": -1, "Y-coordinate": -1, "level": 1, "last distance to goal": None,
+    "Strands": {"Red": 3, "Orange": 3, "Yellow": 3, "Green": 3, "Blue": 3, "Violet": 3}}
     """
-    return {"X-coordinate": 0, "Y-coordinate": 0, "Current HP": 5}
+    return {"X-coordinate": -1, "Y-coordinate": -1, "level": 1,
+            "last distance to goal": None, "Strands": {"Red": 3, "Orange": 3, "Yellow": 3,
+                                                       "Green": 3, "Blue": 3, "Violet": 3}}
 
 
 def has_strands(character):
@@ -92,3 +77,23 @@ def get_character_location_as_tuple(character):
     (3, 2)
     """
     return character["X-coordinate"], character["Y-coordinate"]
+
+
+def damage_character(character):
+    """
+    Reduce the current HP of the character by 1.
+
+    :param character: a well-formed character dictionary
+    :precondition: character must be a dictionary with a "Current HP" key
+    :postcondition: reduces the value of character["Current HP"] by 1
+
+    >>> new_character = create_character()
+    >>> damage_character(new_character)
+    >>> new_character
+    {'X-coordinate': 0, 'Y-coordinate': 0, 'Current HP': 4}
+    >>> dying_character = {"X-coordinate": 2, "Y-coordinate": 3, "Current HP": 1}
+    >>> damage_character(dying_character)
+    >>> dying_character
+    {'X-coordinate': 2, 'Y-coordinate': 3, 'Current HP': 0}
+    """
+    character["Current HP"] -= 1
