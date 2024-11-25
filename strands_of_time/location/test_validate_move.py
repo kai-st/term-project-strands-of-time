@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+import strands_of_time.location.move
 from strands_of_time import game
 
 
@@ -17,7 +18,7 @@ class TestValidateMove(TestCase):
                       (2, 2): "room description"
                       }
         test_character = {"X-coordinate": 1, "Y-coordinate": 0, "Current HP": 5}
-        actual = game.validate_move(test_board, test_character, "north")
+        actual = strands_of_time.location.move.validate_move(test_board, test_character, "north")
         expected = False
         self.assertEqual(expected, actual)
 
@@ -33,7 +34,7 @@ class TestValidateMove(TestCase):
                       (2, 2): "room description"
                       }
         test_character = {"X-coordinate": 0, "Y-coordinate": 2, "Current HP": 5}
-        actual = game.validate_move(test_board, test_character, "south")
+        actual = strands_of_time.location.move.validate_move(test_board, test_character, "south")
         expected = False
         self.assertEqual(expected, actual)
 
@@ -49,7 +50,7 @@ class TestValidateMove(TestCase):
                       (2, 2): "room description"
                       }
         test_character = {"X-coordinate": 0, "Y-coordinate": 1, "Current HP": 5}
-        actual = game.validate_move(test_board, test_character, "west")
+        actual = strands_of_time.location.move.validate_move(test_board, test_character, "west")
         expected = False
         self.assertEqual(expected, actual)
 
@@ -65,7 +66,7 @@ class TestValidateMove(TestCase):
                       (2, 2): "room description"
                       }
         test_character = {"X-coordinate": 2, "Y-coordinate": 1, "Current HP": 5}
-        actual = game.validate_move(test_board, test_character, "east")
+        actual = strands_of_time.location.move.validate_move(test_board, test_character, "east")
         expected = False
         self.assertEqual(expected, actual)
 
@@ -81,7 +82,7 @@ class TestValidateMove(TestCase):
                       (2, 2): "room description"
                       }
         test_character = {"X-coordinate": 1, "Y-coordinate": 0, "Current HP": 5}
-        actual = game.validate_move(test_board, test_character, "south")
+        actual = strands_of_time.location.move.validate_move(test_board, test_character, "south")
         expected = True
         self.assertEqual(expected, actual)
 
@@ -97,7 +98,7 @@ class TestValidateMove(TestCase):
                       (2, 2): "room description"
                       }
         test_character = {"X-coordinate": 0, "Y-coordinate": 2, "Current HP": 5}
-        actual = game.validate_move(test_board, test_character, "north")
+        actual = strands_of_time.location.move.validate_move(test_board, test_character, "north")
         expected = True
         self.assertEqual(expected, actual)
 
@@ -113,7 +114,7 @@ class TestValidateMove(TestCase):
                       (2, 2): "room description"
                       }
         test_character = {"X-coordinate": 0, "Y-coordinate": 1, "Current HP": 5}
-        actual = game.validate_move(test_board, test_character, "east")
+        actual = strands_of_time.location.move.validate_move(test_board, test_character, "east")
         expected = True
         self.assertEqual(expected, actual)
 
@@ -129,7 +130,7 @@ class TestValidateMove(TestCase):
                       (2, 2): "room description"
                       }
         test_character = {"X-coordinate": 2, "Y-coordinate": 1, "Current HP": 5}
-        actual = game.validate_move(test_board, test_character, "west")
+        actual = strands_of_time.location.move.validate_move(test_board, test_character, "west")
         expected = True
         self.assertEqual(expected, actual)
 
@@ -145,7 +146,7 @@ class TestValidateMove(TestCase):
                       (2, 2): "room description"
                       }
         test_character = {"X-coordinate": 1, "Y-coordinate": 1, "Current HP": 5}
-        actual = game.validate_move(test_board, test_character, "south")
+        actual = strands_of_time.location.move.validate_move(test_board, test_character, "south")
         expected = True
         self.assertEqual(expected, actual)
 
@@ -161,7 +162,7 @@ class TestValidateMove(TestCase):
                       (2, 2): "room description"
                       }
         test_character = {"X-coordinate": 1, "Y-coordinate": 1, "Current HP": 5}
-        actual = game.validate_move(test_board, test_character, "north")
+        actual = strands_of_time.location.move.validate_move(test_board, test_character, "north")
         expected = True
         self.assertEqual(expected, actual)
 
@@ -177,7 +178,7 @@ class TestValidateMove(TestCase):
                       (2, 2): "room description"
                       }
         test_character = {"X-coordinate": 1, "Y-coordinate": 1, "Current HP": 5}
-        actual = game.validate_move(test_board, test_character, "east")
+        actual = strands_of_time.location.move.validate_move(test_board, test_character, "east")
         expected = True
         self.assertEqual(expected, actual)
 
@@ -193,7 +194,7 @@ class TestValidateMove(TestCase):
                       (2, 2): "room description"
                       }
         test_character = {"X-coordinate": 1, "Y-coordinate": 1, "Current HP": 5}
-        actual = game.validate_move(test_board, test_character, "west")
+        actual = strands_of_time.location.move.validate_move(test_board, test_character, "west")
         expected = True
         self.assertEqual(expected, actual)
 
@@ -209,7 +210,7 @@ class TestValidateMove(TestCase):
                       (2, 2): "room description"
                       }
         test_character = {"X-coordinate": 1, "Y-coordinate": 1, "Current HP": 5}
-        game.validate_move(test_board, test_character, "west")
+        strands_of_time.location.move.validate_move(test_board, test_character, "west")
         actual = test_character["X-coordinate"]
         expected = 1
         self.assertEqual(expected, actual)
@@ -226,7 +227,7 @@ class TestValidateMove(TestCase):
                       (2, 2): "room description"
                       }
         test_character = {"X-coordinate": 1, "Y-coordinate": 1, "Current HP": 5}
-        game.validate_move(test_board, test_character, "north")
+        strands_of_time.location.move.validate_move(test_board, test_character, "north")
         actual = test_character["Y-coordinate"]
         expected = 1
         self.assertEqual(expected, actual)

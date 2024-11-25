@@ -4,6 +4,8 @@ from unittest.mock import patch
 
 import game
 
+import strands_of_time.location.board
+
 
 class TestDescribeCurrentLocation(TestCase):
 
@@ -15,7 +17,7 @@ class TestDescribeCurrentLocation(TestCase):
                       (1, 1): "room description D"
                       }
         test_character = {"X-coordinate": 0, "Y-coordinate": 0, "Current HP": 5}
-        game.describe_current_location(test_board, test_character)
+        strands_of_time.location.board.describe_current_location(test_board, test_character)
         expected = "You're in room description A\n\n"
         self.assertEqual(expected, mock_stdout.getvalue())
 
@@ -27,7 +29,7 @@ class TestDescribeCurrentLocation(TestCase):
                       (1, 1): "room description D"
                       }
         test_character = {"X-coordinate": 1, "Y-coordinate": 1, "Current HP": 5}
-        game.describe_current_location(test_board, test_character)
+        strands_of_time.location.board.describe_current_location(test_board, test_character)
         expected = "You're in room description D\n\n"
         self.assertEqual(expected, mock_stdout.getvalue())
 
@@ -39,6 +41,6 @@ class TestDescribeCurrentLocation(TestCase):
                       (1, 1): "room description D"
                       }
         test_character = {"X-coordinate": 0, "Y-coordinate": 1, "Current HP": 5}
-        game.describe_current_location(test_board, test_character)
+        strands_of_time.location.board.describe_current_location(test_board, test_character)
         expected = "You're in room description C\n\n"
         self.assertEqual(expected, mock_stdout.getvalue())
