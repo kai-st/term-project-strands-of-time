@@ -7,7 +7,7 @@ import random
 import copy
 
 
-def make_board(rows, columns):
+def create_game_board(rows, columns):
     """
     Construct a 2D gameboard with rooms laid out in a given numbers of rows and columns.
 
@@ -25,7 +25,7 @@ def make_board(rows, columns):
     :return: a dictionary representing the gameboard with keys (x-coordinate, y-coordinate) for
     each room and string values containing descriptions for each room
 
-    >>> make_board(2, 2) # doctest: +SKIP
+    >>> create_game_board(2, 2) # doctest: +SKIP
     {
     (0, 0): 'a dark cavern at the northwest end of a tangled cave system deep in the Underdark
     with only the dim glow of your trusty magic blade to lead you to the surface.',
@@ -36,7 +36,7 @@ def make_board(rows, columns):
     (1, 1): 'a long narrow tunnel. Finally, you can see the glimmer of surface sunlight filtering
     into he mouth of the cave ahead of you.',
     }
-    >>> make_board(1, 1) # doctest: +SKIP
+    >>> create_game_board(1, 1) # doctest: +SKIP
     {(0, 0): 'a dark cavern at the northwest end of a tangled cave system deep in the Underdark
     with only the dim glow of your trusty magic blade to lead you to the surface.'}
     """
@@ -74,7 +74,7 @@ def make_board(rows, columns):
     return board
 
 
-def make_character():
+def create_character():
     """
     Create a character with an initial state of 5 hp, positioned at x-coordinate 0, y-coordinate 0.
 
@@ -83,13 +83,13 @@ def make_character():
     :return: a character dictionary with the key-value pairs "X-coordinate": 0,
     "Y-coordinate": 0, "Current HP": 5
 
-    >>> make_character()
+    >>> create_character()
     {'X-coordinate': 0, 'Y-coordinate': 0, 'Current HP': 5}
     """
     return {"X-coordinate": 0, "Y-coordinate": 0, "Current HP": 5}
 
 
-def is_alive(character):
+def has_strands(character):
     """
     Determine if the character is still alive.
 
@@ -99,12 +99,12 @@ def is_alive(character):
     character["Current HP"] is greater than 0
     :return: a boolean that is True if character["Current HP"] is greater than 0
 
-    >>> alive_character = make_character()
-    >>> is_alive(alive_character)
+    >>> alive_character = create_character()
+    >>> has_strands(alive_character)
     True
-    >>> dead_character = make_character()
+    >>> dead_character = create_character()
     >>> dead_character["Current HP"] = 0
-    >>> is_alive(dead_character)
+    >>> has_strands(dead_character)
     False
     """
     return character["Current HP"] > 0
@@ -119,10 +119,10 @@ def get_character_location_as_tuple(character):
     :postcondition: returns character's location as a tuple of (X, Y) coordinates
     :return: a tuple with the character's location as (X, Y) coordinates
 
-    >>> character_at_initial_position = make_character()
+    >>> character_at_initial_position = create_character()
     >>> get_character_location_as_tuple(character_at_initial_position)
     (0, 0)
-    >>> character_x_3_y_2 = make_character()
+    >>> character_x_3_y_2 = create_character()
     >>> character_x_3_y_2["X-coordinate"] = 3
     >>> character_x_3_y_2["Y-coordinate"] = 2
     >>> get_character_location_as_tuple(character_x_3_y_2)
@@ -140,13 +140,13 @@ def get_goal_location(board):
     :postcondition: returns the goal location for board as a tuple of (X, Y) coordinates
     :return: a tuple with the goal location as (X, Y) coordinates
 
-    >>> board_5_by_5 = make_board(5, 5)
+    >>> board_5_by_5 = create_game_board(5, 5)
     >>> get_goal_location(board_5_by_5)
     (4, 4)
-    >>> board_not_square = make_board(3, 4)
+    >>> board_not_square = create_game_board(3, 4)
     >>> get_goal_location(board_not_square)
     (3, 2)
-    >>> smallest_board = make_board(1, 1)
+    >>> smallest_board = create_game_board(1, 1)
     >>> get_goal_location(smallest_board)
     (0, 0)
     """
@@ -165,7 +165,7 @@ def prep_current_hp_for_printing(character):
     :postcondition: returns character's current HP with label as a string
     :return: character's current HP with label a string
 
-    >>> new_character = make_character()
+    >>> new_character = create_character()
     >>> prep_current_hp_for_printing(new_character)
     'Current HP: 5'
     >>> mid_game_character = {"X-coordinate": 2, "Y-coordinate": 3, "Current HP": 3}
@@ -184,7 +184,7 @@ def prep_current_location_for_printing(character):
     :postcondition: returns character's current location with label as a string
     :return: character's current location with label as a string
 
-    >>> new_character = make_character()
+    >>> new_character = create_character()
     >>> prep_current_location_for_printing(new_character)
     'Current location: Row 1, Column 1'
     >>> mid_game_character = {"X-coordinate": 2, "Y-coordinate": 3, "Current HP": 3}
@@ -196,7 +196,7 @@ def prep_current_location_for_printing(character):
     return f"Current location: Row {current_row}, Column {current_col}"
 
 
-def display_game_state(board, character):
+def show_game_state(board, character):
     """
     Print the character's current HP, current location, and goal location.
 
@@ -207,15 +207,15 @@ def display_game_state(board, character):
     and "Current HP" keys
     :postcondition: prints the character's current HP, current location, and goal location
 
-    >>> new_character = make_character()
-    >>> board_5_by_5 = make_board(5, 5)
-    >>> display_game_state(board_5_by_5, new_character)
+    >>> new_character = create_character()
+    >>> board_5_by_5 = create_game_board(5, 5)
+    >>> show_game_state(board_5_by_5, new_character)
     <BLANKLINE>
     --- Current HP: 5 --- Current location: Row 1, Column 1 --- Goal: Row 5, Column 5 ---
     <BLANKLINE>
     >>> mid_game_character = {"X-coordinate": 2, "Y-coordinate": 3, "Current HP": 3}
-    >>> board_5_rows_4_cols = make_board(5, 4)
-    >>> display_game_state(board_5_rows_4_cols, mid_game_character)
+    >>> board_5_rows_4_cols = create_game_board(5, 4)
+    >>> show_game_state(board_5_rows_4_cols, mid_game_character)
     <BLANKLINE>
     --- Current HP: 3 --- Current location: Row 4, Column 3 --- Goal: Row 5, Column 4 ---
     <BLANKLINE>
@@ -240,8 +240,8 @@ def describe_current_location(board, character):
     and "Current HP" keys
     :postcondition: prints the description of the character's current location.
 
-    >>> new_character = make_character()
-    >>> board_5_by_5 = make_board(5, 5)
+    >>> new_character = create_character()
+    >>> board_5_by_5 = create_game_board(5, 5)
     >>> describe_current_location(board_5_by_5, new_character)
     You're in a dark cavern at the northwest end of a tangled cave system deep in the Underdark with
     only the dim glow of your trusty magic blade to lead you to the surface.
@@ -287,7 +287,7 @@ def move_character(character, direction):
     :precondition: direction must be a string equal to one of north, south, east, or west
     :postcondition: updates the correct coordinate key in character to reflect the new location
 
-    >>> new_character = make_character()
+    >>> new_character = create_character()
     >>> move_character(new_character, "south")
     >>> new_character
     {'X-coordinate': 0, 'Y-coordinate': 1, 'Current HP': 5}
@@ -320,8 +320,8 @@ def validate_move(board, character, direction):
     :return: A boolean that is True if the player's choice of direction is in the bounds of the
     board
 
-    >>> character_at_x_0_y_0 = make_character()
-    >>> board_5_by_5 = make_board(5, 5)
+    >>> character_at_x_0_y_0 = create_character()
+    >>> board_5_by_5 = create_game_board(5, 5)
     >>> validate_move(board_5_by_5, character_at_x_0_y_0, "south")
     True
     >>> validate_move(board_5_by_5, character_at_x_0_y_0, "north")
@@ -363,7 +363,7 @@ def damage_character(character):
     :precondition: character must be a dictionary with a "Current HP" key
     :postcondition: reduces the value of character["Current HP"] by 1
 
-    >>> new_character = make_character()
+    >>> new_character = create_character()
     >>> damage_character(new_character)
     >>> new_character
     {'X-coordinate': 0, 'Y-coordinate': 0, 'Current HP': 4}
@@ -387,14 +387,14 @@ def check_if_goal_attained(board, character):
     :return: a boolean that is True if character's location equals the goal location
 
     >>> end_game_character = {"X-coordinate": 4, "Y-coordinate": 4, "Current HP": 3}
-    >>> board_5_by_5 = make_board(5, 5)
+    >>> board_5_by_5 = create_game_board(5, 5)
     >>> check_if_goal_attained(board_5_by_5, end_game_character)
     True
-    >>> new_character = make_character()
+    >>> new_character = create_character()
     >>> check_if_goal_attained(board_5_by_5, new_character)
     False
-    >>> new_character = make_character()
-    >>> board_1_by_1 = make_board(1, 1)
+    >>> new_character = create_character()
+    >>> board_1_by_1 = create_game_board(1, 1)
     >>> check_if_goal_attained(board_1_by_1, new_character)
     True
     """
@@ -408,47 +408,50 @@ def game():
     """
     Drive the game.
     """
-    rows = 5
-    columns = 5
-    board = make_board(rows, columns)
-
-    character = make_character()
-
-    achieved_goal = False
-
-    while is_alive(character) and not achieved_goal:
-        # Tell the user their status
-        display_game_state(board, character)
-
-        # Tell the user where they are
-        describe_current_location(board, character)
-
-        direction = get_user_choice()
-
-        valid_move = validate_move(board, character, direction)
-        if valid_move:
-            move_character(character, direction)
-
-            display_game_state(board, character)
-            describe_current_location(board, character)
-
-            there_is_a_challenger = check_for_foes()
-            if there_is_a_challenger:
-                guessing_game(character)
-
-            achieved_goal = check_if_goal_attained(board, character)
-        else:
-            # Tell the user they can’t go in that direction
-            print("\nThere is only the cold stone wall to the %s." % direction, end="\n\n")
-
-    if is_alive(character):
-        print("You reach the cave mouth and stagger out into the bright morning light.", end="\n\n")
-        print("Congratulations! You escaped the Underdark!")
-    else:
-        display_game_state(board, character)
-        print("The gods were not kind this day. You died before you could escape the Underdark.",
-              end="\n\n")
-        print("Game Over")
+    rows = 3
+    columns = 9
+    epoch_boundaries = [3, 6]
+    # board = create_game_board(rows, columns, epoch_boundaries)
+    #
+    # print_intro()
+    #
+    # character = create_character()
+    #
+    # set_starting_location(board, character)
+    #
+    # describe_current_location(board, character)
+    # show_game_state(board, character)
+    #
+    # print_combat_instructions()
+    # handle_regular_combat(board, character)
+    #
+    # while has_strands(character) and character["level"] <= 3:
+    #     set_level_goal(board, character)
+    #
+    #     while has_strands(character):
+    #         handle_movement(board, character)
+    #         # Tell the user where they are
+    #         describe_current_location(board, character)
+    #         # Tell the user their status
+    #         show_game_state(board, character)
+    #
+    #         if not get_character_location_as_tuple(character) == board["level goal"]:
+    #             there_is_a_challenger = check_for_foes()
+    #             if there_is_a_challenger:
+    #                 handle_regular_combat(board, character)
+    #
+    #             check_for_restore(board, character)
+    #         else:
+    #             describe_level_goal(character)
+    #             handle_boss_combat(board, character)
+    #             break
+    #
+    # if character["level"] > 3:
+    #     print("winning scenario")
+    # else:
+    #     show_game_state(board, character)
+    #     print("losing scenario")
+    #     print("Game Over")
 
 
 def main():
