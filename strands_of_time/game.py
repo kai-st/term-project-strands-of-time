@@ -196,28 +196,6 @@ def prep_current_location_for_printing(character):
     return f"Current location: Row {current_row}, Column {current_col}"
 
 
-def prep_goal_for_printing(board):
-    """
-    Return the goal location with a label as a string for printing.
-
-    :param board: a well-formed board dictionary
-    :precondition: board must be a dictionary with (X, Y) keys
-    :postcondition: returns the goal location for board with label as a string
-    :return: board's goal location with label as a string
-
-    >>> board_5_by_5 = make_board(5, 5)
-    >>> prep_goal_for_printing(board_5_by_5)
-    'Goal: Row 5, Column 5'
-    >>> board_5_rows_4_cols = make_board(5, 4)
-    >>> prep_goal_for_printing(board_5_rows_4_cols)
-    'Goal: Row 5, Column 4'
-    """
-    goal = get_goal_location(board)
-    goal_row = goal[1] + 1
-    goal_col = goal[0] + 1
-    return f"Goal: Row {goal_row}, Column {goal_col}"
-
-
 def display_game_state(board, character):
     """
     Print the character's current HP, current location, and goal location.
@@ -246,9 +224,9 @@ def display_game_state(board, character):
 
     location_to_print = prep_current_location_for_printing(character)
 
-    goal_to_print = prep_goal_for_printing(board)
+    # goal_to_print = prep_goal_for_printing(board)
 
-    print("\n---", hp_to_print, "---", location_to_print, "---", goal_to_print, "---", end="\n\n")
+    # print("\n---", hp_to_print, "---", location_to_print, "---", goal_to_print, "---", end="\n\n")
 
 
 def describe_current_location(board, character):
@@ -377,26 +355,6 @@ def check_for_foes():
     return random.randint(1, 4) == 4
 
 
-def pick_type_of_foe():
-    """
-    Pick a random enemy type from a list of Underdark species.
-
-    :postcondition: returns a random enemy type from a list of Underdark species
-    :return: a random enemy type from a list of Underdark species as a string
-
-    >>> pick_type_of_foe() # doctest: +SKIP
-    "giant spider"
-    >>> pick_type_of_foe() # doctest: +SKIP
-    "mind flayer"
-    """
-    underdark_enemies = ["giant spider", "drow", "drider", "duergar", "mind flayer",
-                         "intellect devourer", "myconid", "gelationous cube", "beholder",
-                         "swarm of cranium rats", "kuo-toa", "carrion crawler", "troll",
-                         "swarm of bats"]
-
-    return random.choice(underdark_enemies)
-
-
 def damage_character(character):
     """
     Reduce the current HP of the character by 1.
@@ -415,35 +373,6 @@ def damage_character(character):
     {'X-coordinate': 2, 'Y-coordinate': 3, 'Current HP': 0}
     """
     character["Current HP"] -= 1
-
-
-def guessing_game(character):
-    """
-    Ask the player to correctly guess a random number from 1 to 5 to defeat a foe, or take damage.
-
-    :param character: a well-formed character dictionary
-    :precondition: character must be a dictionary with a "Current HP" key
-    :postcondition: tells the player they have encountered a foe
-    :postcondition: picks a random number from 1 to 5 inclusive
-    :postcondition: asks the player to guess the number
-    :postcondition: if player guesses correctly, prints success message
-    :postcondition: if player guesses incorrectly, prints failure message
-    :postcondition: if player guesses incorrectly, damages character
-    """
-    foe = pick_type_of_foe()
-    vowels = ("a", "e", "i", "o", "u")
-    indefinite_article = "An" if foe[0] in vowels else "A"
-    print(indefinite_article, foe, "blocks your path!", end="\n\n")
-
-    number = random.randint(1, 5)
-
-    player_guess = int(input(f"Guess a number between 1 and 5 to defeat the {foe}: "))
-
-    if player_guess == number:
-        print("\nSuccess! You have slain the %s!" % foe, end="\n\n")
-    else:
-        print("\nOh no! You take 1 point of damage from the %s!" % foe, end="\n\n")
-        damage_character(character)
 
 
 def check_if_goal_attained(board, character):
