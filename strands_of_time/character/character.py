@@ -20,23 +20,24 @@ def create_character():
 
 def has_strands(character):
     """
-    Determine if the character is still alive.
+    Determine if the character has any Strands remaining.
 
     :param character: a well-formed character dictionary
-    :precondition: character must be a dictionary with a "Current HP" key
-    :postcondition: determines as a Boolean if character is alive based on if
-    character["Current HP"] is greater than 0
-    :return: a boolean that is True if character["Current HP"] is greater than 0
+    :precondition: character must be a dictionary with a "Strands" key
+    :postcondition: determines as a Boolean if character has at least one Strand colour greater
+    than 0
+    :return: a boolean that is True if character has at least one Strand colour greater
+    than 0
 
-    >>> alive_character = create_character()
-    >>> has_strands(alive_character)
+    >>> character_with_strands = create_character()
+    >>> has_strands(character_with_strands)
     True
-    >>> dead_character = create_character()
-    >>> dead_character["Current HP"] = 0
-    >>> has_strands(dead_character)
+    >>> character_without_strands = create_character()
+    >>> character_without_strands["Strands"] = {"Red": 0, "Orange": 0, "Yellow": 0}
+    >>> has_strands(character_without_strands)
     False
     """
-    return character["Current HP"] > 0
+    return max(list(character["Strands"].values())) > 0
 
 
 def prep_current_hp_for_printing(character):
