@@ -3,7 +3,7 @@ from logging import raiseExceptions
 from strands_of_time import RAINBOW_ORDER
 
 
-def create_character(initial_strands):
+def create_character(initial_strands: int) -> dict[str, int or None or dict[str, int]]:
     """
     Create a character with X and Y coordinates, level, last distance to goal, and Strands.
 
