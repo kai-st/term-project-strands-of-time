@@ -1,21 +1,31 @@
-def create_character():
+from strands_of_time import RAINBOW_ORDER
+
+
+def create_character(initial_strands):
     """
     Create a character with X and Y coordinates, level, last distance to goal, and Strands.
 
+    :param initial_strands: a positive interger number of Strands of each colour the character
+    starts with
+    :precondition: initial_strands must be greater than or equal to 0
     :postcondition: creates a character dictionary with the key-value pairs "X-coordinate": -1,
-    "Y-coordinate": -1, "level": 1, "last distance to goal": None, "Strands": {"Red": 3,
-    "Orange": 3, "Yellow": 3, "Green": 3, "Blue": 3, "Violet": 3}
-    :return: a character dictionary with the key-value pairs key-value pairs "X-coordinate": -1,
-    "Y-coordinate": -1, "level": 1, "last distance to goal": None, "Strands": {"Red": 3,
-    "Orange": 3, "Yellow": 3, "Green": 3, "Blue": 3, "Violet": 3}
+    "Y-coordinate": -1, "level": 1, "last distance to goal": None, "Strands": a dictionary with
+    keys for each rainbow colour with values set to initial_strands
+    :return: a character dictionary with the key-value pairs "X-coordinate": -1,
+    "Y-coordinate": -1, "level": 1, "last distance to goal": None, "Strands": a dictionary with
+    keys for each rainbow colour with values set to initial_strands
+    :raises ValueError: if initial_strands is negative
 
-    >>> create_character()
+    >>> create_character(3)
     {'X-coordinate': -1, 'Y-coordinate': -1, 'level': 1, 'last distance to goal': None,\
  'Strands': {'Red': 3, 'Orange': 3, 'Yellow': 3, 'Green': 3, 'Blue': 3, 'Violet': 3}}
+    >>> create_character(0)
+    {'X-coordinate': -1, 'Y-coordinate': -1, 'level': 1, 'last distance to goal': None,\
+ 'Strands': {'Red': 0, 'Orange': 0, 'Yellow': 0, 'Green': 0, 'Blue': 0, 'Violet': 0}}
     """
+    strands = {colour: initial_strands for colour in RAINBOW_ORDER}
     return {"X-coordinate": -1, "Y-coordinate": -1, "level": 1,
-            "last distance to goal": None, "Strands": {"Red": 3, "Orange": 3, "Yellow": 3,
-                                                       "Green": 3, "Blue": 3, "Violet": 3}}
+            "last distance to goal": None, "Strands": strands}
 
 
 def has_strands(character):
