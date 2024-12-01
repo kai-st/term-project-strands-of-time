@@ -64,13 +64,13 @@ def has_strands(character: dict) -> bool:
         raise TypeError("character must be an dictionary")
 
     if "Strands" not in character:
-        raise ValueError("character must have 'Strands' key")
+        raise KeyError("character must have 'Strands' key")
 
     if not isinstance(character["Strands"], dict):
         raise TypeError("character['Strands'] must be an dictionary")
 
     for value in character["Strands"].values():
-        if not isinstance(value, int or float):
+        if not (isinstance(value, int) or isinstance(value, float)):
             raise ValueError("character['Strands'] must have number values")
 
     return max(list(character["Strands"].values())) > 0
