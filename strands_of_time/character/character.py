@@ -42,11 +42,16 @@ def has_strands(character: dict) -> bool:
     Determine if the character has any Strands remaining.
 
     :param character: a well-formed character dictionary
-    :precondition: character must be a dictionary with a "Strands" key
+    :precondition: character must be a dictionary with a "Strands" key that is a dictionary with
+    number values
     :postcondition: determines as a Boolean if character has at least one Strand colour greater
     than 0
     :return: a boolean that is True if character has at least one Strand colour greater
     than 0
+    :raises KeyError: if character does not have a "Strands" key
+    :raises TypeError: if character is not a dictionary
+    :raises TypeError: if "Strands" is not a dictionary
+    :raises ValueError: if values in "Strands" are not ints or floats
 
     >>> character_with_strands = create_character()
     >>> has_strands(character_with_strands)
@@ -56,6 +61,19 @@ def has_strands(character: dict) -> bool:
     >>> has_strands(character_without_strands)
     False
     """
+    if not isinstance(character, dict):
+        raise TypeError("character must be an dictionary")
+
+    if "Strands" not in character:
+        raise ValueError("character must have 'Strands' key")
+
+    if not isinstance(character["Strands"], dict):
+        raise TypeError("character['Strands'] must be an dictionary")
+
+    for value in character["Strands"].values():
+        if not isinstance(value, int or float):
+            raise ValueError("character['Strands'] must have number values")
+
     return max(list(character["Strands"].values())) > 0
 
 
