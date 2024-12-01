@@ -37,7 +37,7 @@ def create_character(initial_strands: int) -> dict[str, int or None or dict[str,
             "last distance to goal": None, "Strands": strands}
 
 
-def has_strands(character):
+def has_strands(character: dict) -> bool:
     """
     Determine if the character has any Strands remaining.
 
