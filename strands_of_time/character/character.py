@@ -1,3 +1,5 @@
+from logging import raiseExceptions
+
 from strands_of_time import RAINBOW_ORDER
 
 
@@ -15,6 +17,7 @@ def create_character(initial_strands):
     "Y-coordinate": -1, "level": 1, "last distance to goal": None, "Strands": a dictionary with
     keys for each rainbow colour with values set to initial_strands
     :raises ValueError: if initial_strands is negative
+    :raises TypeError: if initial_strands is not an integer
 
     >>> create_character(3)
     {'X-coordinate': -1, 'Y-coordinate': -1, 'level': 1, 'last distance to goal': None,\
@@ -23,6 +26,12 @@ def create_character(initial_strands):
     {'X-coordinate': -1, 'Y-coordinate': -1, 'level': 1, 'last distance to goal': None,\
  'Strands': {'Red': 0, 'Orange': 0, 'Yellow': 0, 'Green': 0, 'Blue': 0, 'Violet': 0}}
     """
+    if not isinstance(initial_strands, int):
+        raise TypeError("initial_strands must be an integer")
+
+    if initial_strands < 0:
+        raise ValueError("Character cannot start with negative Strands")
+
     strands = {colour: initial_strands for colour in RAINBOW_ORDER}
     return {"X-coordinate": -1, "Y-coordinate": -1, "level": 1,
             "last distance to goal": None, "Strands": strands}
