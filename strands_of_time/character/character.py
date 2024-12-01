@@ -53,11 +53,10 @@ def has_strands(character: dict) -> bool:
     :raises TypeError: if "Strands" is not a dictionary
     :raises ValueError: if values in "Strands" are not ints or floats
 
-    >>> character_with_strands = create_character()
+    >>> character_with_strands = create_character(3)
     >>> has_strands(character_with_strands)
     True
-    >>> character_without_strands = create_character()
-    >>> character_without_strands["Strands"] = {"Red": 0, "Orange": 0, "Yellow": 0}
+    >>> character_without_strands = create_character(0)
     >>> has_strands(character_without_strands)
     False
     """
