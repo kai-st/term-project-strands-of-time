@@ -1,7 +1,5 @@
-from logging import raiseExceptions
-
 from strands_of_time import RAINBOW_ORDER
-from strands_of_time.game import colourize
+from strands_of_time.utils import colourize
 
 
 def create_character(initial_strands: int) -> dict[str, int or None or dict[str, int]]:
