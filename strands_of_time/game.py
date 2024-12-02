@@ -25,6 +25,13 @@ def colourize(message: str, colour: str) -> str:
     :raises TypeError: if message is not a string
     :raises TypeError: if colour is not a string
     :raises ValueError: if colour does not match an available colour
+
+    >>> colourize("My message", "Red") # doctest: +SKIP
+    '\033[38;5;160mMy message\033[0m'
+    >>> print(colourize("My red message", "Red"))
+    \033[38;5;160mMy red message\033[0m
+    >>> print(colourize("My pink message", "Pink"))
+    \033[38;5;207mMy pink message\033[0m
     """
     reset_sequence = "\033[0m"
     rainbow_printing_sequences = ("\033[38;5;160m", "\033[38;5;208m", "\033[38;5;220m",
