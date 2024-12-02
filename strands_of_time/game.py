@@ -2,7 +2,7 @@
 Kai Steingarten
 A01435070
 """
-
+from strands_of_time import RAINBOW_ORDER
 from strands_of_time.character.character import print_strands, create_character
 from strands_of_time.location.board import prep_current_location_for_printing
 
@@ -26,6 +26,16 @@ def colourize(message: str, colour: str) -> str:
     :raises TypeError: if colour is not a string
     :raises ValueError: if colour does not match an available colour
     """
+    reset_sequence = "\033[0m"
+    rainbow_printing_sequences = ("\033[38;5;160m", "\033[38;5;208m", "\033[38;5;220m",
+                                  "\033[38;5;41m", "\033[38;5;33m", "\033[38;5;135m")
+
+    colour_printing_sequences = {rainbow_colour: rainbow_sequence for rainbow_colour,
+                                 rainbow_sequence in zip(RAINBOW_ORDER, rainbow_printing_sequences)}
+
+    colour_printing_sequences["Pink"] = "\033[38;5;207m"
+
+    return f"{colour_printing_sequences[colour]}{message}{reset_sequence}"
 
 
 def show_game_state(board, character):
