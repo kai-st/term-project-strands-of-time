@@ -103,12 +103,13 @@ def print_strands(character: dict):
 
     print("Strands:", end=" ")
     for colour_ordinal, strand_record in enumerate(character["Strands"].items(), start=1):
-        strand_listing = f"{colour_ordinal}. {strand_record[0]}: {strand_record[1]}"
+        coloured_record = colourize(f"{strand_record[0]}: {strand_record[1]}", strand_record[0])
+        strand_listing = f"{colour_ordinal}. {coloured_record}"
 
         if colour_ordinal != len(character["Strands"]):
             strand_listing += ","
 
-        print(colourize(strand_listing, strand_record[0]), end=" ")
+        print(strand_listing, end=" ")
 
 
 def get_character_location_as_tuple(character: dict) -> tuple:
