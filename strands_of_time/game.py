@@ -7,6 +7,27 @@ from strands_of_time.character.character import print_strands, create_character
 from strands_of_time.location.board import prep_current_location_for_printing
 
 
+def colourize(message: str, colour: str) -> str:
+    """
+    Wrap a string in ANSI escape sequences to print it in a given colour and then reset to default.
+
+    Available colours are Red, Orange, Yellow, Green, Blue, Violet, Pink.
+
+    :param message: a string to wrap in color sequences
+    :param colour: the colour to make the message as a string matching an available colour
+    :precondition: message must be a string
+    :precondition: colour must be a string
+    :precondition: colour must be aan available colour
+    :postcondition: wraps a string in ANSI escape sequences to print it in colour and then
+    reset the colour
+    :return: a string beginning with the colour escape sequence, then the message, then the
+    reset escape sequence
+    :raises TypeError: if message is not a string
+    :raises TypeError: if colour is not a string
+    :raises ValueError: if colour does not match an available colour
+    """
+
+
 def show_game_state(board, character):
     """
     Print the character's current HP, current location, and goal location.
