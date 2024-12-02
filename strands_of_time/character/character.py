@@ -52,7 +52,7 @@ def has_strands(character: dict) -> bool:
     :raises KeyError: if character does not have a "Strands" key
     :raises TypeError: if character is not a dictionary
     :raises TypeError: if "Strands" is not a dictionary
-    :raises ValueError: if values in "Strands" are not ints or floats
+    :raises TypeError: if values in "Strands" are not ints or floats
 
     >>> character_with_strands = create_character(3)
     >>> has_strands(character_with_strands)
@@ -72,7 +72,7 @@ def has_strands(character: dict) -> bool:
 
     for value in character["Strands"].values():
         if not (isinstance(value, int) or isinstance(value, float)):
-            raise ValueError("character['Strands'] must have number values")
+            raise TypeError("character['Strands'] must have number values")
 
     return max(list(character["Strands"].values())) > 0
 

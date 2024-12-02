@@ -118,8 +118,8 @@ class TestHasStrands(TestCase):
                                    "last distance to goal": None,
                                    "Strands": "thing"})
 
-    def test_has_strands_raises_value_error_if_character_strands_all_values_not_numbers(self):
-        with self.assertRaises(ValueError):
+    def test_has_strands_raises_type_error_if_character_strands_all_values_not_numbers(self):
+        with self.assertRaises(TypeError):
             character.has_strands({"X-coordinate": -1,
                                   "Y-coordinate": -1,
                                    "level": 1,
@@ -127,8 +127,8 @@ class TestHasStrands(TestCase):
                                    "Strands": {"Red": "-1", "Orange": "-2", "Yellow": "-3",
                                                "Green": "-2", "Blue": "-1", "Violet": "-1"}})
 
-    def test_has_strands_raises_value_error_if_character_strands_any_value_not_number(self):
-        with self.assertRaises(ValueError):
+    def test_has_strands_raises_type_error_if_character_strands_any_value_not_number(self):
+        with self.assertRaises(TypeError):
             character.has_strands({"X-coordinate": -1,
                                   "Y-coordinate": -1,
                                    "level": 1,
