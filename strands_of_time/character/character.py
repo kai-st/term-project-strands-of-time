@@ -1,6 +1,7 @@
 from logging import raiseExceptions
 
 from strands_of_time import RAINBOW_ORDER
+from strands_of_time.game import colourize
 
 
 def create_character(initial_strands: int) -> dict[str, int or None or dict[str, int]]:
@@ -76,23 +77,47 @@ def has_strands(character: dict) -> bool:
     return max(list(character["Strands"].values())) > 0
 
 
-def prep_current_hp_for_printing(character):
+def print_strands(character: dict):
     """
-    Return the character's current HP with a label as a string for printing.
+    Print the character's current Strands, enumerated with a label.
 
     :param character: a well-formed character dictionary
-    :precondition: character must be a dictionary with a "Current HP" key
-    :postcondition: returns character's current HP with label as a string
-    :return: character's current HP with label a string
+    :precondition: character must be a dictionary with a "Strands" key
+    :postcondition: prints the character's current Strands, enumerated with a label
+    :raises KeyError: if character does not have a "Strands" key
+    :raises TypeError: if character is not a dictionary
+    :raises TypeError: if "Strands" is not a dictionary
 
-    >>> new_character = create_character()
-    >>> prep_current_hp_for_printing(new_character)
-    'Current HP: 5'
-    >>> mid_game_character = {"X-coordinate": 2, "Y-coordinate": 3, "Current HP": 3}
-    >>> prep_current_hp_for_printing(mid_game_character)
-    'Current HP: 3'
+    >>> new_character = create_character(3)
+    >>> print_strands(new_character)
+    Strands: 1. Red: 3, 2. Orange: 3, 3. Yellow: 3, 4. Green: 3, 5. Blue: 3, 6. Violet: 3
+    >>> mid_game_character = create_character(3)
+    >>> mid_game_character["Strands"]["Red"] = 1
+    >>> mid_game_character["Strands"]["Orange"] = 5
+    >>> mid_game_character["Strands"]["Yellow"] = 2
+    >>> mid_game_character["Strands"]["Green"] = 4
+    >>> mid_game_character["Strands"]["Blue"] = 0
+    >>> mid_game_character["Strands"]["Violet"] = 8
+    >>> print_strands(mid_game_character)
+    Strands: 1. Red: 1, 2. Orange: 5, 3. Yellow: 2, 4. Green: 4, 5. Blue: 0, 6. Violet: 8
     """
-    return f"Current HP: {character["Current HP"]}"
+    if not isinstance(character, dict):
+        raise TypeError("character must be an dictionary")
+
+    if "Strands" not in character:
+        raise KeyError("character must have 'Strands' key")
+
+    if not isinstance(character["Strands"], dict):
+        raise TypeError("character['Strands'] must be an dictionary")
+
+    print("Strands:", end=" ")
+    for colour_ordinal, strand_record in enumerate(character["Strands"].items(), start=1):
+        strand_listing = f"{colour_ordinal}. {strand_record[0]}: {strand_record[1]}"
+
+        if colour_ordinal != len(character["Strands"]):
+            strand_listing += ","
+
+        print(colourize(strand_listing, strand_record[0]), end=" ")
 
 
 def get_character_location_as_tuple(character):
