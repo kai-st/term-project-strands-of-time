@@ -1,3 +1,5 @@
+import random
+
 from strands_of_time import RAINBOW_ORDER
 from strands_of_time.utils import colourize
 
@@ -162,12 +164,31 @@ def remove_random_strand(character):
 
     >>> new_character = create_character(3)
     >>> remove_random_strand(new_character)
-    >>> new_character["Strands"] # doctest: +SKIP
-    {"Red": 3, "Orange": 2, "Yellow": 3, "Green": 3, "Blue": 3, "Violet": 3}
+    >>> new_character['Strands'] # doctest: +SKIP
+    {'Red': 3, 'Orange': 2, 'Yellow': 3, 'Green': 3, 'Blue': 3, 'Violet': 3}
     >>> dying_character = create_character(0)
-    >>> dying_character["Strands"]["Red"] = 1
+    >>> dying_character['Strands']['Red'] = 1
     >>> remove_random_strand(dying_character)
-    >>> dying_character["Strands"]
-    {"Red": 0, "Orange": 0, "Yellow": 0, "Green": 0, "Blue": 0, "Violet": 0}
+    >>> dying_character['Strands']
+    {'Red': 0, 'Orange': 0, 'Yellow': 0, 'Green': 0, 'Blue': 0, 'Violet': 0}
     """
-    character["Current HP"] -= 1
+    if not isinstance(character, dict):
+        raise TypeError("character must be an dictionary")
+
+    if "Strands" not in character:
+        raise KeyError("character must have 'Strands' key")
+
+    if not isinstance(character["Strands"], dict):
+        raise TypeError("character['Strands'] must be an dictionary")
+
+    for value in character["Strands"].values():
+        if not (isinstance(value, int) or isinstance(value, float)):
+            raise TypeError("character['Strands'] must have number values")
+
+    available_strands = [colour for colour, number in character["Strands"].items() if number > 0]
+
+    if len(available_strands) == 0:
+        raise ValueError("Character must have at least 1 Strand of at least 1 colour")
+
+    strand_to_remove = random.choice(available_strands)
+    character["Strands"][strand_to_remove] -= 1
