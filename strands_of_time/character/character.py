@@ -109,24 +109,37 @@ def print_strands(character: dict):
         print(colourize(strand_listing, strand_record[0]), end=" ")
 
 
-def get_character_location_as_tuple(character):
+def get_character_location_as_tuple(character: dict) -> tuple:
     """
     Return the character's location as a tuple of (X, Y) coordinates.
 
     :param character: a well-formed character dictionary
     :precondition: character must be a dictionary with "X-coordinate" and "Y-coordinate" keys
+    with number values
     :postcondition: returns character's location as a tuple of (X, Y) coordinates
     :return: a tuple with the character's location as (X, Y) coordinates
+    :raises KeyError: if character does not have an "X-coordinate" key
+    :raises KeyError: if character does not have an "Y-coordinate" key
+    :raises TypeError: if character is not a dictionary
 
-    >>> character_at_initial_position = create_character()
+    >>> character_at_initial_position = create_character(3)
     >>> get_character_location_as_tuple(character_at_initial_position)
-    (0, 0)
-    >>> character_x_3_y_2 = create_character()
+    (-1, -1)
+    >>> character_x_3_y_2 = create_character(3)
     >>> character_x_3_y_2["X-coordinate"] = 3
     >>> character_x_3_y_2["Y-coordinate"] = 2
     >>> get_character_location_as_tuple(character_x_3_y_2)
     (3, 2)
     """
+    if not isinstance(character, dict):
+        raise TypeError("character must be an dictionary")
+
+    if "X-coordinate" not in character:
+        raise KeyError("character must have 'X-coordinate' key")
+
+    if "Y-coordinate" not in character:
+        raise KeyError("character must have 'Y-coordinate' key")
+
     return character["X-coordinate"], character["Y-coordinate"]
 
 
