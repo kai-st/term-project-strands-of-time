@@ -77,27 +77,18 @@ def has_strands(character: dict) -> bool:
 
 def print_strands(character: dict):
     """
-    Print the character's current Strands, enumerated with a label.
+    Print the character's current Strand amounts in their colours, enumerated with a label.
+
+    Results are formated as: Strands: 1. Red: #, 2. Orange: #, 3. Yellow: #, 4. Green: #,
+    5. Blue: #, 6. Violet: #
 
     :param character: a well-formed character dictionary
     :precondition: character must be a dictionary with a "Strands" key
-    :postcondition: prints the character's current Strands, enumerated with a label
+    :postcondition: prints the character's current Strand amounts in their colours, enumerated
+    with a label.
     :raises KeyError: if character does not have a "Strands" key
     :raises TypeError: if character is not a dictionary
     :raises TypeError: if "Strands" is not a dictionary
-
-    >>> new_character = create_character(3)
-    >>> print_strands(new_character)
-    Strands: 1. Red: 3, 2. Orange: 3, 3. Yellow: 3, 4. Green: 3, 5. Blue: 3, 6. Violet: 3
-    >>> mid_game_character = create_character(3)
-    >>> mid_game_character["Strands"]["Red"] = 1
-    >>> mid_game_character["Strands"]["Orange"] = 5
-    >>> mid_game_character["Strands"]["Yellow"] = 2
-    >>> mid_game_character["Strands"]["Green"] = 4
-    >>> mid_game_character["Strands"]["Blue"] = 0
-    >>> mid_game_character["Strands"]["Violet"] = 8
-    >>> print_strands(mid_game_character)
-    Strands: 1. Red: 1, 2. Orange: 5, 3. Yellow: 2, 4. Green: 4, 5. Blue: 0, 6. Violet: 8
     """
     if not isinstance(character, dict):
         raise TypeError("character must be an dictionary")
