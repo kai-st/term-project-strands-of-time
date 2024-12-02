@@ -142,5 +142,3 @@ class TestHasStrands(TestCase):
                                   "Y-coordinate": -1,
                                    "level": 1,
                                    "last distance to goal": None})
-
-
