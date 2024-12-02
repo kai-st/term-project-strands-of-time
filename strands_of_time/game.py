@@ -3,7 +3,7 @@ Kai Steingarten
 A01435070
 """
 
-from strands_of_time.character.character import print_strands
+from strands_of_time.character.character import print_strands, create_character
 from strands_of_time.location.board import prep_current_location_for_printing
 
 
@@ -47,11 +47,12 @@ def game():
     rows = 3
     columns = 9
     epoch_boundaries = [3, 6]
+    initial_number_of_strands = 3
     # board = create_game_board(rows, columns, epoch_boundaries)
     #
     # print_intro()
     #
-    # character = create_character()
+    character = create_character(initial_number_of_strands)
     #
     # set_starting_location(board, character)
     #
