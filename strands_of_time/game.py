@@ -42,6 +42,15 @@ def colourize(message: str, colour: str) -> str:
 
     colour_printing_sequences["Pink"] = "\033[38;5;207m"
 
+    if not isinstance(message, str):
+        raise TypeError("Message must be a string")
+
+    if not isinstance(colour, str):
+        raise TypeError("Colour must be a string")
+
+    if colour not in colour_printing_sequences:
+        raise TypeError("Colour must be Red, Orange, Yellow, Green, Blue, Violet, or Pink")
+
     return f"{colour_printing_sequences[colour]}{message}{reset_sequence}"
 
 
