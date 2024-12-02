@@ -49,7 +49,7 @@ def colourize(message: str, colour: str) -> str:
         raise TypeError("Colour must be a string")
 
     if colour not in colour_printing_sequences:
-        raise TypeError("Colour must be Red, Orange, Yellow, Green, Blue, Violet, or Pink")
+        raise ValueError("Colour must be Red, Orange, Yellow, Green, Blue, Violet, or Pink")
 
     return f"{colour_printing_sequences[colour]}{message}{reset_sequence}"
 
