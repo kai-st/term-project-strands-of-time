@@ -143,21 +143,31 @@ def get_character_location_as_tuple(character: dict) -> tuple:
     return character["X-coordinate"], character["Y-coordinate"]
 
 
-def damage_character(character):
+def remove_random_strand(character):
     """
-    Reduce the current HP of the character by 1.
+    Remove a random Strand from the character's current Strands.
 
     :param character: a well-formed character dictionary
-    :precondition: character must be a dictionary with a "Current HP" key
-    :postcondition: reduces the value of character["Current HP"] by 1
+    :precondition: character must be a dictionary
+    :precondition: character must have a "Strands" key that is a dictionary with the rainbow
+    colours as keys and number values
+    :precondition: character must have at least one Strand colour with more than 0 Strands
+    :postcondition: reduces the value of a randomly selected one of character["Strands"] Strand
+    colours by 1
+    :raises KeyError: if character does not have a "Strands" key
+    :raises TypeError: if character is not a dictionary
+    :raises TypeError: if "Strands" is not a dictionary
+    :raises TypeError: if values in "Strands" are not ints or floats
+    :raises ValueError: if values of all "Strands" are less than 1
 
-    >>> new_character = create_character()
-    >>> damage_character(new_character)
-    >>> new_character
-    {'X-coordinate': 0, 'Y-coordinate': 0, 'Current HP': 4}
-    >>> dying_character = {"X-coordinate": 2, "Y-coordinate": 3, "Current HP": 1}
-    >>> damage_character(dying_character)
-    >>> dying_character
-    {'X-coordinate': 2, 'Y-coordinate': 3, 'Current HP': 0}
+    >>> new_character = create_character(3)
+    >>> remove_random_strand(new_character)
+    >>> new_character["Strands"] # doctest: +SKIP
+    {"Red": 3, "Orange": 2, "Yellow": 3, "Green": 3, "Blue": 3, "Violet": 3}
+    >>> dying_character = create_character(0)
+    >>> dying_character["Strands"]["Red"] = 1
+    >>> remove_random_strand(dying_character)
+    >>> dying_character["Strands"]
+    {"Red": 0, "Orange": 0, "Yellow": 0, "Green": 0, "Blue": 0, "Violet": 0}
     """
     character["Current HP"] -= 1
