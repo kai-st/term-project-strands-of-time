@@ -3,7 +3,7 @@ Kai Steingarten
 A01435070
 """
 
-from strands_of_time.character.character import prep_current_hp_for_printing
+from strands_of_time.character.character import print_strands
 from strands_of_time.location.board import prep_current_location_for_printing
 
 
@@ -31,7 +31,7 @@ def show_game_state(board, character):
     --- Current HP: 3 --- Current location: Row 4, Column 3 --- Goal: Row 5, Column 4 ---
     <BLANKLINE>
     """
-    hp_to_print = prep_current_hp_for_printing(character)
+    print_strands(character)
 
     location_to_print = prep_current_location_for_printing(character)
 
