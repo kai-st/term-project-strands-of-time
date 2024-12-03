@@ -48,3 +48,16 @@ def colourize(message: str, colour: str) -> str:
                          "or Pink")
 
     return f"{colour_printing_sequences[colour]}{message}{reset_sequence}"
+
+
+def demonstrate_functions(functions: list[tuple[callable, list]]):
+    """
+    Print a list of functions with their names and an example.
+
+    :param functions: a list of tuples containing functions and example arguments to call them with
+    :precondition: functions must be a list of tuples
+    :precondition: each tuple in functions must contain a function followed by a list of example
+    arguments to call it with that matches it's function annotations
+    :postcondition: prints a list of functions with their names and an example
+    """
+    pass
