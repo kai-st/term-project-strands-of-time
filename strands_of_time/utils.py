@@ -72,3 +72,17 @@ def demonstrate_functions(functions: list[tuple[callable, list]]):
             else:
                 print(result)
         print()
+
+
+def main():
+    """
+    Drive the program.
+    """
+    demonstrate_functions([
+        (colourize, ["Demo message", "Blue"]),
+        (demonstrate_functions, [[(colourize, ["Demoing the demo-er", "Orange"])]])
+                           ])
+
+
+if __name__ == '__main__':
+    main()
