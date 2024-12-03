@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from strands_of_time import RAINBOW_ORDER
 
 
@@ -60,4 +62,13 @@ def demonstrate_functions(functions: list[tuple[callable, list]]):
     arguments to call it with that matches it's function annotations
     :postcondition: prints a list of functions with their names and an example
     """
-    pass
+    for function, arguments in functions:
+        print(f"Function: {function.__name__}")
+        print(f"Arguments: {arguments}")
+        result = function(*arguments)
+        if result is not None:
+            if isinstance(result, dict):
+                pprint(result)
+            else:
+                print(result)
+        print()
