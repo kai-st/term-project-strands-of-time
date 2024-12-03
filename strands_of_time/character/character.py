@@ -193,3 +193,14 @@ def remove_random_strand(character):
 
     strand_to_remove = random.choice(available_strands)
     character["Strands"][strand_to_remove] -= 1
+
+
+def main():
+    """
+    Drive the program.
+    """
+    pass
+
+
+if __name__ == '__main__':
+    main()
