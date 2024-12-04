@@ -3,23 +3,42 @@ import random
 from strands_of_time.character.character import get_character_location_as_tuple
 
 
-def create_game_board(rows, columns):
+def create_game_board(columns: int, rows: int, epoch_boundaries: list[int]) -> dict:
     """
-    Construct a 2D gameboard with rooms laid out in a given numbers of rows and columns.
+    Construct a 2D gameboard with locations laid out in a given numbers of rows and columns.
 
     The gameboard will be represented by a dictionary with keys of tuples representing the
-    (x,y) coordinates of each room, and values containing descriptions for each room.
+    (x,y) coordinates of each location, and values containing dictionaries with descriptions for
+    each location and what colour of Strand can be restored there, if any. It will also contain
+    a key "epoch_boundaries" with a list of column numbers before which the time period changes.
 
-    :param rows: a positive non-zero integer number of rows to create
     :param columns: a positive non-zero integer number of columns to create
+    :param rows: a positive non-zero integer number of rows to create
+    :param epoch_boundaries: a list containing positive non-zero integer column numbers before
+    which the time period changes
     :precondition: rows must be an integer greater than 0
     :precondition: columns must be an integer greater than 0
+    :precondition: epoch_boundaries must be a list of ints greater than 0 and less than columns
     :postcondition: constructs a dictionary representing a game board with rows * column number
-    of rooms
-    :postcondition: stores each room in the dictionary with a tuple containing the room's
-    coordinates as the key and a string containing the room's description as the value
-    :return: a dictionary representing the gameboard with keys (x-coordinate, y-coordinate) for
-    each room and string values containing descriptions for each room
+    of locations
+    :postcondition: stores each location in the dictionary with a tuple containing the location's
+    coordinates as the key and dictionary as the value containing the key "description" with a
+    string containing the location's description
+    :postcondition: marks which locations restore Strands with a key "gives Strand" and a colour
+    value
+    :postcondition: stores the epoch_boundaries in a key "epoch_boundaries"
+    :return: a dictionary representing the gameboard with the key "epoch_boundaries" with
+    epoch_boundaries as a value and keys (x-coordinate, y-coordinate) for each location and
+    dictionary values containing "description" keys with string values for each location and a
+    "gives Stand" key with a colour string value if the location gives a stand
+    :raises TypeError: if columns is not an integer
+    :raises TypeError: if rows is not an integer
+    :raises TypeError: if epoch_boundaries is not a list
+    :raises TypeError: if epoch_boundaries contains items that are not integers
+    :raises ValueError: if columns is not greater than 0
+    :raises ValueError: if rows is not greater than 0
+    :raises ValueError: if epoch_boundaries contains numbers less than 0
+    :raises ValueError: if epoch_boundaries contains numbers not less than columns
 
     >>> create_game_board(2, 2) # doctest: +SKIP
     {
