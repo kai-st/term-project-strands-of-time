@@ -1,7 +1,8 @@
 import random
+from pprint import pprint
 
 from strands_of_time import RAINBOW_ORDER
-from strands_of_time.utils import colourize
+from strands_of_time.utils import colourize, demonstrate_functions
 
 
 def create_character(initial_strands: int) -> dict[str, int or None or dict[str, int]]:
@@ -199,7 +200,36 @@ def main():
     """
     Drive the program.
     """
-    pass
+    strands_demo_character = {
+        'Strands': {
+            'Blue': 2,
+            'Green': 2,
+            'Orange': 2,
+            'Red': 2,
+            'Violet': 2,
+            'Yellow': 2
+        }}
+
+    functions_to_demo = [
+        (create_character, [3]),
+        (has_strands, [strands_demo_character]),
+        (has_strands, [{
+            'Strands': {
+                'Blue': 0,
+                'Green': 0,
+                'Orange': 0,
+                'Red': 0,
+                'Violet': 0,
+                'Yellow': 0
+            }}
+        ]),
+        (print_strands, [strands_demo_character]),
+        (get_character_location_as_tuple, [{"X-coordinate": 5, "Y-coordinate": 2}]),
+        (remove_random_strand, [strands_demo_character])
+    ]
+
+    demonstrate_functions(functions_to_demo)
+    pprint(strands_demo_character)
 
 
 if __name__ == '__main__':
