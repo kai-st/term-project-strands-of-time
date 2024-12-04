@@ -21,33 +21,73 @@ def get_move_from_player():
     return numbers_to_direction_map[user_choice]
 
 
-def move_character(character, direction):
+def move_character(character: dict, player_input: str):
     """
-    Move the character in the direction the player chose.
+    Move the character to the location the player chose.
+
+    The character can move one space with wasd or jump with the format:
+    "[number of columns][a or d][number of rows][w or s]".
 
     :param character: A well-formed character dictionary
-    :param direction: north, south, east, or west as a string
+    :param player_input: a string beginning with "[number of columns][a or d][number of rows][w or
+    s]" or w, a, s, or d
     :precondition: character must be a dictionary with "X-coordinate" and "Y-coordinate" keys
-    :precondition: direction must be a string equal to one of north, south, east, or west
-    :postcondition: updates the correct coordinate key in character to reflect the new location
+    :precondition: direction must be a string beginnng with "[number of columns][a or d][number
+    of rows][w or s]" or w, a, s, or d
+    :postcondition: updates the coordinate keys in character to reflect the new location
+    :raises TypeError: if character is not a dictionary
+    :raises TypeError: if player_input is not a string
+    :raises KeyError: if character does not have an "X-coordinate" key
+    :raises KeyError: if character does not have an "Y-coordinate" key
 
-    >>> new_character = create_character()
-    >>> move_character(new_character, "south")
-    >>> new_character
-    {'X-coordinate': 0, 'Y-coordinate': 1, 'Current HP': 5}
-    >>> mid_game_character = {"X-coordinate": 2, "Y-coordinate": 3, "Current HP": 3}
-    >>> move_character(mid_game_character, "east")
-    >>> mid_game_character
-    {'X-coordinate': 3, 'Y-coordinate': 3, 'Current HP': 3}
+    >>> moving_character = {"X-coordinate": 3, "Y-coordinate": 2}
+    >>> move_character(moving_character, "w")
+    >>> moving_character
+    {'X-coordinate': 3, 'Y-coordinate': 1}
+    >>> jumping_character = {"X-coordinate": 3, "Y-coordinate": 1}
+    >>> move_character(jumping_character, "4d1s Yellow")
+    >>> jumping_character
+    {'X-coordinate': 7, 'Y-coordinate': 2}
     """
-    if direction == "north":
-        character["Y-coordinate"] -= 1
-    elif direction == "south":
-        character["Y-coordinate"] += 1
-    elif direction == "west":
-        character["X-coordinate"] -= 1
-    elif direction == "east":
-        character["X-coordinate"] += 1
+    if not isinstance(character, dict):
+        raise TypeError("character must be an dictionary")
+
+    if not isinstance(player_input, str):
+        raise TypeError("player_input must be a string")
+
+    if "X-coordinate" not in character:
+        raise KeyError("character must have 'X-coordinate' key")
+
+    if "Y-coordinate" not in character:
+        raise KeyError("character must have 'Y-coordinate' key")
+
+    rows_to_move = 1
+    columns_to_move = 1
+
+    index_s = player_input.find("s")
+    if index_s != -1 and index_s < 4:
+        if index_s != 0:
+            rows_to_move = int(player_input[index_s - 1])
+        character["Y-coordinate"] += rows_to_move
+
+    index_w = player_input.find("w")
+    if index_w != -1 and index_w < 4:
+        if index_w != 0:
+            rows_to_move = int(player_input[index_w - 1])
+        character["Y-coordinate"] -= rows_to_move
+
+    index_d = player_input.find("d")
+    if index_d != -1 and index_d < 4:
+        if index_d != 0:
+            columns_to_move = int(player_input[index_d - 1])
+        character["X-coordinate"] += columns_to_move
+
+    index_a = player_input.find("a")
+    if index_a != -1 and index_a < 4:
+        if index_a != 0:
+            columns_to_move = int(player_input[index_a - 1])
+        character["X-coordinate"] -= columns_to_move
+
 
 
 def validate_move(board, character, direction):
