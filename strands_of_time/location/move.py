@@ -171,7 +171,7 @@ def validate_move(board: dict, character: dict, player_input: str) -> bool:
         raise TypeError("character must be an dictionary")
 
     if not isinstance(player_input, str):
-        raise TypeError("character must be an dictionary")
+        raise TypeError("player_input must be a string")
 
     if "X-coordinate" not in character:
         raise KeyError("character must have 'X-coordinate' key")
@@ -208,3 +208,29 @@ def check_move_format(player_input: str) -> bool:
     :return: a boolean that is true if player_input is in a valid format
     :raises TypeError: if player_input is not a string
     """
+    wsad =("w", "s", "a", "d")
+
+    if not isinstance(player_input, str):
+        raise TypeError("player_input must be a string")
+
+    if len(player_input) < 1:
+        return False
+
+    if len(player_input) == 1:
+        return player_input in wsad
+
+    jump_sequence = player_input.split()[0]
+    jump_length = len(jump_sequence)
+
+    if jump_length != 2 & jump_length != 4:
+        return False
+
+    if not jump_sequence[0].isdigit() or not jump_sequence[1] in wsad:
+        return False
+
+    if jump_length == 4 and (not jump_sequence[2].isdigit() or not jump_sequence[3] in wsad):
+        return False
+
+    return True
+
+
