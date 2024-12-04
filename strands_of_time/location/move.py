@@ -91,7 +91,7 @@ def move_character(character: dict, player_input: str):
         character["X-coordinate"] -= columns_to_move
 
 
-def get_max_board_coordinates(board):
+def get_max_board_coordinates(board: dict) -> tuple[int, int]:
     """
     Return the largest coordinates for the board as a tuple of (X, Y) coordinates.
 
@@ -131,7 +131,7 @@ def get_max_board_coordinates(board):
     return max_x_coordinate, max_y_coordinate
 
 
-def validate_move(board, character, player_input):
+def validate_move(board: dict, character: dict, player_input: str) -> bool:
     """
     Check that the player's choice of movement is in the bounds of the board.
 
@@ -196,3 +196,15 @@ def validate_move(board, character, player_input):
 
     return (character_copy["X-coordinate"] in range(max_coordinates[0] + 1)
             and character_copy["Y-coordinate"] in range(max_coordinates[1] + 1))
+
+
+def check_move_format(player_input: str) -> bool:
+    """
+    Check that the movement input from the player is in a valid format.
+
+    :param player_input: a string
+    :precondition: player_input is a string
+    :postcondition: checks that player_input is in a valid format
+    :return: a boolean that is true if player_input is in a valid format
+    :raises TypeError: if player_input is not a string
+    """
