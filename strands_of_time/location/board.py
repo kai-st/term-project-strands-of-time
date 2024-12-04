@@ -1,6 +1,7 @@
 import random
 import itertools
 import textwrap
+from pprint import pprint
 
 from strands_of_time import RAINBOW_ORDER
 from strands_of_time.character.character import get_character_location_as_tuple
@@ -435,11 +436,41 @@ def set_level_goal(board: dict, character: dict, location_selection_function: ca
     :postcondition: sets the goal location for the level in board["level goal"]
     :raises TypeError: if board is not a dictionary
     :raises TypeError: if character is not a dictionary
+    :raises TypeError: if location_selection_function is not a function
     :raises KeyError: if board does not have tuple keys
     :raises KeyError: if character does not have an "X-coordinate" key
     :raises KeyError: if character does not have an "Y-coordinate" key
     """
-    pass
+    if not isinstance(board, dict):
+        raise TypeError("board must be a dictionary")
+
+    if not isinstance(character, dict):
+        raise TypeError("character must be an dictionary")
+
+    if not callable(location_selection_function):
+        raise TypeError("location_selection_function must be a function")
+
+    if "X-coordinate" not in character:
+        raise KeyError("character must have 'X-coordinate' key")
+
+    if "Y-coordinate" not in character:
+        raise KeyError("character must have 'Y-coordinate' key")
+
+    tuple_keys = [key for key in board if isinstance(key, tuple)]
+    if len(tuple_keys) < 1:
+        raise KeyError("board must have tuple keys")
+
+    for key in tuple_keys:
+        if "description" not in board[key]:
+            raise KeyError('board locations must have "description" keys')
+
+    current_location = get_character_location_as_tuple(character)
+    random_location = location_selection_function(1)[0]
+
+    while random_location == current_location:
+        random_location = location_selection_function(1)[0]
+
+    board["level goal"] = random_location
 
 
 def main():
@@ -460,6 +491,9 @@ def main():
 
     demonstrate_functions(functions_to_demo)
     print(demo_character_coordinates)
+    demonstrate_functions([(set_level_goal,
+                            [demo_board, demo_character_coordinates, select_locations])])
+    pprint(demo_board)
 
 
 if __name__ == '__main__':
