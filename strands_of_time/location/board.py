@@ -1,9 +1,10 @@
 import random
 import itertools
+import textwrap
 
 
 from strands_of_time import RAINBOW_ORDER
-from strands_of_time.character.character import get_character_location_as_tuple, create_character
+from strands_of_time.character.character import get_character_location_as_tuple
 from strands_of_time.utils import demonstrate_functions
 
 
@@ -260,8 +261,8 @@ def print_current_epoch(board: dict, character: dict):
     :postcondition: prints the character's current time period
     :raises TypeError: if board is not a dictionary
     :raises TypeError: if character is not a dictionary
-    :raises ValueError: if board does not have an "epoch boundaries" key
-    :raises ValueError: if character does not have an "X-coordinate" key
+    :raises KeyError: if board does not have an "epoch boundaries" key
+    :raises KeyError: if character does not have an "X-coordinate" key
 
     >>> print_current_epoch(board={"epoch boundaries": [3, 6]}, character={"X-coordinate": 0})
     ... # doctest: +NORMALIZE_WHITESPACE
@@ -302,45 +303,51 @@ def describe_current_location(board, character):
 
     :param board: a well-formed board dictionary
     :param character: a well-formed character dictionary
-    :precondition: board must be a dictionary with (X, Y) keys
-    :precondition: character must be a dictionary with "X-coordinate", "Y-coordinate",
-    and "Current HP" keys
+    :precondition: board must be a dictionary with (X, Y) keys with dictionary values that
+    include "description" keys
+    :precondition: character must be a dictionary with "X-coordinate" and "Y-coordinate" keys
     :postcondition: prints the description of the character's current location.
-
-    >>> new_character = create_character()
-    >>> board_5_by_5 = create_game_board(5, 5)
-    >>> describe_current_location(board_5_by_5, new_character)
-    You're in a dark cavern at the northwest end of a tangled cave system deep in the Underdark with
-    only the dim glow of your trusty magic blade to lead you to the surface.
-    <BLANKLINE>
-    >>> end_game_character = {"X-coordinate": 4, "Y-coordinate": 4, "Current HP": 3}
-    >>> describe_current_location(board_5_by_5, end_game_character)
-    You're in a narrow tunnel. Finally, you can see the glimmer of surface sunlight filtering into
-    the mouth of the cave ahead of you.
-    <BLANKLINE>
+    :raises TypeError: if board is not a dictionary
+    :raises TypeError: if character is not a dictionary
+    :raises KeyError: if board does not have tuple keys
+    :raises KeyError: if character does not have an "X-coordinate" key
+    :raises KeyError: if character does not have an "Y-coordinate" key
     """
+    if not isinstance(board, dict):
+        raise TypeError("board must be a dictionary")
+
+    if not isinstance(character, dict):
+        raise TypeError("character must be an dictionary")
+
+    if "X-coordinate" not in character:
+        raise KeyError("character must have 'X-coordinate' key")
+
+    if "Y-coordinate" not in character:
+        raise KeyError("character must have 'Y-coordinate' key")
+
+    tuple_keys = [key for key in board if isinstance(key, tuple)]
+    if len(tuple_keys) < 1:
+        raise KeyError("board must have tuple keys")
+
+    for key in tuple_keys:
+        if "description" not in board[key]:
+            raise KeyError('board locations must have "description" keys')
+
     current_location = get_character_location_as_tuple(character)
 
-    print("You're in", board[current_location], end="\n\n")
+    print(textwrap.fill(board[current_location]["description"]), end="\n\n")
 
 
 def main():
     """
     Drive the program.
     """
-    # strands_demo_character = {
-    #     'Strands': {
-    #         'Blue': 2,
-    #         'Green': 2,
-    #         'Orange': 2,
-    #         'Red': 2,
-    #         'Violet': 2,
-    #         'Yellow': 2
-    #     }}
+    demo_board, _ = create_game_board(3, 2, [1, 2])
 
     functions_to_demo = [
         (create_game_board, [3, 2, [1, 2]]),
-        (generate_epoch_locations, [3, "medieval"])
+        (generate_epoch_locations, [3, "medieval"]),
+        (describe_current_location, [demo_board, {"X-coordinate": 2, "Y-coordinate": 1}])
     ]
 
     demonstrate_functions(functions_to_demo)
