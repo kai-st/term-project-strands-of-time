@@ -51,19 +51,29 @@ def create_game_board(columns: int,
     :raises ValueError: if epoch_boundaries values do not increase as with index
 
     >>> create_game_board(3, 2, [1, 2]) # doctest: +SKIP
-    {
-    (0, 0): 'a dark cavern at the northwest end of a tangled cave system deep in the Underdark
-    with only the dim glow of your trusty magic blade to lead you to the surface.',
-    (0, 1): 'a cramped cave, its walls thick with jagged crystalline outcroppings. It's beautiful,
-    like walking through a geode, but the edges look razor sharp',
-    (1, 0): 'an immense cavern. A narrow rock bridge crosses a deep chasm running though the
-    centre. You can't see the bottom.',
-    (1, 1): 'a long narrow tunnel. Finally, you can see the glimmer of surface sunlight filtering
-    into he mouth of the cave ahead of you.',
-    }
-    >>> create_game_board(1, 1) # doctest: +SKIP
-    {(0, 0): 'a dark cavern at the northwest end of a tangled cave system deep in the Underdark
-    with only the dim glow of your trusty magic blade to lead you to the surface.'}
+    ({
+        (0, 0): {'description': "You're in a forest of towering conifers. Around you primitive
+        mammals scurry along the ground. In the distance you can see a T-Rex stalking it's prey.",
+        'gives Strand': 'Green'},
+        (0, 1): {'description': "You're in a fern-choked swamp. Around you primitive mammals scurry
+        along the ground. In the distance you can see enormous sauropods lumbering across the
+        landscape.", 'gives Strand': 'Orange'},
+        (1, 0): {'description': "You're in Medieval London. Around you a religious ceremony is
+        taking place. In the distance you can see goods being hauled to the city for sale.",
+        'gives Strand': 'Yellow'},
+        (1, 1): {'description': "You're in Mansa Musa's Mali Empire. Around you merchants hawk
+        their wears in a bustling market. In the distance you can see goods being hauled to the city
+        for sale.", 'gives Strand': 'Red'},
+        (2, 0): {'description': "You're in the outer ring of a space station. Around you
+        incomprehensible machines hum and blink. In the distance you can see starlight glinting off
+        the ice of majestic planetary rings.", 'gives Strand': 'Violet'},
+        (2, 1): {'description': "You're in the passenger lounge of a starship. Around you
+        incomprehensible machines hum and blink. In the distance you can see starlight glinting off
+        the ice of majestic planetary rings.", 'gives Strand': 'Blue'},
+        'epoch boundaries': [1, 2]
+    },
+    <function create_game_board.<locals>.select_random_locations at 0x000001D6CF419300>
+    )
     """
     if not isinstance(columns, int):
         raise TypeError("columns must be an integer")
