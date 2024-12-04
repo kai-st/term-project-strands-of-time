@@ -232,7 +232,7 @@ def check_move_format(player_input: str) -> bool:
     jump_sequence = player_input.split()[0]
     jump_length = len(jump_sequence)
 
-    if jump_length != 2 & jump_length != 4:
+    if jump_length != 2 and jump_length != 4:
         return False
 
     if not jump_sequence[0].isdigit() or not jump_sequence[1] in wsad[2:4]:
