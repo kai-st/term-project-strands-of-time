@@ -94,12 +94,11 @@ def create_game_board(columns: int,
 
     coordinates = itertools.product(range(columns), range(rows))
 
-    cretaceous_locations = generate_character_locations(columns * epoch_boundaries[0], "cretaceous")
-    medieval_locations = generate_character_locations(columns * (epoch_boundaries[1] -
-                                                                 epoch_boundaries[0]),
-                                                      "medieval")
-    future_locations = generate_character_locations(columns * (columns -
-                                                               epoch_boundaries[1]), "future")
+    cretaceous_locations = generate_epoch_locations(columns * epoch_boundaries[0], "cretaceous")
+    medieval_locations = generate_epoch_locations(columns * (epoch_boundaries[1] -
+                                                             epoch_boundaries[0]), "medieval")
+    future_locations = generate_epoch_locations(columns * (columns -
+                                                           epoch_boundaries[1]), "future")
     locations = itertools.chain(cretaceous_locations, medieval_locations, future_locations)
 
     board: dict[tuple or str, str or dict or list[int]] = dict(zip(coordinates, locations))
@@ -117,12 +116,21 @@ def create_game_board(columns: int,
     return board, select_random_locations
 
 
-def generate_character_locations(number: int, epoch: str) -> list[dict[str, str]]:
+def generate_epoch_locations(number_of_locations: int, epoch: str) -> list[dict[str, str]]:
     """
+    Assemble a list of location descriptions for the given epoch.
 
-    :param number:
-    :param epoch:
-    :return:
+    :param number_of_locations: a positive integer number of location descriptions to generate
+    :param epoch: a string representing the time period to generate locations for
+    :precondition: number_of_locations must be a positive integer greater than 0
+    :precondition: epoch must be a string containing "cretaceous", "medieval", or "future"
+    :postcondition: assembles a list of number_of_location location descriptions for epoch
+    :return: a list of dictionaries with the key "description" and a location description as the
+    value
+    :raises TypeError: if number_of_locations is not an integer
+    :raises TypeError: if epoch is not a string
+    :raises ValueError: if epoch is not "cretaceous", "medieval", or "future"
+    :raises ValueError: if number_of_locations is not greater than 0
     """
     pass
 
