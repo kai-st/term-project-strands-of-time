@@ -61,6 +61,24 @@ def demonstrate_functions(functions: list[tuple[callable, list]]):
     :precondition: each tuple in functions must contain a function followed by a list of example
     arguments to call it with that matches it's function annotations
     :postcondition: prints a list of functions with their names and an example
+
+    >>> demonstrate_functions([(ord, ["A"])]) # doctest: +NORMALIZE_WHITESPACE
+    Function: ord
+    Arguments: A,
+    Result: 65
+    >>> demonstrate_functions([(print, ["My", "Message"])]) # doctest: +NORMALIZE_WHITESPACE
+    Function: print
+    Arguments: My, Message,
+    Result: My Message
+    >>> demonstrate_functions([(dict, [[("A", 1), ("B", 2), ("C",
+    ... 3333333333333333333333333333333333333333333333333333333333333333333333333333)]])])
+    ...  # doctest: +NORMALIZE_WHITESPACE
+    Function: dict
+    Arguments: [('A', 1), ('B', 2), ('C', 33333333333333333333333333333333333333333333333333333333\
+33333333333333333333)],
+    Result: {'A': 1,
+     'B': 2,
+     'C': 3333333333333333333333333333333333333333333333333333333333333333333333333333}
     """
     for function, arguments in functions:
         print(f"Function: {function.__name__}")
