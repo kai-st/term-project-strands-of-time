@@ -2,16 +2,16 @@ import random
 import itertools
 import textwrap
 
-
 from strands_of_time import RAINBOW_ORDER
 from strands_of_time.character.character import get_character_location_as_tuple
+from strands_of_time.location import EPOCHS
 from strands_of_time.utils import demonstrate_functions
 
 
 def create_game_board(columns: int,
                       rows: int,
                       epoch_boundaries: list[int]) -> tuple[dict[tuple or str, dict or list[int]],
-                                                            callable]:
+callable]:
     """
     Construct a 2D gameboard with locations laid out in a given numbers of rows and columns.
 
@@ -286,13 +286,13 @@ def print_current_epoch(board: dict, character: dict):
     if "X-coordinate" not in character:
         raise KeyError('character must have an "X-coordinate" key')
 
-    time_period = "The Cretaceous Era"
+    time_period = EPOCHS[0]
 
     if character["X-coordinate"] >= board["epoch boundaries"][0]:
-        time_period = "The 14th Century, A.D."
+        time_period = EPOCHS[1]
 
     if character["X-coordinate"] >= board["epoch boundaries"][1]:
-        time_period = "The 26th Century, A.D."
+        time_period = EPOCHS[2]
 
     print(f"Time Period: {time_period}", end=" ")
 
@@ -310,6 +310,7 @@ def describe_current_location(board, character):
     :raises TypeError: if board is not a dictionary
     :raises TypeError: if character is not a dictionary
     :raises KeyError: if board does not have tuple keys
+    :raises KeyError: if board locations do not have "description keys
     :raises KeyError: if character does not have an "X-coordinate" key
     :raises KeyError: if character does not have an "Y-coordinate" key
     """
@@ -338,19 +339,103 @@ def describe_current_location(board, character):
     print(textwrap.fill(board[current_location]["description"]), end="\n\n")
 
 
+def set_starting_location(board: dict, character: dict):
+    """
+    Set the character's location to a starting location in the player's chosen epoch.
+
+    :param board: a well-formed board dictionary
+    :param character: a well-formed character dictionary
+    :precondition: board must be a dictionary with an "epoch boundaries" key
+    :precondition: character must be a dictionary with "X-coordinate" and "Y-coordinate" keys
+    :postcondition: sets the character's location to a starting location in the player's chosen
+    epoch
+    :raises TypeError: if board is not a dictionary
+    :raises TypeError: if character is not a dictionary
+    :raises KeyError: if board does not have an "epoch boundaries" key
+    :raises KeyError: if character does not have an "X-coordinate" key
+    :raises KeyError: if character does not have an "Y-coordinate" key
+    """
+    if not isinstance(board, dict):
+        raise TypeError("board must be a dictionary")
+
+    if not isinstance(character, dict):
+        raise TypeError("character must be an dictionary")
+
+    if "X-coordinate" not in character:
+        raise KeyError("character must have 'X-coordinate' key")
+
+    if "Y-coordinate" not in character:
+        raise KeyError("character must have 'Y-coordinate' key")
+
+    if "epoch boundaries" not in board:
+        raise KeyError('board must have an "epoch boundaries" key')
+
+
+    def get_player_starting_epoch():
+        epoch_menu = ""
+        for number, epoch in enumerate(EPOCHS, 1):
+            epoch_menu += f" {number}. {epoch}"
+            if number != len(EPOCHS):
+                epoch_menu += ","
+
+        player_epoch = input(f"Enter the time period you would like to start in:{epoch_menu}\n")
+
+        has_error = True
+        while has_error or player_epoch not in [1, 2, 3]:
+            try:
+                player_epoch = int(player_epoch)
+            except TypeError:
+                print("Entry must be 1, 2, or 3. Please try again.")
+                player_epoch = input(
+                    f"Enter the time period you would like to start in:{epoch_menu}\n")
+            else:
+                has_error = False
+
+        return player_epoch
+
+
+    player_starting_epoch = get_player_starting_epoch()
+
+    locations = [key for key in board if isinstance(key, tuple)]
+
+    if player_starting_epoch == 1:
+        locations_in_epoch_1 = filter(lambda location: location[0] < board["epoch boundaries"][0],
+                                      locations)
+
+        starting_location = random.choice(list(locations_in_epoch_1))
+
+    elif player_starting_epoch == 2:
+        locations_in_epoch_2 = filter(lambda location: board["epoch boundaries"][0] <= location[0]
+                                      < board["epoch boundaries"][1], locations)
+
+        starting_location = random.choice(list(locations_in_epoch_2))
+
+    else:
+        locations_in_epoch_3 = filter(lambda location: location[0] >= board["epoch boundaries"][1],
+                                      locations)
+
+        starting_location = random.choice(list(locations_in_epoch_3))
+
+    character["X-coordinate"] = starting_location[0]
+    character["Y-coordinate"] = starting_location[1]
+
+
 def main():
     """
     Drive the program.
     """
     demo_board, _ = create_game_board(3, 2, [1, 2])
+    demo_character_coordinates = {"X-coordinate": 2, "Y-coordinate": 1}
 
     functions_to_demo = [
         (create_game_board, [3, 2, [1, 2]]),
         (generate_epoch_locations, [3, "medieval"]),
-        (describe_current_location, [demo_board, {"X-coordinate": 2, "Y-coordinate": 1}])
+        (describe_current_location, [demo_board, demo_character_coordinates]),
+        (set_starting_location, [demo_board, demo_character_coordinates]),
     ]
 
     demonstrate_functions(functions_to_demo)
+    print(demo_character_coordinates)
 
 
 if __name__ == '__main__':
