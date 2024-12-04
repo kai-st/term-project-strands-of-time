@@ -11,7 +11,7 @@ from strands_of_time.utils import demonstrate_functions
 def create_game_board(columns: int,
                       rows: int,
                       epoch_boundaries: list[int]) -> tuple[dict[tuple or str, dict or list[int]],
-callable]:
+                                                            callable]:
     """
     Construct a 2D gameboard with locations laid out in a given numbers of rows and columns.
 
