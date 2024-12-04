@@ -64,7 +64,15 @@ def demonstrate_functions(functions: list[tuple[callable, list]]):
     """
     for function, arguments in functions:
         print(f"Function: {function.__name__}")
-        print(f"Arguments: {arguments}")
+        print("Arguments:", end=" ")
+        for argument in arguments:
+            if isinstance(argument, dict):
+                pprint(argument)
+            else:
+                print(f"{argument}", end=", ")
+        if not isinstance(arguments[-1], dict):
+            print()
+        print("Result:", end=" ")
         result = function(*arguments)
         if result is not None:
             if isinstance(result, dict):
