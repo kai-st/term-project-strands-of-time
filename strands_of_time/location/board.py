@@ -50,7 +50,7 @@ def create_game_board(columns: int,
     :raises ValueError: if epoch_boundaries is not of length 2
     :raises ValueError: if epoch_boundaries values do not increase as with index
 
-    >>> create_game_board(3, 1, [1, 2]) # doctest: +SKIP
+    >>> create_game_board(3, 2, [1, 2]) # doctest: +SKIP
     {
     (0, 0): 'a dark cavern at the northwest end of a tangled cave system deep in the Underdark
     with only the dim glow of your trusty magic blade to lead you to the surface.',
@@ -111,7 +111,7 @@ def create_game_board(columns: int,
 
 
     def select_random_locations(number_of_selections: int) -> list[tuple[int, int]]:
-        if number_of_selections <= len(coordinates):
+        if number_of_selections > len(coordinates):
             raise ValueError(f"number_of_selections must be less than {len(coordinates)}")
         return random.sample(coordinates, k=number_of_selections)
 
