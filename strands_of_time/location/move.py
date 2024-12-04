@@ -202,11 +202,21 @@ def check_move_format(player_input: str) -> bool:
     """
     Check that the movement input from the player is in a valid format.
 
+    The character can move one space with wasd or jump with the format:
+    "[number of columns][a or d][number of rows][w or s] (Colour)".
+
     :param player_input: a string
     :precondition: player_input is a string
     :postcondition: checks that player_input is in a valid format
     :return: a boolean that is true if player_input is in a valid format
     :raises TypeError: if player_input is not a string
+
+    >>> check_move_format("w")
+    True
+    >>> check_move_format("3a5s Red")
+    True
+    >>> check_move_format("3s5a Red")
+    False
     """
     wsad =("w", "s", "a", "d")
 
@@ -225,10 +235,10 @@ def check_move_format(player_input: str) -> bool:
     if jump_length != 2 & jump_length != 4:
         return False
 
-    if not jump_sequence[0].isdigit() or not jump_sequence[1] in wsad:
+    if not jump_sequence[0].isdigit() or not jump_sequence[1] in wsad[2:4]:
         return False
 
-    if jump_length == 4 and (not jump_sequence[2].isdigit() or not jump_sequence[3] in wsad):
+    if jump_length == 4 and (not jump_sequence[2].isdigit() or not jump_sequence[3] in wsad[:2]):
         return False
 
     return True
