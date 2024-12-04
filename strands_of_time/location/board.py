@@ -1,24 +1,30 @@
 import random
+import itertools
 
+from strands_of_time import RAINBOW_ORDER
 from strands_of_time.character.character import get_character_location_as_tuple
 
 
-def create_game_board(columns: int, rows: int, epoch_boundaries: list[int]) -> dict:
+def create_game_board(columns: int,
+                      rows: int,
+                      epoch_boundaries: list[int]) -> tuple[dict[tuple or str, dict or list[int]],
+                                                            callable]:
     """
     Construct a 2D gameboard with locations laid out in a given numbers of rows and columns.
 
     The gameboard will be represented by a dictionary with keys of tuples representing the
     (x,y) coordinates of each location, and values containing dictionaries with descriptions for
     each location and what colour of Strand can be restored there, if any. It will also contain
-    a key "epoch_boundaries" with a list of column numbers before which the time period changes.
+    a key "epoch boundaries" with a list of column numbers before which the time period changes.
 
     :param columns: a positive non-zero integer number of columns to create
     :param rows: a positive non-zero integer number of rows to create
-    :param epoch_boundaries: a list containing positive non-zero integer column numbers before
+    :param epoch_boundaries: a list containing 2 positive non-zero integer column numbers before
     which the time period changes
     :precondition: rows must be an integer greater than 0
     :precondition: columns must be an integer greater than 0
     :precondition: epoch_boundaries must be a list of ints greater than 0 and less than columns
+    :precondition: epoch_boundaries must have a length of 2
     :postcondition: constructs a dictionary representing a game board with rows * column number
     of locations
     :postcondition: stores each location in the dictionary with a tuple containing the location's
@@ -26,8 +32,8 @@ def create_game_board(columns: int, rows: int, epoch_boundaries: list[int]) -> d
     string containing the location's description
     :postcondition: marks which locations restore Strands with a key "gives Strand" and a colour
     value
-    :postcondition: stores the epoch_boundaries in a key "epoch_boundaries"
-    :return: a dictionary representing the gameboard with the key "epoch_boundaries" with
+    :postcondition: stores the epoch_boundaries in a key "epoch boundaries"
+    :return: a dictionary representing the gameboard with the key "epoch boundaries" with
     epoch_boundaries as a value and keys (x-coordinate, y-coordinate) for each location and
     dictionary values containing "description" keys with string values for each location and a
     "gives Stand" key with a colour string value if the location gives a stand
@@ -37,8 +43,9 @@ def create_game_board(columns: int, rows: int, epoch_boundaries: list[int]) -> d
     :raises TypeError: if epoch_boundaries contains items that are not integers
     :raises ValueError: if columns is not greater than 0
     :raises ValueError: if rows is not greater than 0
-    :raises ValueError: if epoch_boundaries contains numbers less than 0
+    :raises ValueError: if epoch_boundaries contains numbers less than 1
     :raises ValueError: if epoch_boundaries contains numbers not less than columns
+    :raises ValueError: if epoch_boundaries is not of length 2
 
     >>> create_game_board(2, 2) # doctest: +SKIP
     {
@@ -55,38 +62,68 @@ def create_game_board(columns: int, rows: int, epoch_boundaries: list[int]) -> d
     {(0, 0): 'a dark cavern at the northwest end of a tangled cave system deep in the Underdark
     with only the dim glow of your trusty magic blade to lead you to the surface.'}
     """
-    first_room_description = ("a dark cavern at the northwest end of a tangled cave system deep "
-                              "in the Underdark with\nonly the dim glow of your trusty magic "
-                              "blade to lead you to the surface.")
+    if not isinstance(columns, int):
+        raise TypeError("columns must be an integer")
 
-    last_room_description = ("a narrow tunnel. Finally, you can see the glimmer of surface "
-                             "sunlight filtering into\nthe mouth of the cave ahead of you.")
+    if not isinstance(rows, int):
+        raise TypeError("rows must be an integer")
 
-    random_room_descriptions = ["a cramped cave, its walls thick with jagged crystalline "
-                                "outcroppings.\nIt's beautiful, like walking through a geode, "
-                                "but the edges look razor sharp.",
-                                "an immense cavern. A narrow rock bridge crosses a deep chasm "
-                                "running though\nthe centre. You can't see the bottom.",
-                                "a damp cave with small hot spring bubbling in the centre. A "
-                                "strange mold coats\nthe rock surfaces around the spring, "
-                                "emitting an eerie glow.",
-                                "a large cave filled with giant fungi. You can easily stand "
-                                "under the cap of\nthe tallest mushroom.",
-                                "pitch black space. Even the glow of your sword suppressed here. "
-                                "You hear faint skittering\nsounds around you in the dark.",
-                                ]
+    if not isinstance(epoch_boundaries, list):
+        raise TypeError("epoch_boundaries must be an list")
 
-    board = {}
-    for row in range(rows):
-        for column in range(columns):
-            if row == 0 and column == 0:
-                board[(column, row)] = first_room_description
-            elif row == rows - 1 and column == columns - 1:
-                board[(column, row)] = last_room_description
-            else:
-                board[(column, row)] = random.choice(random_room_descriptions)
+    for epoch_boundary in epoch_boundaries:
+        if not isinstance(epoch_boundary, int):
+            raise TypeError("All items in epoch_boundaries must be integers")
 
-    return board
+    if columns < 1:
+        raise ValueError("columns must be greater than 0")
+
+    if rows < 1:
+        raise ValueError("rows must be greater than 0")
+
+    if len(epoch_boundaries) != 2:
+        raise ValueError("The length of epoch_boundaries must be 2")
+
+    for boundary in epoch_boundaries:
+        if boundary < 1:
+            raise ValueError("epoch_boundaries cannot contain numbers less than 1")
+        if boundary >= columns:
+            raise ValueError("epoch_boundaries cannot contain numbers equal to or greater than "
+                             "the number of columns")
+
+    coordinates = itertools.product(range(columns), range(rows))
+
+    cretaceous_locations = generate_character_locations(columns * epoch_boundaries[0], "cretaceous")
+    medieval_locations = generate_character_locations(columns * (epoch_boundaries[1] -
+                                                                 epoch_boundaries[0]),
+                                                      "medieval")
+    future_locations = generate_character_locations(columns * (columns -
+                                                               epoch_boundaries[1]), "future")
+    locations = itertools.chain(cretaceous_locations, medieval_locations, future_locations)
+
+    board: dict[tuple or str, str or dict or list[int]] = dict(zip(coordinates, locations))
+    board["epoch boundaries"] = epoch_boundaries
+
+
+    def select_random_locations(number_of_selections: int) -> list[tuple[int, int]]:
+        return random.sample(list(coordinates), k=number_of_selections)
+
+
+    light_springs = select_random_locations(len(RAINBOW_ORDER))
+    for spring_location, colour in zip(light_springs, RAINBOW_ORDER):
+        board[spring_location]["gives Strand"] = colour
+
+    return board, select_random_locations
+
+
+def generate_character_locations(number: int, epoch: str) -> list[dict[str, str]]:
+    """
+
+    :param number:
+    :param epoch:
+    :return:
+    """
+    pass
 
 
 def prep_current_location_for_printing(character):
