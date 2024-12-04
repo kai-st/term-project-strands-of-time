@@ -26,7 +26,7 @@ kai-st
 | comprehensions                          |                               |          |
 | selection using if-statements           | location/board.py             | 291, 294 |
 | repetition with for/while loop          |                               |          |
-| membership operator                     |                               |          |
+| membership operator                     | location/move.py              | 220      |
 | range function                          |                               |          |
 | function from itertools                 | location/board.py             | 95, 102  |
 | random module                           |                               |          |
