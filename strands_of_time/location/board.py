@@ -2,7 +2,8 @@ import random
 import itertools
 
 from strands_of_time import RAINBOW_ORDER
-from strands_of_time.character.character import get_character_location_as_tuple
+from strands_of_time.character.character import get_character_location_as_tuple, create_character
+from strands_of_time.utils import demonstrate_functions
 
 
 def create_game_board(columns: int,
@@ -173,3 +174,28 @@ def describe_current_location(board, character):
     current_location = get_character_location_as_tuple(character)
 
     print("You're in", board[current_location], end="\n\n")
+
+
+def main():
+    """
+    Drive the program.
+    """
+    # strands_demo_character = {
+    #     'Strands': {
+    #         'Blue': 2,
+    #         'Green': 2,
+    #         'Orange': 2,
+    #         'Red': 2,
+    #         'Violet': 2,
+    #         'Yellow': 2
+    #     }}
+
+    functions_to_demo = [
+        (create_game_board, [9, 3, [3, 6]]),
+    ]
+
+    demonstrate_functions(functions_to_demo)
+
+
+if __name__ == '__main__':
+    main()
