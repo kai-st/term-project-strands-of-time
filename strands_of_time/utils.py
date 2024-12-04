@@ -93,7 +93,7 @@ def demonstrate_functions(functions: list[tuple[callable, list]]):
         print("Result:", end=" ")
         result = function(*arguments)
         if result is not None:
-            if isinstance(result, dict):
+            if isinstance(result, (dict, list, tuple)):
                 pprint(result)
             else:
                 print(result)
