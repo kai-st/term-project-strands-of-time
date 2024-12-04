@@ -474,6 +474,24 @@ def set_level_goal(board: dict, character: dict, location_selection_function: ca
     board["level goal"] = random_location
 
 
+def print_map(board: dict, character: dict):
+    """
+
+    :param board:
+    :param character:
+    """
+    pass
+
+
+def check_for_restore(board: dict, character: dict):
+    """
+
+    :param board:
+    :param character:
+    """
+    pass
+
+
 def main():
     """
     Drive the program.
