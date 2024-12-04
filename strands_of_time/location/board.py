@@ -306,7 +306,7 @@ def describe_current_location(board, character):
     :precondition: board must be a dictionary with (X, Y) keys with dictionary values that
     include "description" keys
     :precondition: character must be a dictionary with "X-coordinate" and "Y-coordinate" keys
-    :postcondition: prints the description of the character's current location.
+    :postcondition: prints the description of the character's current location
     :raises TypeError: if board is not a dictionary
     :raises TypeError: if character is not a dictionary
     :raises KeyError: if board does not have tuple keys
@@ -418,6 +418,28 @@ def set_starting_location(board: dict, character: dict):
 
     character["X-coordinate"] = starting_location[0]
     character["Y-coordinate"] = starting_location[1]
+
+
+def set_level_goal(board: dict, character: dict, location_selection_function: callable):
+    """
+    Set the goal location for the level.
+
+    :param board: a well-formed board dictionary
+    :param character: a well-formed character dictionary
+    :param location_selection_function: a function that returns a list of random locations from
+    the board
+    :precondition: board must be a dictionary with (X, Y) keys
+    :precondition: character must be a dictionary with "X-coordinate" and "Y-coordinate" keys
+    :precondition: location_selection_function must be a function
+    :precondition: location_selection_function must return a list of (X, Y) tuples
+    :postcondition: sets the goal location for the level in board["level goal"]
+    :raises TypeError: if board is not a dictionary
+    :raises TypeError: if character is not a dictionary
+    :raises KeyError: if board does not have tuple keys
+    :raises KeyError: if character does not have an "X-coordinate" key
+    :raises KeyError: if character does not have an "Y-coordinate" key
+    """
+    pass
 
 
 def main():
