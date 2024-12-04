@@ -3,7 +3,7 @@ Kai Steingarten
 A01435070
 """
 from strands_of_time.character.character import print_strands, create_character
-from strands_of_time.location.board import prep_current_location_for_printing
+from strands_of_time.location.board import print_current_epoch
 
 
 def show_game_state(board, character):
@@ -32,7 +32,7 @@ def show_game_state(board, character):
     """
     print_strands(character)
 
-    location_to_print = prep_current_location_for_printing(character)
+    location_to_print = print_current_epoch(character)
 
     # goal_to_print = prep_goal_for_printing(board)
 

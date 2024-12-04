@@ -249,25 +249,51 @@ def generate_epoch_locations(number_of_locations: int, epoch: str) -> list[dict[
     return location_descriptions
 
 
-def prep_current_location_for_printing(character):
+def print_current_epoch(board: dict, character: dict):
     """
-    Return the character's current location with a label as a string for printing.
+    Print the character's current time period.
 
+    :param board: a well-formed board dictionary
     :param character: a well-formed character dictionary
-    :precondition: character must be a dictionary with "X-coordinate" and "Y-coordinate" keys
-    :postcondition: returns character's current location with label as a string
-    :return: character's current location with label as a string
+    :precondition: board must be a dictionary with an "epoch boundaries" key
+    :precondition: character must be a dictionary with an "X-coordinate" key
+    :postcondition: prints the character's current time period
+    :raises TypeError: if board is not a dictionary
+    :raises TypeError: if character is not a dictionary
+    :raises ValueError: if board does not have an "epoch boundaries" key
+    :raises ValueError: if character does not have an "X-coordinate" key
 
-    >>> new_character = create_character()
-    >>> prep_current_location_for_printing(new_character)
-    'Current location: Row 1, Column 1'
-    >>> mid_game_character = {"X-coordinate": 2, "Y-coordinate": 3, "Current HP": 3}
-    >>> prep_current_location_for_printing(mid_game_character)
-    'Current location: Row 4, Column 3'
+    >>> print_current_epoch(board={"epoch boundaries": [3, 6]}, character={"X-coordinate": 0})
+    ... # doctest: +NORMALIZE_WHITESPACE
+    Time Period: The Cretaceous Era
+    >>> print_current_epoch(board={"epoch boundaries": [2, 4]}, character={"X-coordinate": 2})
+    ... # doctest: +NORMALIZE_WHITESPACE
+    Time Period: The 14th Century, A.D.
+    >>> print_current_epoch(board={"epoch boundaries": [1, 4]}, character={"X-coordinate": 6})
+    ... # doctest: +NORMALIZE_WHITESPACE
+    Time Period: The 26th Century, A.D.
     """
-    current_row = character["Y-coordinate"] + 1
-    current_col = character["X-coordinate"] + 1
-    return f"Current location: Row {current_row}, Column {current_col}"
+    if not isinstance(board, dict):
+        raise TypeError("board must be a dictionary")
+
+    if not isinstance(character, dict):
+        raise TypeError("character must be a dictionary")
+
+    if "epoch boundaries" not in board:
+        raise KeyError('board must have an "epoch boundaries" key')
+
+    if "X-coordinate" not in character:
+        raise KeyError('character must have an "X-coordinate" key')
+
+    time_period = "The Cretaceous Era"
+
+    if character["X-coordinate"] >= board["epoch boundaries"][0]:
+        time_period = "The 14th Century, A.D."
+
+    if character["X-coordinate"] >= board["epoch boundaries"][1]:
+        time_period = "The 26th Century, A.D."
+
+    print(f"Time Period: {time_period}", end=" ")
 
 
 def describe_current_location(board, character):
