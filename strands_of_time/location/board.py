@@ -19,11 +19,11 @@ def create_game_board(columns: int,
     a key "epoch boundaries" with a list of column numbers before which the time period changes.
 
     :param columns: a positive integer greater than 2 number of columns to create
-    :param rows: a positive non-zero integer number of rows to create
+    :param rows: a positive integer greater than 1 number of rows to create
     :param epoch_boundaries: a list containing 2 positive non-zero integer column numbers before
     which the time period changes
-    :precondition: rows must be an integer greater than 0
     :precondition: columns must be an integer greater than 2
+    :precondition: rows must be an integer greater than 1
     :precondition: epoch_boundaries must be a list of different ints greater than 0 and less than
     columns in incresing order
     :precondition: epoch_boundaries must have a length of 2
@@ -44,13 +44,13 @@ def create_game_board(columns: int,
     :raises TypeError: if epoch_boundaries is not a list
     :raises TypeError: if epoch_boundaries contains items that are not integers
     :raises ValueError: if columns is not greater than 2
-    :raises ValueError: if rows is not greater than 0
+    :raises ValueError: if rows is not greater than 1
     :raises ValueError: if epoch_boundaries contains numbers less than 1
     :raises ValueError: if epoch_boundaries contains numbers not less than columns
     :raises ValueError: if epoch_boundaries is not of length 2
     :raises ValueError: if epoch_boundaries values do not increase as with index
 
-    >>> create_game_board(2, 2) # doctest: +SKIP
+    >>> create_game_board(3, 1, [1, 2]) # doctest: +SKIP
     {
     (0, 0): 'a dark cavern at the northwest end of a tangled cave system deep in the Underdark
     with only the dim glow of your trusty magic blade to lead you to the surface.',
@@ -81,8 +81,8 @@ def create_game_board(columns: int,
     if columns < 3:
         raise ValueError("columns must be greater than 2")
 
-    if rows < 1:
-        raise ValueError("rows must be greater than 0")
+    if rows < 2:
+        raise ValueError("rows must be greater than 1")
 
     if len(epoch_boundaries) != 2:
         raise ValueError("The length of epoch_boundaries must be 2")
