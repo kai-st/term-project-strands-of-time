@@ -24,13 +24,13 @@ kai-st
 | atomic, independent, reusable functions |                               |          |
 | flat code                               |                               |          |
 | comprehensions                          |                               |          |
-| selection using if-statements           |                               |          |
+| selection using if-statements           | location/board.py             | 291, 294 |
 | repetition with for/while loop          |                               |          |
 | membership operator                     |                               |          |
 | range function                          |                               |          |
-| function from itertools                 |                               |          |
+| function from itertools                 | location/board.py             | 95, 102  |
 | random module                           |                               |          |
-| function annotations                    |                               |          |
+| function annotations                    | location/board.py             | 138      |
 | doctest/unit tests                      |                               |          |
 | f-strings/str.format/%-formatting       |                               |          |
 
