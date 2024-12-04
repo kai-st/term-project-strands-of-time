@@ -456,13 +456,14 @@ def set_level_goal(board: dict, character: dict, location_selection_function: ca
     if "Y-coordinate" not in character:
         raise KeyError("character must have 'Y-coordinate' key")
 
-    tuple_keys = [key for key in board if isinstance(key, tuple)]
+    tuple_keys = []
+    for key in board:
+        if isinstance(key, tuple):
+            tuple_keys.append(key)
+            if "description" not in board[key]:
+                raise KeyError('board locations must have "description" keys')
     if len(tuple_keys) < 1:
         raise KeyError("board must have tuple keys")
-
-    for key in tuple_keys:
-        if "description" not in board[key]:
-            raise KeyError('board locations must have "description" keys')
 
     current_location = get_character_location_as_tuple(character)
     random_location = location_selection_function(1)[0]
