@@ -129,7 +129,7 @@ def generate_epoch_locations(number_of_locations: int, epoch: str) -> list[dict[
     value
     :raises TypeError: if number_of_locations is not an integer
     :raises TypeError: if epoch is not a string
-    :raises ValueError: if epoch is not "cretaceous", "medieval", or "future"
+    :raises KeyError: if epoch is not "cretaceous", "medieval", or "future"
     :raises ValueError: if number_of_locations is not greater than 0
     """
     location_fragments = {
@@ -191,6 +191,18 @@ def generate_epoch_locations(number_of_locations: int, epoch: str) -> list[dict[
             ],
         },
     }
+
+    if not isinstance(number_of_locations, int):
+        raise TypeError("number_of_locations must be an integer")
+
+    if not isinstance(epoch, str):
+        raise TypeError("epoch must be an string")
+
+    if number_of_locations < 1:
+        raise ValueError("number_of_locations must be greater than 0")
+
+    if epoch not in location_fragments:
+        raise ValueError('epoch must be "cretaceous", "medieval", or "future"')
 
     location_descriptions = []
     for _ in range(number_of_locations):
