@@ -1,6 +1,7 @@
 import random
 import itertools
 
+
 from strands_of_time import RAINBOW_ORDER
 from strands_of_time.character.character import get_character_location_as_tuple, create_character
 from strands_of_time.utils import demonstrate_functions
@@ -148,6 +149,22 @@ def generate_epoch_locations(number_of_locations: int, epoch: str) -> list[dict[
     :raises TypeError: if epoch is not a string
     :raises KeyError: if epoch is not "cretaceous", "medieval", or "future"
     :raises ValueError: if number_of_locations is not greater than 0
+
+    >>> generate_epoch_locations(1, "future") # doctest: +SKIP
+    [{'description': "You're in the passenger lounge of a starship. Around you "
+                     'humans and aliens alike go about their day. In the distance '
+                     'you can see sleak white shuttles ferrying people between planet '
+                     'and low orbit.'}]
+    >>> generate_epoch_locations(3, "medieval") # doctest: +SKIP
+    [{'description': "You're in Medieval London. Around you merchants hawk their "
+                     'wears in a bustling market. In the distance you can see '
+                     'farmers working their crops.'},
+     {'description': "You're in Ming Dynasty China. Around you merchants hawk "
+                     'their wears in a bustling market. In the distance you can '
+                     'see buildings under-construction in the local style.'},
+     {'description': "You're in the newly build Mexica city of Tenochtitlán. "
+                     'Around you a religious ceremony is taking place. In the '
+                     'distance you can see boats moored at a dock.'}]
     """
     location_fragments = {
         "cretaceous": {
@@ -203,7 +220,7 @@ def generate_epoch_locations(number_of_locations: int, epoch: str) -> list[dict[
             ],
             "far sights": [
                 "the twin suns of an alien planetary system",
-                "flying shuttles ferrying people between planet and low orbit",
+                "sleek white shuttles ferrying people between planet and low orbit",
                 "starlight glinting off the ice of majestic planetary rings",
             ],
         },
