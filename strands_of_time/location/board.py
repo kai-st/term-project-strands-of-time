@@ -424,12 +424,14 @@ def main():
     """
     Drive the program.
     """
-    demo_board, _ = create_game_board(3, 2, [1, 2])
+    demo_board, select_locations = create_game_board(3, 2, [1, 2])
     demo_character_coordinates = {"X-coordinate": 2, "Y-coordinate": 1}
 
     functions_to_demo = [
         (create_game_board, [3, 2, [1, 2]]),
+        (select_locations, [3]),
         (generate_epoch_locations, [3, "medieval"]),
+        (print_current_epoch, [demo_board, demo_character_coordinates]),
         (describe_current_location, [demo_board, demo_character_coordinates]),
         (set_starting_location, [demo_board, demo_character_coordinates]),
     ]
