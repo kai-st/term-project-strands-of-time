@@ -1,0 +1,1 @@
+EPOCHS = ("The Cretaceous Era", "The 14th Century, A.D.", "The 26th Century, A.D.")
