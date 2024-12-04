@@ -92,13 +92,13 @@ def create_game_board(columns: int,
             raise ValueError("epoch_boundaries cannot contain numbers equal to or greater than "
                              "the number of columns")
 
-    coordinates = itertools.product(range(columns), range(rows))
+    coordinates = list(itertools.product(range(columns), range(rows)))
 
-    cretaceous_locations = generate_epoch_locations(columns * epoch_boundaries[0], "cretaceous")
-    medieval_locations = generate_epoch_locations(columns * (epoch_boundaries[1] -
-                                                             epoch_boundaries[0]), "medieval")
-    future_locations = generate_epoch_locations(columns * (columns -
-                                                           epoch_boundaries[1]), "future")
+    cretaceous_locations = generate_epoch_locations(rows * epoch_boundaries[0], "cretaceous")
+    medieval_locations = generate_epoch_locations(rows * (epoch_boundaries[1] -
+                                                          epoch_boundaries[0]), "medieval")
+    future_locations = generate_epoch_locations(rows * (columns -
+                                                        epoch_boundaries[1]), "future")
     locations = itertools.chain(cretaceous_locations, medieval_locations, future_locations)
 
     board: dict[tuple or str, str or dict or list[int]] = dict(zip(coordinates, locations))
@@ -106,7 +106,9 @@ def create_game_board(columns: int,
 
 
     def select_random_locations(number_of_selections: int) -> list[tuple[int, int]]:
-        return random.sample(list(coordinates), k=number_of_selections)
+        if number_of_selections <= len(coordinates):
+            raise ValueError(f"number_of_selections must be less than {len(coordinates)}")
+        return random.sample(coordinates, k=number_of_selections)
 
 
     light_springs = select_random_locations(len(RAINBOW_ORDER))
@@ -138,18 +140,18 @@ def generate_epoch_locations(number_of_locations: int, epoch: str) -> list[dict[
                 "a sprawling grassland",
                 "a lush tropical forest",
                 "a forest of towering conifers",
-                "a fern-choked swamp"
+                "a fern-choked swamp",
             ],
             "near sights": [
                 "early birds glide through the air",
                 "primitive mammals scurry along the ground",
-                "some of the first flowering plants are blooming"
+                "some of the first flowering plants are blooming",
             ],
             "far sights": [
                 "a T-Rex stalking it's prey",
                 "a herd of triceratops grazing contentedly",
                 "enormous sauropods lumbering across the landscape",
-                "velociraptors sprinting after small creatures"
+                "velociraptors sprinting after small creatures",
             ]
         },
         "medieval": {
@@ -162,14 +164,14 @@ def generate_epoch_locations(number_of_locations: int, epoch: str) -> list[dict[
             "near sights": [
                 "merchants hawk their wears in a bustling market",
                 "craftspeople fashion the necessities of daily life",
-                "a religious ceremony is taking place"
-                "elites mingle and show off their finery"
+                "a religious ceremony is taking place",
+                "elites mingle and show off their finery",
             ],
             "far sights": [
                 "farmers working their crops",
                 "buildings under-construction in the local style",
                 "boats moored at a dock",
-                "goods being hauled to the city for sale"
+                "goods being hauled to the city for sale",
             ],
         },
         "future": {
@@ -279,7 +281,8 @@ def main():
     #     }}
 
     functions_to_demo = [
-        (create_game_board, [9, 3, [3, 6]]),
+        (create_game_board, [3, 2, [1, 2]]),
+        (generate_epoch_locations, [3, "medieval"])
     ]
 
     demonstrate_functions(functions_to_demo)
