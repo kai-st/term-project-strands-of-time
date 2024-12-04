@@ -132,7 +132,75 @@ def generate_epoch_locations(number_of_locations: int, epoch: str) -> list[dict[
     :raises ValueError: if epoch is not "cretaceous", "medieval", or "future"
     :raises ValueError: if number_of_locations is not greater than 0
     """
-    pass
+    location_fragments = {
+        "cretaceous": {
+            "places": [
+                "a sprawling grassland",
+                "a lush tropical forest",
+                "a forest of towering conifers",
+                "a fern-choked swamp"
+            ],
+            "near sights": [
+                "early birds glide through the air",
+                "primitive mammals scurry along the ground",
+                "some of the first flowering plants are blooming"
+            ],
+            "far sights": [
+                "a T-Rex stalking it's prey",
+                "a herd of triceratops grazing contentedly",
+                "enormous sauropods lumbering across the landscape",
+                "velociraptors sprinting after small creatures"
+            ]
+        },
+        "medieval": {
+            "places": [
+                "Ming Dynasty China",
+                "Medieval London",
+                "Mansa Musa's Mali Empire",
+                "the newly build Mexica city of Tenochtitlán"
+            ],
+            "near sights": [
+                "merchants hawk their wears in a bustling market",
+                "craftspeople fashion the necessities of daily life",
+                "a religious ceremony is taking place"
+                "elites mingle and show off their finery"
+            ],
+            "far sights": [
+                "farmers working their crops",
+                "buildings under-construction in the local style",
+                "boats moored at a dock",
+                "goods being hauled to the city for sale"
+            ],
+        },
+        "future": {
+            "places": [
+                "the passenger lounge of a starship",
+                "a city out of a sci-fi novel",
+                "the outer ring of a space station",
+            ],
+            "near sights": [
+                "humans and aliens alike go about their day",
+                "incomprehensible machines hum and blink",
+                "swarms of small robots take care of menial tasks",
+                "androids chat about a sport you've never heard of"
+            ],
+            "far sights": [
+                "the twin suns of an alien planetary system",
+                "flying shuttles ferrying people between planet and low orbit",
+                "starlight glinting off the ice of majestic planetary rings",
+            ],
+        },
+    }
+
+    location_descriptions = []
+    for _ in range(number_of_locations):
+        place = random.choice(location_fragments[epoch]["places"])
+        nearby = random.choice(location_fragments[epoch]["near sights"])
+        distance_view = random.choice(location_fragments[epoch]["far sights"])
+        location_descriptions.append({"description": f"You're in {place}. Around you {nearby}. In "
+                                                     f"the distance you can see {distance_view}."})
+
+    return location_descriptions
 
 
 def prep_current_location_for_printing(character):
