@@ -1,7 +1,7 @@
 import copy
 
 from strands_of_time import RAINBOW_ORDER
-from strands_of_time.character.character import create_character
+from strands_of_time.character.character import create_character, get_character_location_as_tuple
 from strands_of_time.location.board import create_game_board
 
 
@@ -341,6 +341,8 @@ def main():
     demo_character["Y-coordinate"] = 0
 
     handle_movement(demo_board, demo_character)
+
+    print(f"New location: {get_character_location_as_tuple(demo_character)}")
 
 
 if __name__ == '__main__':
