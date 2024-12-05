@@ -25,14 +25,14 @@ kai-st
 | flat code                               |                               |          |
 | comprehensions                          |                               |          |
 | selection using if-statements           | location/board.py             | 291, 294 |
-| repetition with for/while loop          |                               |          |
+| repetition with for/while loop          | location/board.py             | 535      |
 | membership operator                     | location/move.py              | 220      |
 | range function                          |                               |          |
 | function from itertools                 | location/board.py             | 95, 102  |
 | random module                           |                               |          |
 | function annotations                    | location/board.py             | 138      |
 | doctest/unit tests                      |                               |          |
-| f-strings/str.format/%-formatting       |                               |          |
+| f-strings/str.format/%-formatting       | location/board.py             | 562      |
 
 ## Any important comments you'd like to make about your work:
 Insert any comments you have here
