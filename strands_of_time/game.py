@@ -4,9 +4,11 @@ A01435070
 """
 from strands_of_time.character.character import print_strands, create_character, has_strands, \
     get_character_location_as_tuple
+from strands_of_time.combat.combat import handle_regular_combat, check_for_foes, handle_boss_combat
 from strands_of_time.location.board import print_current_epoch, print_map, create_game_board, \
     set_starting_location, describe_current_location, set_level_goal, check_for_restore
 from strands_of_time.location.move import handle_movement
+from strands_of_time.narrative import print_intro, print_combat_instructions
 
 
 def show_game_state(board: dict, character: dict):
@@ -35,21 +37,21 @@ def game():
     epoch_boundaries = [3, 6]
     initial_number_of_strands = 3
     board, get_random_locations = create_game_board(rows, columns, epoch_boundaries)
-    #
-    # print_intro()
-    #
+
+    print_intro()
+
     character = create_character(initial_number_of_strands)
 
     set_starting_location(board, character)
 
     describe_current_location(board, character)
     show_game_state(board, character)
-    #
-    # print_combat_instructions()
-    # handle_regular_combat(board, character)
-    #
+
+    print_combat_instructions()
+    handle_regular_combat(board, character)
+
     while has_strands(character) and character["level"] <= 3:
-        set_level_goal(board, character)
+        set_level_goal(board, character, get_random_locations)
 
         while has_strands(character):
             handle_movement(board, character)
@@ -61,19 +63,18 @@ def game():
             if board["level goal"] != get_character_location_as_tuple(character):
                 there_is_a_challenger = check_for_foes()
                 if there_is_a_challenger:
-                    # handle_regular_combat(board, character)
+                    handle_regular_combat(board, character)
                 else:
                     check_for_restore(board, character)
             else:
-                # describe_level_goal(character)
-                # handle_boss_combat(board, character)
+                handle_boss_combat(character)
                 break
 
     if character["level"] > 3:
-        # print("winning scenario")
+        print("Congratulation, you win!")
     else:
         show_game_state(board, character)
-        # print("losing scenario")
+        print("You ran out of strands and are now trapped in time.", end="\n\n")
         print("Game Over")
 
 
