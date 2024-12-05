@@ -4,6 +4,7 @@ from copy import deepcopy
 from strands_of_time import RAINBOW_ORDER
 from strands_of_time.character.character import print_strands, has_strands, remove_random_strand
 from strands_of_time.location.board import check_for_restore, update_distance_to_level_goal
+from strands_of_time.narrative import get_level_info
 from strands_of_time.utils import colourize
 
 
@@ -27,7 +28,7 @@ def check_for_foes():
 
 
 def handle_player_response(enemy_sequence: list[int], colour_sequence: list[str], combat_strands:
-                           dict) -> list:
+dict) -> list:
     """
     
     :param enemy_sequence: 
@@ -181,21 +182,36 @@ def handle_regular_combat(board, character):
         print("You were unable to mend the fabric of spacetime.", end="\n\n")
 
 
-def handle_boss_combat(board, character):
+def handle_boss_combat(character):
     """
 
-    :param board:
     :param character:
     :return:
     """
+    level_info = get_level_info(character["level"])
+    print(level_info["goal description"], (f"As you approach the {level_info["to find"]}, the"
+                                           f" {level_info["boss"]} start to "
+                                           f"unravel the spacetime in "
+                                           f"front of you, "
+                                           f"opening a hole "
+                                           f"larger than any you've seen yet. Can you mend it "
+                                           f"fast enough to get to the"
+                                           f"{level_info["to find"]}?"), end="\n\n", sep="\n\n")
     character["level"] += 1
     if combat(character):
         for colour in character["Strands"]:
             character["Strands"][colour] = 3 * character["level"]
-        print("You have beaten the level boss and found the next instrument")
+        print(f"You have driven away the {level_info["boss"]} and liberated "
+              f"the {level_info["to find"]}.", level_info["success"], end="\n\n", sep="\n\n" )
+        if character["level"] < 4:
+            new_level_info = get_level_info(character["level"])
+            print(colourize(f"Now that you have the {level_info["to find"]}, "
+                            f"we should be able to track "
+                  f"down the {new_level_info["goal"]}.", "magenta"), end="\n\n")
     else:
         character["level"] -= 1
-        print("The boss escaped to a new time/location with the level objective.")
+        print(f"The {level_info["boss"]} escaped to a new time and location with "
+              f"the {level_info["to find"]}. You will have to track them down again", end="\n\n")
     character["last distance to goal"] = None
 
 

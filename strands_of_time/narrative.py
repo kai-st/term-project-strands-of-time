@@ -9,7 +9,7 @@ def get_level_info(level: int) -> dict:
     """
     level_info = {
         1: {
-            "to find": "the Bobbin",
+            "to find": "Bobbin",
             "boss": "moths",
             "goal description": (f"Here you see an object that looks vaguely like a dumbbell, "
                                  f"but seems to be made of the same silvery material as Spindle. "
@@ -21,7 +21,7 @@ def get_level_info(level: int) -> dict:
                        f"You now have many more than you did even at the beginning",
             },
         2: {
-            "to find": "the Loom",
+            "to find": "Loom",
             "boss": "moths",
             "goal description": (f"Here you see what look like nothing so much as a pair of "
                                  f"shiny bracers.\n\n"
@@ -34,7 +34,7 @@ def get_level_info(level: int) -> dict:
                        f"again into a dazzling array.",
             },
         3: {
-            "to find": "the Time Weaver",
+            "to find": "Time Weaver",
             "boss": "void creature",
             "goal description": (f"Here you finally find the Time Weaver. They look remarkably "
                                  f"human, if taller and thinner than most, and dressed in what "
