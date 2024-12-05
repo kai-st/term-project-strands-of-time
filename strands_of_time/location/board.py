@@ -1,6 +1,7 @@
 import random
 import itertools
 import textwrap
+import math
 from pprint import pprint
 
 from strands_of_time import RAINBOW_ORDER
@@ -474,6 +475,46 @@ def set_level_goal(board: dict, character: dict, location_selection_function: ca
     board["level goal"] = random_location
 
 
+def get_max_board_coordinates(board: dict) -> tuple[int, int]:
+    """
+    Return the largest coordinates for the board as a tuple of (X, Y) coordinates.
+
+    :param board: a well-formed board dictionary
+    :precondition: board must be a dictionary with (X, Y) coordinate keys
+    :postcondition: returns the largest coordinates for board as a tuple of (X, Y) coordinates
+    :return: a tuple with the largest coordinates as (X, Y) coordinates
+    :raises TypeError: if board is not a dictionary
+    :raises KeyError: if board does not have tuple keys containing pairs of integers
+    :raises KeyError: if board tuple keys do not contain pairs of integers
+
+    >>> board_5_by_5, _ = create_game_board(5, 5, [2, 4])
+    >>> get_max_board_coordinates(board_5_by_5)
+    (4, 4)
+    >>> board_not_square, _ = create_game_board(6, 3, [2, 4])
+    >>> get_max_board_coordinates(board_not_square)
+    (5, 2)
+    >>> smallest_board, _ = create_game_board(3, 2, [1, 2])
+    >>> get_max_board_coordinates(smallest_board)
+    (2, 1)
+    """
+    if not isinstance(board, dict):
+        raise TypeError("board must be a dictionary")
+
+    tuple_keys = []
+    for key in board:
+        if isinstance(key, tuple):
+            tuple_keys.append(key)
+            if len(key) != 2 or not isinstance(key[0], int) or not isinstance(key[1], int):
+                raise KeyError('board locations must have "description" keys')
+    if len(tuple_keys) < 1:
+        raise KeyError("board must have tuple keys")
+
+    max_x_coordinate = max(key[0] for key in board.keys() if isinstance(key, tuple))
+    max_y_coordinate = max(key[1] for key in board.keys() if isinstance(key, tuple))
+
+    return max_x_coordinate, max_y_coordinate
+
+
 def print_map(board: dict, character: dict):
     """
     Print the map with the character's current location and any reveal light springs.
@@ -481,11 +522,46 @@ def print_map(board: dict, character: dict):
     :param board: A well-formed board dictionary
     :param character: A well-formed character dictionary
     :precondition: board must be a dictionary with (X, Y) keys
-    :precondition: character must be a dictionary with "X-coordinate", "Y-coordinate" and "Strands"
-    keys:
+    :precondition: character must be a dictionary with "X-coordinate" and "Y-coordinate" keys
     :postcondition: prints the map with character's current location and any reveal light springs
     """
-    pass
+    max_x, max_y = get_max_board_coordinates(board)
+    character_location = get_character_location_as_tuple(character)
+
+    print(f"      {"_" * board["epoch boundaries"][0] * 3} "
+          f"{"_" * (board["epoch boundaries"][1] - board["epoch boundaries"][0]) * 3} "
+          f"{"_" * (max_x + 1 - board["epoch boundaries"][1]) * 3}")
+
+    for row in range(max_y + 1):
+        if row == math.ceil(max_y / 2):
+            print("PAST", end=" ")
+        else :
+            print("    ", end=" ")
+
+        for column in range(max_x + 1):
+            if column == 0 or column in board["epoch boundaries"]:
+                print("|", end="")
+
+            print("[", end="")
+
+            if (column, row) == character_location:
+                print(colourize("@", "pink"), end="")
+            elif "revealed" in board[(column, row)]:
+                print(colourize("*", board[(column, row)]["gives Strand"]), end="")
+            else:
+                print(" ", end="")
+
+            print("]", end="")
+
+        print("|", end=" ")
+        if row == math.ceil(max_y / 2):
+            print("FUTURE")
+        else :
+            print()
+
+    print(f"      {chr(175) * board["epoch boundaries"][0] * 3} "
+          f"{chr(175) * (board["epoch boundaries"][1] - board["epoch boundaries"][0]) * 3} "
+          f"{chr(175) * (max_x + 1 - board["epoch boundaries"][1]) * 3}", end="\n\n")
 
 
 def check_for_restore(board: dict, character: dict):
@@ -522,11 +598,13 @@ def main():
     """
     Drive the program.
     """
-    demo_board, select_locations = create_game_board(3, 2, [1, 2])
+    demo_board, select_locations = create_game_board(9, 3, [3, 6])
     demo_character = create_character(3)
     demo_character["X-coordinate"] = 2
     demo_character["Y-coordinate"] = 1
     demo_board[(2, 1)]["gives Strand"] = "Blue"
+    demo_board[(0, 1)]["gives Strand"] = "Green"
+    demo_board[(0, 1)]["revealed"] = True
 
     functions_to_demo = [
         (create_game_board, [3, 2, [1, 2]]),
@@ -535,6 +613,7 @@ def main():
         (print_current_epoch, [demo_board, demo_character]),
         (describe_current_location, [demo_board, demo_character]),
         (check_for_restore, [demo_board, demo_character]),
+        (print_map, [demo_board, demo_character]),
         (set_starting_location, [demo_board, demo_character]),
     ]
 
@@ -543,6 +622,7 @@ def main():
     demonstrate_functions([(set_level_goal,
                             [demo_board, demo_character, select_locations])])
     pprint(demo_board)
+    print_map(demo_board, demo_character)
 
 
 if __name__ == '__main__':

@@ -3,7 +3,7 @@ import copy
 from strands_of_time import RAINBOW_ORDER
 from strands_of_time.character.character import create_character, get_character_location_as_tuple, \
     print_strands
-from strands_of_time.location.board import create_game_board
+from strands_of_time.location.board import create_game_board, get_max_board_coordinates
 
 
 def get_move_from_player(board: dict, character: dict) -> str:
@@ -162,46 +162,6 @@ def move_character(character: dict, player_input: str):
         if index_a != 0:
             columns_to_move = int(player_input[index_a - 1])
         character["X-coordinate"] -= columns_to_move
-
-
-def get_max_board_coordinates(board: dict) -> tuple[int, int]:
-    """
-    Return the largest coordinates for the board as a tuple of (X, Y) coordinates.
-
-    :param board: a well-formed board dictionary
-    :precondition: board must be a dictionary with (X, Y) coordinate keys
-    :postcondition: returns the largest coordinates for board as a tuple of (X, Y) coordinates
-    :return: a tuple with the largest coordinates as (X, Y) coordinates
-    :raises TypeError: if board is not a dictionary
-    :raises KeyError: if board does not have tuple keys containing pairs of integers
-    :raises KeyError: if board tuple keys do not contain pairs of integers
-
-    >>> board_5_by_5, _ = create_game_board(5, 5, [2, 4])
-    >>> get_max_board_coordinates(board_5_by_5)
-    (4, 4)
-    >>> board_not_square, _ = create_game_board(6, 3, [2, 4])
-    >>> get_max_board_coordinates(board_not_square)
-    (5, 2)
-    >>> smallest_board, _ = create_game_board(3, 2, [1, 2])
-    >>> get_max_board_coordinates(smallest_board)
-    (2, 1)
-    """
-    if not isinstance(board, dict):
-        raise TypeError("board must be a dictionary")
-
-    tuple_keys = []
-    for key in board:
-        if isinstance(key, tuple):
-            tuple_keys.append(key)
-            if len(key) != 2 or not isinstance(key[0], int) or not isinstance(key[1], int):
-                raise KeyError('board locations must have "description" keys')
-    if len(tuple_keys) < 1:
-        raise KeyError("board must have tuple keys")
-
-    max_x_coordinate = max(key[0] for key in board.keys() if isinstance(key, tuple))
-    max_y_coordinate = max(key[1] for key in board.keys() if isinstance(key, tuple))
-
-    return max_x_coordinate, max_y_coordinate
 
 
 def validate_move(board: dict, character: dict, player_input: str) -> bool:
