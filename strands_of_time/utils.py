@@ -45,11 +45,11 @@ def colourize(message: str, colour: str) -> str:
     if not isinstance(colour, str):
         raise TypeError("Colour must be a string")
 
-    if colour not in colour_printing_sequences:
+    if colour.title() not in colour_printing_sequences:
         raise ValueError("Colour must be Red, Orange, Yellow, Green, Blue, Violet, Magenta, "
                          "or Pink")
 
-    return f"{colour_printing_sequences[colour]}{message}{reset_sequence}"
+    return f"{colour_printing_sequences[colour.title()]}{message}{reset_sequence}"
 
 
 def demonstrate_functions(functions: list[tuple[callable, list]]):
