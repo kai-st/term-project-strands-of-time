@@ -594,6 +594,29 @@ def check_for_restore(board: dict, character: dict):
     board[current_location]["revealed"] = True
 
 
+def update_distance_to_level_goal(board: dict, character: dict):
+    """
+    Tell the player if they are closer to or farther from the goal and update record in character.
+    :param board:
+    :param character:
+    """
+    current_location = get_character_location_as_tuple(character)
+    distance_to_level_goal = math.dist(board["level goal"], current_location)
+    if character["last distance to goal"] is None:
+        print(colourize("I think I can pick up the trail from here", "magenta"),
+              end="\n\n")
+    else:
+        temperature = "at about the same distance as last time"
+        if distance_to_level_goal < character["last distance to goal"]:
+            temperature = "getting closer"
+        elif distance_to_level_goal > character["last distance to goal"]:
+            temperature = "getting farther away"
+        print(colourize(f"From my calculations, it seems like we're {temperature}.",
+                        "magenta"), end="\n\n")
+
+    character["last distance to goal"] = distance_to_level_goal
+
+
 def main():
     """
     Drive the program.

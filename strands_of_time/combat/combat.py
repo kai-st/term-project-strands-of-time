@@ -3,7 +3,7 @@ from copy import deepcopy
 
 from strands_of_time import RAINBOW_ORDER
 from strands_of_time.character.character import print_strands, has_strands, remove_random_strand
-from strands_of_time.location.board import check_for_restore
+from strands_of_time.location.board import check_for_restore, update_distance_to_level_goal
 from strands_of_time.utils import colourize
 
 
@@ -173,10 +173,12 @@ def handle_regular_combat(board, character):
     :return:
     """
     if combat(character):
-        print("You have successfully mended the fabric of spacetime!")
+        print("You have successfully mended the fabric of spacetime!", end="\n\n")
+        update_distance_to_level_goal(board, character)
         check_for_restore(board, character)
+
     else:
-        print("You failed to mended the fabric of spacetime.")
+        print("You were unable to mend the fabric of spacetime.", end="\n\n")
 
 
 def handle_boss_combat(board, character):
@@ -195,7 +197,6 @@ def handle_boss_combat(board, character):
         character["level"] -= 1
         print("The boss escaped to a new time/location with the level objective.")
     character["last distance to goal"] = None
-
 
 
 def main():
