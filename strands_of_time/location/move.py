@@ -1,5 +1,4 @@
 import copy
-from os import abort
 
 from strands_of_time import RAINBOW_ORDER
 from strands_of_time.location.board import create_game_board
@@ -14,7 +13,8 @@ def get_move_from_player(board: dict, character: dict) -> str:
     :param board: A well-formed board dictionary
     :param character: A well-formed character dictionary
     :precondition: board must be a dictionary with (X, Y) keys
-    :precondition: character must be a dictionary with "X-coordinate" and "Y-coordinate" keys
+    :precondition: character must be a dictionary with "X-coordinate", "Y-coordinate" and "Strands"
+    keys
     :postcondition: gets the player's choice of where to move using wasd or a jump command
     :return: the player's input as a string
     """
@@ -312,3 +312,19 @@ def check_move_format(player_input: str) -> bool:
         return False
 
     return True
+
+
+def handle_movement(board: dict, character: dict):
+    """
+    Drive character movement.
+
+    :param board: A well-formed board dictionary
+    :param character: A well-formed character dictionary
+    :precondition: board must be a dictionary with (X, Y) location keys and an "epoch
+    boundaries" key
+    :precondition: character must be a dictionary with "X-coordinate", "Y-coordinate" and "Strands"
+    keys
+    :postcondition: executes movement cycle functions
+    """
+    player_move = get_move_from_player(board, character)
+    move_character(character, player_move)
