@@ -55,3 +55,14 @@ def get_level_info(level: int) -> dict:
             },
     }
     return level_info[level]
+
+
+def main():
+    """
+    Draive the program.
+    """
+    pass
+
+
+if __name__ == '__main__':
+    main()
