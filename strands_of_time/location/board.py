@@ -4,9 +4,9 @@ import textwrap
 from pprint import pprint
 
 from strands_of_time import RAINBOW_ORDER
-from strands_of_time.character.character import get_character_location_as_tuple
+from strands_of_time.character.character import get_character_location_as_tuple, create_character
 from strands_of_time.location import EPOCHS
-from strands_of_time.utils import demonstrate_functions
+from strands_of_time.utils import demonstrate_functions, colourize
 
 
 def create_game_board(columns: int,
@@ -492,11 +492,25 @@ def check_for_restore(board: dict, character: dict):
     :precondition: board must be a dictionary with (X, Y) keys
     :precondition: character must be a dictionary with "X-coordinate", "Y-coordinate" and "Strands"
     keysAdd
-    :postcondition: restores a Strand of the correct colour to character if board has "gives strand"
+    :postcondition: restores a Strand of the correct colour to character if board has "gives Strand"
     key at the current location
     :postcondition: marks the light spring as revealed in the board
     """
-    pass
+    current_location = get_character_location_as_tuple(character)
+
+    if "gives Strand" not in board[current_location]:
+        return
+
+    colour_given = board[current_location]["gives Strand"]
+
+    character["Strands"][colour_given] += 1
+
+    print("Spindle vibrates in your hand.",
+          colourize('"Aha! A light spring!"', "magenta"),
+          f"Your {colour_given} Strands seem to be pulsating here. You gain a new "
+          f"{colour_given} Strand.", sep="\n", end="\n\n")
+
+    board[current_location]["revealed"] = True
 
 
 def main():
@@ -504,21 +518,25 @@ def main():
     Drive the program.
     """
     demo_board, select_locations = create_game_board(3, 2, [1, 2])
-    demo_character_coordinates = {"X-coordinate": 2, "Y-coordinate": 1}
+    demo_character = create_character(3)
+    demo_character["X-coordinate"] = 2
+    demo_character["Y-coordinate"] = 1
+    demo_board[(2, 1)]["gives Strand"] = "Blue"
 
     functions_to_demo = [
         (create_game_board, [3, 2, [1, 2]]),
         (select_locations, [3]),
         (generate_epoch_locations, [3, "medieval"]),
-        (print_current_epoch, [demo_board, demo_character_coordinates]),
-        (describe_current_location, [demo_board, demo_character_coordinates]),
-        (set_starting_location, [demo_board, demo_character_coordinates]),
+        (print_current_epoch, [demo_board, demo_character]),
+        (describe_current_location, [demo_board, demo_character]),
+        (check_for_restore, [demo_board, demo_character]),
+        (set_starting_location, [demo_board, demo_character]),
     ]
 
     demonstrate_functions(functions_to_demo)
-    print(demo_character_coordinates)
+    print(demo_character)
     demonstrate_functions([(set_level_goal,
-                            [demo_board, demo_character_coordinates, select_locations])])
+                            [demo_board, demo_character, select_locations])])
     pprint(demo_board)
 
 
