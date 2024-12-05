@@ -1,6 +1,7 @@
 import copy
 
 from strands_of_time import RAINBOW_ORDER
+from strands_of_time.character.character import create_character
 from strands_of_time.location.board import create_game_board
 
 
@@ -328,3 +329,19 @@ def handle_movement(board: dict, character: dict):
     """
     player_move = get_move_from_player(board, character)
     move_character(character, player_move)
+
+
+def main():
+    """
+    Drive the program.
+    """
+    demo_board, _ = create_game_board(9, 3, [3, 6])
+    demo_character = create_character(3)
+    demo_character["X-coordinate"] = 0
+    demo_character["Y-coordinate"] = 0
+
+    handle_movement(demo_board, demo_character)
+
+
+if __name__ == '__main__':
+    main()
