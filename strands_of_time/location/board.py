@@ -485,9 +485,16 @@ def print_map(board: dict, character: dict):
 
 def check_for_restore(board: dict, character: dict):
     """
+    Restore a Strand to the character if a light spring exists in the current location.
 
-    :param board:
-    :param character:
+    :param board: A well-formed board dictionary
+    :param character: A well-formed character dictionary
+    :precondition: board must be a dictionary with (X, Y) keys
+    :precondition: character must be a dictionary with "X-coordinate", "Y-coordinate" and "Strands"
+    keysAdd
+    :postcondition: restores a Strand of the correct colour to character if board has "gives strand"
+    key at the current location
+    :postcondition: marks the light spring as revealed in the board
     """
     pass
 
