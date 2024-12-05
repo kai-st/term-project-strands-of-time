@@ -1,7 +1,8 @@
 import copy
 
 from strands_of_time import RAINBOW_ORDER
-from strands_of_time.character.character import create_character, get_character_location_as_tuple
+from strands_of_time.character.character import create_character, get_character_location_as_tuple, \
+    print_strands
 from strands_of_time.location.board import create_game_board
 
 
@@ -60,24 +61,24 @@ def get_move_from_player(board: dict, character: dict) -> str:
             print("Sorry, I didn't understand which Strand you entered. Please try again.")
             needs_strand = True
         else:
-            strand_to_spend = RAINBOW_ORDER[int(split_input[1]) -1]
+            strand_to_spend = RAINBOW_ORDER[int(split_input[1]) - 1]
 
         no_strand_of_choice_colour = False
-        if character["Strands"][strand_to_spend] < 1:
+        if not needs_strand and character["Strands"][strand_to_spend] < 1:
             no_strand_of_choice_colour = True
 
         while needs_strand or no_strand_of_choice_colour:
             if no_strand_of_choice_colour:
-                print(f"You don't have any {strand_to_spend} Strands to spend.'")
+                print(f"You don't have any {strand_to_spend} Strands to spend.")
             player_strand = input("What colour Strand do you want to spend?\n(Enter 1-6, "
-                                  "or enter 0 to abort this move.\n")
+                                  "or enter 0 to abort this move.)\n")
             if player_strand == "0":
                 aborted = True
                 break
             try:
                 strand_to_spend = RAINBOW_ORDER[int(player_strand) - 1]
-            except (TypeError, IndexError):
-                print("Sorry, entry must be an integer between 0 and 6")
+            except (TypeError, ValueError, IndexError):
+                print("Sorry, entry must be an integer between 0 and 6.")
             else:
                 needs_strand = False
                 if character["Strands"][strand_to_spend] < 1:
@@ -337,12 +338,14 @@ def main():
     """
     demo_board, _ = create_game_board(9, 3, [3, 6])
     demo_character = create_character(3)
-    demo_character["X-coordinate"] = 0
+    demo_character["X-coordinate"] = 3
     demo_character["Y-coordinate"] = 0
+    demo_character["Strands"]["Red"] = 0
 
     handle_movement(demo_board, demo_character)
 
     print(f"New location: {get_character_location_as_tuple(demo_character)}")
+    print_strands(demo_character)
 
 
 if __name__ == '__main__':
