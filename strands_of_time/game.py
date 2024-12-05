@@ -23,6 +23,7 @@ def show_game_state(board: dict, character: dict):
     :postcondition: prints character's current time period, Strand counts, and the map
     """
     print_current_epoch(board, character)
+    print(" ---  Your", end=" ")
     print_strands(character)
     print()
     print_map(board, character)
@@ -35,8 +36,8 @@ def game():
     rows = 3
     columns = 9
     epoch_boundaries = [3, 6]
-    initial_number_of_strands = 3
-    board, get_random_locations = create_game_board(rows, columns, epoch_boundaries)
+    initial_number_of_strands = 6
+    board, get_random_locations = create_game_board(columns, rows, epoch_boundaries)
 
     print_intro()
 

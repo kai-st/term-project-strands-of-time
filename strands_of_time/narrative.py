@@ -70,10 +70,10 @@ def print_intro():
             colourize('"Oh, thank god you\'re here, I don\'t even know how long-\n\nWait, '
                       'you\'re not a Time Weaver! How in spacetime did you get here?\n\nWell, '
                       'nothing for it, I guess. I\'m Spindle. Welcome to the heat death of the '
-                      'universe"', "magenta")),
+                      'universe."', "magenta")),
         textwrap.fill("You try to take this in.\n\nSpindle is made of a strange silvery material. "
                       "Maybe some sort of alien alloy. It's shape does sort of resemble a "
-                      "spindle, you suppose"),
+                      "spindle, you suppose."),
         textwrap.fill(
             colourize('"But now that you\'re here, we might just be able to get sometime else. I '
                       'don\'t know what happened to my Time Weaver, but certainly something '
@@ -106,7 +106,7 @@ def print_combat_instructions():
         textwrap.fill(
             colourize('"Aha! A Tear! Whatever got the Time Weaver has definitely been here."',
                       "magenta")),
-        textwrap.fill("With you're spacetime sight you can se what looks like a dark whole in the "
+        textwrap.fill("With you're spacetime sight you can se what looks like a dark hole in the "
                       "fabric of reality"),
         textwrap.fill(
             colourize('"You should be able to mend the Tear with your Strands, just be careful '
