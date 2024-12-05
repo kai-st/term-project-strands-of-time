@@ -598,7 +598,7 @@ def main():
     """
     Drive the program.
     """
-    demo_board, select_locations = create_game_board(9, 3, [3, 6])
+    demo_board, select_locations = create_game_board(3, 2, [1, 2])
     demo_character = create_character(3)
     demo_character["X-coordinate"] = 2
     demo_character["Y-coordinate"] = 1
