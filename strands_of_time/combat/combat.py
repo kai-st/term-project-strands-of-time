@@ -2,8 +2,10 @@ import random
 from copy import deepcopy
 
 from strands_of_time import RAINBOW_ORDER
-from strands_of_time.character.character import print_strands, has_strands, remove_random_strand
-from strands_of_time.location.board import check_for_restore, update_distance_to_level_goal
+from strands_of_time.character.character import print_strands, has_strands, remove_random_strand, \
+    create_character
+from strands_of_time.location.board import check_for_restore, update_distance_to_level_goal, \
+    create_game_board
 from strands_of_time.narrative import get_level_info
 from strands_of_time.utils import colourize
 
@@ -52,7 +54,7 @@ dict) -> list:
             print("Your sequence can only include integers from 0-6")
             player_input_sequence = input()
         else:
-            if min(player_sequence) < 0 or max(player_sequence) > 6:
+            if min(player_sequence) < -1 or max(player_sequence) > 5:
                 print("Your sequence can only include integers from 0-6")
                 player_input_sequence = input()
             else:
@@ -61,7 +63,7 @@ dict) -> list:
     thread_sequence = []
     thread_options = {-1: "/", 0: "|", 1: "\\"}
     for player_number, enemy_number in zip(player_sequence, enemy_sequence):
-        if (player_number == 0
+        if (player_number == -1
                 or player_number - enemy_number not in thread_options
                 or combat_strands[RAINBOW_ORDER[player_number]] < 1):
             thread_sequence.append(random.choice(list(thread_options.keys())))
@@ -102,26 +104,27 @@ def build_next_enemy_sequence(prev_enemy_sequence, thread_sequence):
     move_left = []
     move_right = []
     index = 0
+    first_left = 0
     while index < len(prev_enemy_sequence):
-        if len(move_left) == 0 and len(move_right) == 0:
+        if len(move_left) == 0 and len(move_right) == 0 and -1 in thread_sequence[first_left:]:
             first_left = thread_sequence.index(-1, index)
-            thread_index = first_left
-            while thread_index < len(thread_sequence[first_left:]):
-                if thread_sequence[thread_index] != -1:
+            while first_left < len(thread_sequence):
+                if thread_sequence[first_left] != -1:
                     break
-                move_left.append(prev_enemy_sequence[thread_index])
-                thread_index += 1
+                move_left.append(prev_enemy_sequence[first_left])
+                first_left += 1
 
         if thread_sequence[index] == 0:
             next_enemy_sequence.append(prev_enemy_sequence[index])
         elif thread_sequence[index] == 1:
             move_right.append(prev_enemy_sequence[index])
-        if len(move_left) == 0:
-            temp = move_right.pop(0)
-            next_enemy_sequence.append(temp)
-        else:
-            temp = move_left.pop(0)
-            next_enemy_sequence.append(temp)
+        if thread_sequence[index] != 0:
+            if len(move_left) == 0:
+                temp = move_right.pop(0)
+                next_enemy_sequence.append(temp)
+            else:
+                temp = move_left.pop(0)
+                next_enemy_sequence.append(temp)
 
         index += 1
     return next_enemy_sequence
@@ -155,12 +158,14 @@ def combat(character: dict) -> bool:
         thread_sequence = handle_player_response(enemy_sequence, colour_sequence, combat_strands)
         enemy_sequence = build_next_enemy_sequence(enemy_sequence, thread_sequence)
 
-        print_colour_sequence(enemy_sequence, combat_strands)
+        colour_sequence = print_colour_sequence(enemy_sequence, combat_strands)
 
         if enemy_sequence == sorted(enemy_sequence):
             return True
         else:
             strands_knotted = percentage_chance_result(10)
+            if strands_knotted:
+                print("Oh no! Your Strands knotted!")
 
     remove_random_strand(character)
     return False
@@ -200,7 +205,7 @@ def handle_boss_combat(character):
     character["level"] += 1
     if combat(character):
         for colour in character["Strands"]:
-            character["Strands"][colour] = 3 * character["level"]
+            character["Strands"][colour] = 5 * character["level"]
         print(f"You have driven away the {level_info["boss"]} and liberated "
               f"the {level_info["to find"]}.", level_info["success"], end="\n\n", sep="\n\n" )
         if character["level"] < 4:
@@ -219,7 +224,12 @@ def main():
     """
     Drive the program
     """
-    pass
+    demo_board, _ = create_game_board(9, 3, [3, 6])
+    demo_character = create_character(3)
+    demo_character["X-coordinate"] = 3
+    demo_character["Y-coordinate"] = 0
+
+    handle_regular_combat(demo_board, demo_character)
 
 
 if __name__ == '__main__':
