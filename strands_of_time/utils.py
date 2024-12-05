@@ -7,7 +7,7 @@ def colourize(message: str, colour: str) -> str:
     """
     Wrap a string in ANSI escape sequences to print it in a given colour and then reset to default.
 
-    Available colours are Red, Orange, Yellow, Green, Blue, Violet, Magenta, Pink.
+    Available colours are Red, Orange, Yellow, Green, Blue, Violet, Magenta, Pink, Aqua.
 
     :param message: a string to wrap in color sequences
     :param colour: the colour to make the message as a string matching an available colour
@@ -38,6 +38,7 @@ def colourize(message: str, colour: str) -> str:
 
     colour_printing_sequences["Magenta"] = "\033[38;5;126m"
     colour_printing_sequences["Pink"] = "\033[38;5;207m"
+    colour_printing_sequences["Aqua"] = "\033[38;5;51m"
 
     if not isinstance(message, str):
         raise TypeError("Message must be a string")
@@ -46,7 +47,7 @@ def colourize(message: str, colour: str) -> str:
         raise TypeError("Colour must be a string")
 
     if colour.title() not in colour_printing_sequences:
-        raise ValueError("Colour must be Red, Orange, Yellow, Green, Blue, Violet, Magenta, "
+        raise ValueError("Colour must be Red, Orange, Yellow, Green, Blue, Violet, Magenta, Aqua "
                          "or Pink")
 
     return f"{colour_printing_sequences[colour.title()]}{message}{reset_sequence}"
