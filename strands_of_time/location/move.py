@@ -1,26 +1,92 @@
 import copy
+from os import abort
 
+from strands_of_time import RAINBOW_ORDER
 from strands_of_time.location.board import create_game_board
 
 
-def get_move_from_player():
+def get_move_from_player(board: dict, character: dict) -> str:
     """
-    Gets the player's choice of which cardinal direction they want to move.
+    Get the player's choice of where to move using wasd or a jump command.
 
-    :postcondition: gets the player's choice of which cardinal direction they want to move
-    :return: the player's choice of cardinal direction as a string
+    A jump command takes the format "[# of columns][a or d][# of rows][w or s] [Strand colour #]".
+
+    :param board: A well-formed board dictionary
+    :param character: A well-formed character dictionary
+    :precondition: board must be a dictionary with (X, Y) keys
+    :precondition: character must be a dictionary with "X-coordinate" and "Y-coordinate" keys
+    :postcondition: gets the player's choice of where to move using wasd or a jump command
+    :return: the player's input as a string
     """
-    numbers_to_direction_map = {"1": "north", "2": "south", "3": "west", "4": "east"}
+    movement_prompt = ('Where do you want to go?\n(Move one space with wasd, or spend a Strand '
+                       'to jump using "[# of columns][a or d][# of rows][w or s] ['
+                       'Strand colour #]", e.g. 3d2s 4)\n')
+    aborted = True
+    while aborted:
+        aborted = False
+        player_input = input(movement_prompt)
+        has_error = True
+        while has_error:
+            try:
+                has_error = not check_move_format(player_input)
+            except TypeError:
+                print("\nSorry, that is not a valid movement command. Please try again.", end="\n\n")
+                player_input = input(movement_prompt)
+            else:
+                if has_error:
+                    print("\nSorry, that is not a valid movement command. Please try again.",
+                          end="\n\n")
+                    player_input = input(movement_prompt)
 
-    user_choice = input("Which way do you want to go?\n(Enter 1. North, 2. South, 3. West, "
-                        "4. East)\n")
+        while not validate_move(board, character, player_input):
+            print("\nYou can't go there. Please try again.", end="\n\n")
+            player_input = input(movement_prompt)
 
-    while user_choice not in numbers_to_direction_map:
-        print("\nSorry, that is not a valid direction. Please try again.", end="\n\n")
-        user_choice = input("Which way do you want to go?\n(Enter 1. North, 2. South, 3. West, "
-                            "4. East)\n")
+        strand_to_spend = None
+        split_input = player_input.split()
+        needs_strand = False
+        if len(player_input) == 1:
+            if not (player_input == "a" and character["X-coordinate"] in board["epoch boundaries"]
+                    or player_input == "d"
+                    and character["X-coordinate"] + 1 in board["epoch boundaries"]):
+                return player_input
+            else:
+                print("This move requires a time jump.")
+                needs_strand = True
+        elif (len(split_input) == 1
+              or not split_input[1].isdigit()
+              or int(split_input[1]) not in range(1, 7)):
+            print("Sorry, I didn't understand which Strand you entered. Please try again.")
+            needs_strand = True
+        else:
+            strand_to_spend = RAINBOW_ORDER[int(split_input[1]) -1]
 
-    return numbers_to_direction_map[user_choice]
+        no_strand_of_choice_colour = False
+        if character["Strands"][strand_to_spend] < 1:
+            no_strand_of_choice_colour = True
+
+        while needs_strand or no_strand_of_choice_colour:
+            if no_strand_of_choice_colour:
+                print(f"You don't have any {strand_to_spend} Strands to spend.'")
+            player_strand = input("What colour Strand do you want to spend?\n(Enter 1-6, "
+                                  "or enter 0 to abort this move.\n")
+            if player_strand == "0":
+                aborted = True
+                break
+            try:
+                strand_to_spend = RAINBOW_ORDER[int(player_strand) - 1]
+            except (TypeError, IndexError):
+                print("Sorry, entry must be an integer between 0 and 6")
+            else:
+                needs_strand = False
+                if character["Strands"][strand_to_spend] < 1:
+                    no_strand_of_choice_colour = True
+                else:
+                    no_strand_of_choice_colour = False
+
+        if not aborted:
+            character["Strands"][strand_to_spend] -= 1
+            return split_input[0]
 
 
 def move_character(character: dict, player_input: str):
@@ -49,6 +115,10 @@ def move_character(character: dict, player_input: str):
     >>> jumping_character = {"X-coordinate": 3, "Y-coordinate": 1}
     >>> move_character(jumping_character, "4d1s Yellow")
     >>> jumping_character
+    {'X-coordinate': 7, 'Y-coordinate': 2}
+    >>> another_jumping_character = {"X-coordinate": 3, "Y-coordinate": 1}
+    >>> move_character(another_jumping_character, "4d1s")
+    >>> another_jumping_character
     {'X-coordinate': 7, 'Y-coordinate': 2}
     """
     if not isinstance(character, dict):
@@ -213,12 +283,12 @@ def check_move_format(player_input: str) -> bool:
 
     >>> check_move_format("w")
     True
-    >>> check_move_format("3a5s Red")
+    >>> check_move_format("3a5s 1")
     True
-    >>> check_move_format("3s5a Red")
+    >>> check_move_format("3s5a 1")
     False
     """
-    wsad =("w", "s", "a", "d")
+    wasd = ("w", "s", "a", "d")
 
     if not isinstance(player_input, str):
         raise TypeError("player_input must be a string")
@@ -227,7 +297,7 @@ def check_move_format(player_input: str) -> bool:
         return False
 
     if len(player_input) == 1:
-        return player_input in wsad
+        return player_input in wasd
 
     jump_sequence = player_input.split()[0]
     jump_length = len(jump_sequence)
@@ -235,12 +305,10 @@ def check_move_format(player_input: str) -> bool:
     if jump_length != 2 and jump_length != 4:
         return False
 
-    if not jump_sequence[0].isdigit() or not jump_sequence[1] in wsad[2:4]:
+    if not jump_sequence[0].isdigit() or not jump_sequence[1] in wasd[2:4]:
         return False
 
-    if jump_length == 4 and (not jump_sequence[2].isdigit() or not jump_sequence[3] in wsad[:2]):
+    if jump_length == 4 and (not jump_sequence[2].isdigit() or not jump_sequence[3] in wasd[:2]):
         return False
 
     return True
-
-
