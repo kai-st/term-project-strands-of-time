@@ -476,9 +476,14 @@ def set_level_goal(board: dict, character: dict, location_selection_function: ca
 
 def print_map(board: dict, character: dict):
     """
+    Print the map with the character's current location and any reveal light springs.
 
-    :param board:
-    :param character:
+    :param board: A well-formed board dictionary
+    :param character: A well-formed character dictionary
+    :precondition: board must be a dictionary with (X, Y) keys
+    :precondition: character must be a dictionary with "X-coordinate", "Y-coordinate" and "Strands"
+    keys:
+    :postcondition: prints the map with character's current location and any reveal light springs
     """
     pass
 
@@ -491,7 +496,7 @@ def check_for_restore(board: dict, character: dict):
     :param character: A well-formed character dictionary
     :precondition: board must be a dictionary with (X, Y) keys
     :precondition: character must be a dictionary with "X-coordinate", "Y-coordinate" and "Strands"
-    keysAdd
+    keys
     :postcondition: restores a Strand of the correct colour to character if board has "gives Strand"
     key at the current location
     :postcondition: marks the light spring as revealed in the board
