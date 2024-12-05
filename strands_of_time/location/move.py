@@ -32,7 +32,8 @@ def get_move_from_player(board: dict, character: dict) -> str:
             try:
                 has_error = not check_move_format(player_input)
             except TypeError:
-                print("\nSorry, that is not a valid movement command. Please try again.", end="\n\n")
+                print("\nSorry, that is not a valid movement command. Please try again.",
+                      end="\n\n")
                 player_input = input(movement_prompt)
             else:
                 if has_error:
