@@ -6,7 +6,7 @@ from strands_of_time import RAINBOW_ORDER
 from strands_of_time.character.character import print_strands, has_strands, remove_random_strand, \
     create_character
 from strands_of_time.location.board import check_for_restore, update_distance_to_level_goal, \
-    create_game_board
+    create_game_board, set_level_goal
 from strands_of_time.narrative import get_level_info
 from strands_of_time.utils import colourize
 
@@ -180,7 +180,7 @@ def combat(character: dict) -> bool:
         else:
             strands_knotted = percentage_chance_result(10)
             if strands_knotted:
-                print("Oh no! Your Strands knotted!")
+                print("Oh no! Your Strands knotted!", end="\n\n")
 
     remove_random_strand(character)
     return False
@@ -238,12 +238,48 @@ def main():
     """
     Drive the program
     """
-    demo_board, _ = create_game_board(9, 3, [3, 6])
-    demo_character = create_character(3)
-    demo_character["X-coordinate"] = 3
-    demo_character["Y-coordinate"] = 0
+    chosen_level = input("enter a level 1-3 to run a combat for, or q to quit: ")
+    while chosen_level.casefold() != "q":
+        level_error = True
+        level = 1
+        while level_error:
+            try:
+                level = int(chosen_level)
+            except (ValueError, TypeError):
+                if chosen_level == "q":
+                    return
+                print("level must be an integer greater than 0")
+                chosen_level = input("enter a level 1-3 to run a combat for, or q to quit: ")
+            else:
+                if level < 1:
+                    print("level must be greater than 0")
+                    chosen_level = input("enter a level 1-3 to run a combat for, or q to quit: ")
+                else:
+                    level_error = False
 
-    handle_regular_combat(demo_board, demo_character)
+        demo_board, get_random_locations = create_game_board(9, 3, [3, 6])
+        demo_character = create_character(5 * level)
+        demo_character["level"] = level
+        demo_character["X-coordinate"] = 3
+        demo_character["Y-coordinate"] = 0
+        set_level_goal(demo_board, demo_character, get_random_locations)
+
+        combat_type = (input("Enter r to run a regular combat, b to run a boss combat, "
+                             "or q to quit: ").lower())
+
+        while combat_type not in ["q", "r", "b"]:
+            print("You may only enter r, b, or q")
+            combat_type = (input("Enter r to run a regular combat, b to run a boss combat, "
+                                 "or q to quit: ").lower())
+
+        if combat_type == "q":
+            return
+        elif combat_type == "r":
+            handle_regular_combat(demo_board, demo_character)
+        elif combat_type == "b":
+            handle_boss_combat(demo_character)
+
+        chosen_level = input("enter a level 1-3 to run a combat for, or q to quit: ")
 
 
 if __name__ == '__main__':
