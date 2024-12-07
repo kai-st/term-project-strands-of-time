@@ -598,13 +598,19 @@ def check_for_restore(board: dict, character: dict):
 def update_distance_to_level_goal(board: dict, character: dict):
     """
     Tell the player if they are closer to or farther from the goal and update record in character.
+
     :param board:
     :param character:
     """
+    if "level goal" not in board:
+        print(colourize('"Excellent, I think I can pick up the trail from here!"', "magenta"),
+              end="\n\n")
+        return
+
     current_location = get_character_location_as_tuple(character)
     distance_to_level_goal = math.dist(board["level goal"], current_location)
     if character["last distance to goal"] is None:
-        print(colourize("I think I can pick up the trail from here", "magenta"),
+        print(colourize("Excellent, I think I can pick up the trail from here", "magenta"),
               end="\n\n")
     else:
         temperature = "at about the same distance as last time"
