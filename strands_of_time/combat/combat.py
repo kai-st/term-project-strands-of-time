@@ -1,4 +1,5 @@
 import random
+import textwrap
 from copy import deepcopy
 
 from strands_of_time import RAINBOW_ORDER
@@ -194,7 +195,8 @@ def handle_boss_combat(character):
     :return:
     """
     level_info = get_level_info(character["level"])
-    print(level_info["goal description"], (f"As you approach the {level_info["to find"]}, the"
+    print(textwrap.fill(level_info["goal description"]), textwrap.fill(f"As you approach the"
+                                                      f" {level_info["to find"]}, the"
                                            f" {level_info["boss"]} start to "
                                            f"unravel the spacetime in "
                                            f"front of you, "
@@ -207,7 +209,8 @@ def handle_boss_combat(character):
         for colour in character["Strands"]:
             character["Strands"][colour] = 5 * character["level"]
         print(f"You have driven away the {level_info["boss"]} and liberated "
-              f"the {level_info["to find"]}.", level_info["success"], end="\n\n", sep="\n\n" )
+              f"the {level_info["to find"]}.", textwrap.fill(level_info["success"]), end="\n\n",
+                                                                                      sep="\n\n" )
         if character["level"] < 4:
             new_level_info = get_level_info(character["level"])
             print(colourize(f"Now that you have the {level_info["to find"]}, "
