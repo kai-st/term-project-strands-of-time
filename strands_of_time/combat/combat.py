@@ -101,7 +101,8 @@ def build_next_enemy_sequence(prev_enemy_sequence: list,
 
     For a thread sequence of -1's, 0's, and 1's, the items at the equivalent positions in the
     previous sequence will stay in the same position on a 0, try to move right on a -1,
-    and try to move left on a 1.
+    and try to move left on a 1. Items will move in running groups. One group of running 1's will
+    not move past a latter group of running 1's, but will be split by any 0's.
 
     :param prev_enemy_sequence: a list to be sorted according to thread_sequence
     :param thread_sequence: a list of integers containing -1's, 0's, and 1's, representing whether
@@ -114,6 +115,8 @@ def build_next_enemy_sequence(prev_enemy_sequence: list,
     to a given thread sequence
     :return: a new sorted list of the items in prev_enemy_sequence
 
+    >>> build_next_enemy_sequence(prev_enemy_sequence=[1, 2, 3], thread_sequence=[-1, 0, -1])
+    [1, 2, 3]
     >>> build_next_enemy_sequence(prev_enemy_sequence=[1, 2, 3], thread_sequence=[0, 0, 0])
     [1, 2, 3]
     >>> build_next_enemy_sequence(prev_enemy_sequence=[2, 1, 3], thread_sequence=[1, -1, 0])
@@ -124,11 +127,10 @@ def build_next_enemy_sequence(prev_enemy_sequence: list,
     next_enemy_sequence = []
     move_left = []
     move_right = []
-    index = 0
     first_left = 0
     for player_thread, prev_enemy_thread in zip(thread_sequence, prev_enemy_sequence):
         if not move_left and not move_right and -1 in thread_sequence[first_left:]:
-            first_left = thread_sequence.index(-1, index)
+            first_left = thread_sequence.index(-1, first_left)
             while first_left < len(thread_sequence) and thread_sequence[first_left] == -1:
                 move_left.append(prev_enemy_sequence[first_left])
                 first_left += 1
