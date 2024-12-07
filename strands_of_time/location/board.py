@@ -338,7 +338,7 @@ def describe_current_location(board, character):
 
     current_location = get_character_location_as_tuple(character)
 
-    print(textwrap.fill(board[current_location]["description"]), end="\n\n")
+    print(textwrap.fill(board[current_location]["description"], width=100), end="\n\n")
 
 
 def set_starting_location(board: dict, character: dict):

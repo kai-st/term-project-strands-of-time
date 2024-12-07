@@ -233,18 +233,19 @@ def handle_boss_combat(character):
     :return:
     """
     level_info = get_level_info(character["level"])
-    print(textwrap.fill(level_info["goal description"]),
+    print(textwrap.fill(level_info["goal description"], width=100),
           textwrap.fill(f"As you approach the {level_info["to find"]}, the"
                         f" {level_info["boss"]} start to unravel the spacetime in front of you, "
                         f"opening a Tear larger than any you've seen yet. Can you mend it "
-                        f"fast enough to get to the {level_info["to find"]}?"),
+                        f"fast enough to get to the {level_info["to find"]}?", width=100),
           end="\n\n", sep="\n\n")
     character["level"] += 1
     if combat(character):
         for colour in character["Strands"]:
             character["Strands"][colour] = 5 * character["level"]
         print(f"You have driven away the {level_info["boss"]} and liberated "
-              f"the {level_info["to find"]}.", textwrap.fill(level_info["success"]), end="\n\n",
+              f"the {level_info["to find"]}.", textwrap.fill(level_info["success"], width=100),
+              end="\n\n",
               sep="\n\n")
         if character["level"] < 4:
             new_level_info = get_level_info(character["level"])
@@ -253,8 +254,9 @@ def handle_boss_combat(character):
                             f"down the {new_level_info["goal"]}.", "magenta"), end="\n\n")
     else:
         character["level"] -= 1
-        print(f"The {level_info["boss"]} escaped to a new time and location with "
-              f"the {level_info["to find"]}. You will have to track them down again", end="\n\n")
+        print(textwrap.fill(f"The {level_info["boss"]} escaped to a new time and location with "
+              f"the {level_info["to find"]}. You will have to track them down again", width=100),
+              end="\n\n")
     character["last distance to goal"] = None
 
 

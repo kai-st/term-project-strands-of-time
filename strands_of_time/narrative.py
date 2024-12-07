@@ -65,26 +65,27 @@ def print_intro():
                       "could never have imagined it. You try to feel around to get a sense of "
                       "where you could possibly be when your hand touches smooth cylindrical "
                       "object which suddenly lights up "
-                      "with a dim glow and you hear a voice in your head,"),
+                      "with a dim glow and you hear a voice in your head,", width=100),
         textwrap.fill(
             colourize('"Oh, thank god you\'re here, I don\'t even know how long-\n\nWait, '
                       'you\'re not a Time Weaver! How in spacetime did you get here?\n\nWell, '
                       'nothing for it, I guess. I\'m Spindle. Welcome to the heat death of the '
-                      'universe."', "magenta")),
+                      'universe."', "magenta"), width=100),
         textwrap.fill("You try to take this in.\n\nSpindle is made of a strange silvery material. "
                       "Maybe some sort of alien alloy. It's shape does sort of resemble a "
-                      "spindle, you suppose."),
+                      "spindle, you suppose.", width=100),
         textwrap.fill(
             colourize('"But now that you\'re here, we might just be able to get sometime else. I '
                       'don\'t know what happened to my Time Weaver, but certainly something '
                       'drastic to get me stuck out here without a source of bio-power. We have '
                       'to find them.\n\nI think you got what it takes to time travel. Here, '
                       'try this."',
-                      "magenta")),
+                      "magenta"), width=100),
         textwrap.fill("Spindle seems to do something to your brain and suddenly it\'s like you "
                       "can see another layer of reality overlaid on the physical world. All "
                       "around you you can see the fabric of spacetime itself, and radiating out "
-                      "from Spindle, strands of light in all the colours of the rainbow."),
+                      "from Spindle, strands of light in all the colours of the rainbow.",
+                      width=100),
         textwrap.fill(
             colourize('"These Strands will let you travel across wide gulfs in time. I can only '
                       'provide you with a few of each colour by myself, but if we can '
@@ -96,7 +97,7 @@ def print_intro():
                       'make small hops '
                       'freely within each time period, but  you will need to spend a Strand to '
                       'jump farther distances or between periods."',
-                      "magenta")),
+                      "magenta"), width=100),
         sep="\n\n",
         end="\n\n")
 
@@ -105,15 +106,18 @@ def print_combat_instructions():
     print(
         textwrap.fill(
             colourize('"Aha! A Tear! Whatever got the Time Weaver has definitely been here."',
-                      "magenta")),
+                      "magenta"), width=100
+        ),
         textwrap.fill("With you're spacetime sight you can se what looks like a dark hole in the "
-                      "fabric of reality"),
+                      "fabric of reality", width=100
+                      ),
         textwrap.fill(
             colourize('"You should be able to mend the Tear with your Strands, just be careful '
                       'they don\'t get knotted, or you\'ll lose one permanently until we can '
                       'find the Bobbin. If you can mend the Tear, I should be able to start '
                       'tracking it."',
-                      "magenta")),
+                      "magenta"), width=100
+        ),
         textwrap.fill(f"To mend a Tear, you need to put the tangled threads of spacetime back "
                       f"into rainbow order.\n\nThe Tear will have pattern of coloured threads "
                       f"represented "
@@ -127,7 +131,8 @@ def print_combat_instructions():
                       f"otherwise want to let a tread behave randomly.\n\nIt may take a few round "
                       f"to get all the threads in order, but each round comes with a chance your "
                       f"Strands will become knotted and if that happens or you play all your "
-                      f"threads, you'll love the fight.\n\n Give it a try."),
+                      f"threads, you'll love the fight.\n\n Give it a try.", width=100
+                      ),
         sep="\n\n",
         end="\n\n")
 
