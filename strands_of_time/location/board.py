@@ -12,7 +12,8 @@ from strands_of_time.utils import demonstrate_functions, colourize
 
 def create_game_board(columns: int,
                       rows: int,
-                      epoch_boundaries: list[int]) -> tuple[dict[tuple or str, dict or list[int]],
+                      epoch_boundaries: list[int]) -> tuple[dict[tuple or str,
+                                                            dict[str, str] or list[int]],
                                                             callable]:
     """
     Construct a 2D gameboard with locations laid out in a given numbers of rows and columns.
@@ -535,7 +536,7 @@ def print_map(board: dict, character: dict):
     for row in range(max_y + 1):
         if row == math.ceil(max_y / 2):
             print("PAST", end=" ")
-        else :
+        else:
             print("    ", end=" ")
 
         for column in range(max_x + 1):
@@ -556,7 +557,7 @@ def print_map(board: dict, character: dict):
         print("|", end=" ")
         if row == math.ceil(max_y / 2):
             print("FUTURE")
-        else :
+        else:
             print()
 
     print(f"      {chr(175) * board["epoch boundaries"][0] * 3} "
