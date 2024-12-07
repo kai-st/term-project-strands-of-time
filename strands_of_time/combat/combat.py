@@ -232,7 +232,8 @@ def handle_boss_combat(character):
     :return:
     """
     level_info = get_level_info(character["level"])
-    print(textwrap.fill(level_info["goal description"], width=100),
+    print(f"You found the {level_info["to find"]}!",
+          textwrap.fill(level_info["goal description"], width=100),
           textwrap.fill(f"As you approach the {level_info["to find"]}, the"
                         f" {level_info["boss"]} start to unravel the spacetime in front of you, "
                         f"opening a Tear larger than any you've seen yet. Can you mend it "
@@ -250,7 +251,7 @@ def handle_boss_combat(character):
             new_level_info = get_level_info(character["level"])
             print(colourize(f"Now that you have the {level_info["to find"]}, "
                             f"we should be able to track "
-                            f"down the {new_level_info["goal"]}.", "magenta"), end="\n\n")
+                            f"down the {new_level_info["to find"]}.", "magenta"), end="\n\n")
     else:
         character["level"] -= 1
         print(textwrap.fill(f"The {level_info["boss"]} escaped to a new time and location with "
