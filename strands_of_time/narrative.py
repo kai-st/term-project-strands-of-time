@@ -19,7 +19,7 @@ def get_level_info(level: int) -> dict:
                                  f" shapes.{colourize('\n\n"Ugh, moths, I should have known"',
                                                       "magenta")}"),
             "success": f"You pick up the Bobbin and to your surprise, it rises into the air to "
-                       f"hover over your left shoulder. It seems to resonate with your threads. "
+                       f"hover over your left shoulder. It seems to resonate with your Strands. "
                        f"You now have many more than you did even at the beginning",
         },
         2: {
@@ -43,8 +43,7 @@ def get_level_info(level: int) -> dict:
                                  f"look like layered wrappings of braided metals. The creature "
                                  f"looming over them, however, is not human at all. It appears "
                                  f"to be made of the same dark void that the moths were, "
-                                 f"but it's well over two meters tall\n\n"
-                                 f"{colourize('"Ugh, moths, I should have known"', "magenta")}"),
+                                 f"but it's well over two meters tall."),
             "success": (f"The freed Time Weaver offers you a slight bow."
                         f"\n\n{colourize('Thank you.I\'m not sure I would have been able to '
                                          'defeat that void crawler without my Spindle. Those things'
