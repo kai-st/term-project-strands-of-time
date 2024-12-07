@@ -94,12 +94,25 @@ def print_colour_sequence(enemy_sequence: list[int], combat_strands: dict) -> li
     return enemy_sequence_as_colours
 
 
-def build_next_enemy_sequence(prev_enemy_sequence, thread_sequence):
+def build_next_enemy_sequence(prev_enemy_sequence: list,
+                              thread_sequence: list[int]) -> list:
     """
+    Arrange the items from a given list into a new list sorted according to a given thread sequence.
 
-    :param prev_enemy_sequence:
-    :param thread_sequence:
-    :return:
+    For a thread sequence of -1's, 0's, and 1's, the items at the equivalent positions in the
+    previous sequence will stay in the same position on a 0, try to move right on a -1,
+    and try to move left on a 1.
+
+    :param prev_enemy_sequence: a list to be sorted according to thread_sequence
+    :param thread_sequence: a list of integers containing -1's, 0's, and 1's, representing whether
+    items in prev_enemy_sequence should move left, stay in the same position, or move right.
+    :precondition: prev_enemy_sequence is a list
+    :precondition: thread_sequence is a list
+    :precondition: thread_sequence contains only the integers
+    :precondition: thread_sequence and enemy sequence are the same length
+    :postcondition: arranges the items from prev_enemy_sequence into a new list sorted according
+    to a given thread sequence
+    :return: a new sorted list of the items in prev_enemy_sequence
 
     >>> build_next_enemy_sequence(prev_enemy_sequence=[1, 2, 3], thread_sequence=[0, 0, 0])
     [1, 2, 3]
