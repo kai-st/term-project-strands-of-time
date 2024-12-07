@@ -100,6 +100,13 @@ def build_next_enemy_sequence(prev_enemy_sequence, thread_sequence):
     :param prev_enemy_sequence:
     :param thread_sequence:
     :return:
+
+    >>> build_next_enemy_sequence(prev_enemy_sequence=[1, 2, 3], thread_sequence=[0, 0, 0])
+    [1, 2, 3]
+    >>> build_next_enemy_sequence(prev_enemy_sequence=[2, 1, 3], thread_sequence=[1, -1, 0])
+    [1, 2, 3]
+    >>> build_next_enemy_sequence(prev_enemy_sequence=[3, 2, 1], thread_sequence=[1, 0, -1])
+    [1, 2, 3]
     """
     next_enemy_sequence = []
     move_left = []
