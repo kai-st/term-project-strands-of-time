@@ -1,12 +1,11 @@
 from unittest import TestCase
 
-import strands_of_time.location.move
-from strands_of_time import game
+import move
 
 
 class TestValidateMove(TestCase):
 
-    def test_validate_move_cannot_move_north_from_top_row(self):
+    def test_validate_move_cannot_move_w_from_top_row(self):
         test_board = {(0, 0): "room description",
                       (0, 1): "room description",
                       (0, 2): "room description",
@@ -17,12 +16,12 @@ class TestValidateMove(TestCase):
                       (2, 1): "room description",
                       (2, 2): "room description"
                       }
-        test_character = {"X-coordinate": 1, "Y-coordinate": 0, "Current HP": 5}
-        actual = strands_of_time.location.move.validate_move(test_board, test_character, "north")
+        test_character = {"X-coordinate": 1, "Y-coordinate": 0}
+        actual = move.validate_move(test_board, test_character, "w")
         expected = False
         self.assertEqual(expected, actual)
 
-    def test_validate_move_cannot_move_south_from_bottom_row(self):
+    def test_validate_move_cannot_move_s_from_bottom_row(self):
         test_board = {(0, 0): "room description",
                       (0, 1): "room description",
                       (0, 2): "room description",
@@ -33,12 +32,12 @@ class TestValidateMove(TestCase):
                       (2, 1): "room description",
                       (2, 2): "room description"
                       }
-        test_character = {"X-coordinate": 0, "Y-coordinate": 2, "Current HP": 5}
-        actual = strands_of_time.location.move.validate_move(test_board, test_character, "south")
+        test_character = {"X-coordinate": 0, "Y-coordinate": 2}
+        actual = move.validate_move(test_board, test_character, "s")
         expected = False
         self.assertEqual(expected, actual)
 
-    def test_validate_move_cannot_move_west_from_left_column(self):
+    def test_validate_move_cannot_move_a_from_left_column(self):
         test_board = {(0, 0): "room description",
                       (0, 1): "room description",
                       (0, 2): "room description",
@@ -49,12 +48,12 @@ class TestValidateMove(TestCase):
                       (2, 1): "room description",
                       (2, 2): "room description"
                       }
-        test_character = {"X-coordinate": 0, "Y-coordinate": 1, "Current HP": 5}
-        actual = strands_of_time.location.move.validate_move(test_board, test_character, "west")
+        test_character = {"X-coordinate": 0, "Y-coordinate": 1}
+        actual = move.validate_move(test_board, test_character, "a")
         expected = False
         self.assertEqual(expected, actual)
 
-    def test_validate_move_cannot_move_east_from_right_column(self):
+    def test_validate_move_cannot_move_d_from_right_column(self):
         test_board = {(0, 0): "room description",
                       (0, 1): "room description",
                       (0, 2): "room description",
@@ -65,12 +64,12 @@ class TestValidateMove(TestCase):
                       (2, 1): "room description",
                       (2, 2): "room description"
                       }
-        test_character = {"X-coordinate": 2, "Y-coordinate": 1, "Current HP": 5}
-        actual = strands_of_time.location.move.validate_move(test_board, test_character, "east")
+        test_character = {"X-coordinate": 2, "Y-coordinate": 1}
+        actual = move.validate_move(test_board, test_character, "d")
         expected = False
         self.assertEqual(expected, actual)
 
-    def test_validate_move_can_move_south_from_top_row(self):
+    def test_validate_move_can_move_s_from_top_row(self):
         test_board = {(0, 0): "room description",
                       (0, 1): "room description",
                       (0, 2): "room description",
@@ -81,12 +80,12 @@ class TestValidateMove(TestCase):
                       (2, 1): "room description",
                       (2, 2): "room description"
                       }
-        test_character = {"X-coordinate": 1, "Y-coordinate": 0, "Current HP": 5}
-        actual = strands_of_time.location.move.validate_move(test_board, test_character, "south")
+        test_character = {"X-coordinate": 1, "Y-coordinate": 0}
+        actual = move.validate_move(test_board, test_character, "s")
         expected = True
         self.assertEqual(expected, actual)
 
-    def test_validate_move_can_move_north_from_bottom_row(self):
+    def test_validate_move_can_move_w_from_bottom_row(self):
         test_board = {(0, 0): "room description",
                       (0, 1): "room description",
                       (0, 2): "room description",
@@ -97,12 +96,12 @@ class TestValidateMove(TestCase):
                       (2, 1): "room description",
                       (2, 2): "room description"
                       }
-        test_character = {"X-coordinate": 0, "Y-coordinate": 2, "Current HP": 5}
-        actual = strands_of_time.location.move.validate_move(test_board, test_character, "north")
+        test_character = {"X-coordinate": 0, "Y-coordinate": 2}
+        actual = move.validate_move(test_board, test_character, "w")
         expected = True
         self.assertEqual(expected, actual)
 
-    def test_validate_move_can_move_east_from_left_column(self):
+    def test_validate_move_can_move_d_from_left_column(self):
         test_board = {(0, 0): "room description",
                       (0, 1): "room description",
                       (0, 2): "room description",
@@ -113,12 +112,12 @@ class TestValidateMove(TestCase):
                       (2, 1): "room description",
                       (2, 2): "room description"
                       }
-        test_character = {"X-coordinate": 0, "Y-coordinate": 1, "Current HP": 5}
-        actual = strands_of_time.location.move.validate_move(test_board, test_character, "east")
+        test_character = {"X-coordinate": 0, "Y-coordinate": 1}
+        actual = move.validate_move(test_board, test_character, "d")
         expected = True
         self.assertEqual(expected, actual)
 
-    def test_validate_move_can_move_west_from_right_column(self):
+    def test_validate_move_can_move_a_from_right_column(self):
         test_board = {(0, 0): "room description",
                       (0, 1): "room description",
                       (0, 2): "room description",
@@ -129,12 +128,12 @@ class TestValidateMove(TestCase):
                       (2, 1): "room description",
                       (2, 2): "room description"
                       }
-        test_character = {"X-coordinate": 2, "Y-coordinate": 1, "Current HP": 5}
-        actual = strands_of_time.location.move.validate_move(test_board, test_character, "west")
+        test_character = {"X-coordinate": 2, "Y-coordinate": 1}
+        actual = move.validate_move(test_board, test_character, "a")
         expected = True
         self.assertEqual(expected, actual)
 
-    def test_validate_move_can_move_south_from_center(self):
+    def test_validate_move_can_move_s_from_center(self):
         test_board = {(0, 0): "room description",
                       (0, 1): "room description",
                       (0, 2): "room description",
@@ -145,12 +144,12 @@ class TestValidateMove(TestCase):
                       (2, 1): "room description",
                       (2, 2): "room description"
                       }
-        test_character = {"X-coordinate": 1, "Y-coordinate": 1, "Current HP": 5}
-        actual = strands_of_time.location.move.validate_move(test_board, test_character, "south")
+        test_character = {"X-coordinate": 1, "Y-coordinate": 1}
+        actual = move.validate_move(test_board, test_character, "s")
         expected = True
         self.assertEqual(expected, actual)
 
-    def test_validate_move_can_move_north_from_center(self):
+    def test_validate_move_can_move_w_from_center(self):
         test_board = {(0, 0): "room description",
                       (0, 1): "room description",
                       (0, 2): "room description",
@@ -161,12 +160,12 @@ class TestValidateMove(TestCase):
                       (2, 1): "room description",
                       (2, 2): "room description"
                       }
-        test_character = {"X-coordinate": 1, "Y-coordinate": 1, "Current HP": 5}
-        actual = strands_of_time.location.move.validate_move(test_board, test_character, "north")
+        test_character = {"X-coordinate": 1, "Y-coordinate": 1}
+        actual = move.validate_move(test_board, test_character, "w")
         expected = True
         self.assertEqual(expected, actual)
 
-    def test_validate_move_can_move_east_from_center(self):
+    def test_validate_move_can_move_d_from_center(self):
         test_board = {(0, 0): "room description",
                       (0, 1): "room description",
                       (0, 2): "room description",
@@ -177,12 +176,12 @@ class TestValidateMove(TestCase):
                       (2, 1): "room description",
                       (2, 2): "room description"
                       }
-        test_character = {"X-coordinate": 1, "Y-coordinate": 1, "Current HP": 5}
-        actual = strands_of_time.location.move.validate_move(test_board, test_character, "east")
+        test_character = {"X-coordinate": 1, "Y-coordinate": 1}
+        actual = move.validate_move(test_board, test_character, "d")
         expected = True
         self.assertEqual(expected, actual)
 
-    def test_validate_move_can_move_west_from_center(self):
+    def test_validate_move_can_move_a_from_center(self):
         test_board = {(0, 0): "room description",
                       (0, 1): "room description",
                       (0, 2): "room description",
@@ -193,8 +192,8 @@ class TestValidateMove(TestCase):
                       (2, 1): "room description",
                       (2, 2): "room description"
                       }
-        test_character = {"X-coordinate": 1, "Y-coordinate": 1, "Current HP": 5}
-        actual = strands_of_time.location.move.validate_move(test_board, test_character, "west")
+        test_character = {"X-coordinate": 1, "Y-coordinate": 1}
+        actual = move.validate_move(test_board, test_character, "a")
         expected = True
         self.assertEqual(expected, actual)
 
@@ -209,8 +208,8 @@ class TestValidateMove(TestCase):
                       (2, 1): "room description",
                       (2, 2): "room description"
                       }
-        test_character = {"X-coordinate": 1, "Y-coordinate": 1, "Current HP": 5}
-        strands_of_time.location.move.validate_move(test_board, test_character, "west")
+        test_character = {"X-coordinate": 1, "Y-coordinate": 1}
+        move.validate_move(test_board, test_character, "a")
         actual = test_character["X-coordinate"]
         expected = 1
         self.assertEqual(expected, actual)
@@ -226,8 +225,8 @@ class TestValidateMove(TestCase):
                       (2, 1): "room description",
                       (2, 2): "room description"
                       }
-        test_character = {"X-coordinate": 1, "Y-coordinate": 1, "Current HP": 5}
-        strands_of_time.location.move.validate_move(test_board, test_character, "north")
+        test_character = {"X-coordinate": 1, "Y-coordinate": 1}
+        move.validate_move(test_board, test_character, "w")
         actual = test_character["Y-coordinate"]
         expected = 1
         self.assertEqual(expected, actual)
