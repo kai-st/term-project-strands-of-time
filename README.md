@@ -23,7 +23,7 @@ kai-st
 | exception handling                      | location/board.py                | 385      |
 | minimised scope                         | character/character.py           | 81       |
 | atomic, independent, reusable functions | strands_of_time/utils.py         | 6        |
-| flat code                               |                                  |          |
+| flat code                               | location/move.py                 | 264      |
 | comprehensions                          | character/character.py           | 190      |
 | selection using if-statements           | location/board.py                | 291, 294 |
 | repetition with for/while loop          | location/board.py                | 535      |
