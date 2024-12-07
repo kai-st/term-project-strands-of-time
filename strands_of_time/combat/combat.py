@@ -30,8 +30,8 @@ def check_for_foes():
     return percentage_chance_result(35)
 
 
-def handle_player_response(enemy_sequence: list[int], colour_sequence: list[str], combat_strands:
-dict) -> list:
+def handle_player_response(enemy_sequence: list[int], colour_sequence: list[str],
+                           combat_strands: dict) -> list:
     """
     
     :param enemy_sequence: 
@@ -106,28 +106,33 @@ def build_next_enemy_sequence(prev_enemy_sequence, thread_sequence):
     move_right = []
     index = 0
     first_left = 0
-    while index < len(prev_enemy_sequence):
-        if len(move_left) == 0 and len(move_right) == 0 and -1 in thread_sequence[first_left:]:
+    for player_thread, prev_enemy_thread in zip(thread_sequence, prev_enemy_sequence):
+        if not move_left and not move_right and -1 in thread_sequence[first_left:]:
             first_left = thread_sequence.index(-1, index)
-            while first_left < len(thread_sequence):
-                if thread_sequence[first_left] != -1:
-                    break
+            while first_left < len(thread_sequence) and thread_sequence[first_left] == -1:
                 move_left.append(prev_enemy_sequence[first_left])
                 first_left += 1
 
-        if thread_sequence[index] == 0:
-            next_enemy_sequence.append(prev_enemy_sequence[index])
-        elif thread_sequence[index] == 1:
-            move_right.append(prev_enemy_sequence[index])
-        if thread_sequence[index] != 0:
-            if len(move_left) == 0:
-                temp = move_right.pop(0)
-                next_enemy_sequence.append(temp)
-            else:
-                temp = move_left.pop(0)
-                next_enemy_sequence.append(temp)
+        if player_thread == 0:
+            next_enemy_sequence.append(prev_enemy_thread)
+        else:
+            if player_thread == 1:
+                move_right.append(prev_enemy_thread)
 
-        index += 1
+            try:
+                next_left_moving_thread = move_left.pop(0)
+            except IndexError:
+                try:
+                    next_right_moving_thread = move_right.pop(0)
+                except IndexError:
+                    raise ValueError(f"No thread in movement lists for player thread"
+                                     f" {player_thread}, enemy "
+                                     f"thread{prev_enemy_thread}")
+                else:
+                    next_enemy_sequence.append(next_right_moving_thread)
+            else:
+                next_enemy_sequence.append(next_left_moving_thread)
+
     return next_enemy_sequence
 
 
@@ -157,7 +162,16 @@ def combat(character: dict) -> bool:
     strands_knotted = False
     while not strands_knotted and has_strands({"Strands": combat_strands}):
         thread_sequence = handle_player_response(enemy_sequence, colour_sequence, combat_strands)
-        enemy_sequence = build_next_enemy_sequence(enemy_sequence, thread_sequence)
+
+        has_sequence_error = True
+        while has_sequence_error:
+            try:
+                enemy_sequence = build_next_enemy_sequence(enemy_sequence, thread_sequence)
+            except ValueError:
+                thread_sequence = handle_player_response(enemy_sequence, colour_sequence,
+                                                         combat_strands)
+            else:
+                has_sequence_error = False
 
         colour_sequence = print_colour_sequence(enemy_sequence, combat_strands)
 
@@ -195,27 +209,24 @@ def handle_boss_combat(character):
     :return:
     """
     level_info = get_level_info(character["level"])
-    print(textwrap.fill(level_info["goal description"]), textwrap.fill(f"As you approach the"
-                                                      f" {level_info["to find"]}, the"
-                                           f" {level_info["boss"]} start to "
-                                           f"unravel the spacetime in "
-                                           f"front of you, "
-                                           f"opening a hole "
-                                           f"larger than any you've seen yet. Can you mend it "
-                                           f"fast enough to get to the"
-                                           f"{level_info["to find"]}?"), end="\n\n", sep="\n\n")
+    print(textwrap.fill(level_info["goal description"]),
+          textwrap.fill(f"As you approach the {level_info["to find"]}, the"
+                        f" {level_info["boss"]} start to unravel the spacetime in front of you, "
+                        f"opening a Tear larger than any you've seen yet. Can you mend it "
+                        f"fast enough to get to the {level_info["to find"]}?"),
+          end="\n\n", sep="\n\n")
     character["level"] += 1
     if combat(character):
         for colour in character["Strands"]:
             character["Strands"][colour] = 5 * character["level"]
         print(f"You have driven away the {level_info["boss"]} and liberated "
               f"the {level_info["to find"]}.", textwrap.fill(level_info["success"]), end="\n\n",
-                                                                                      sep="\n\n" )
+              sep="\n\n")
         if character["level"] < 4:
             new_level_info = get_level_info(character["level"])
             print(colourize(f"Now that you have the {level_info["to find"]}, "
                             f"we should be able to track "
-                  f"down the {new_level_info["goal"]}.", "magenta"), end="\n\n")
+                            f"down the {new_level_info["goal"]}.", "magenta"), end="\n\n")
     else:
         character["level"] -= 1
         print(f"The {level_info["boss"]} escaped to a new time and location with "
