@@ -169,17 +169,16 @@ def combat(character: dict) -> bool:
     """
     enemy_size_by_level = {
         1: 0,
-        2: 2,
-        3: 4,
-        4: 6
+        2: 1,
+        3: 2,
+        4: 3
     }
 
     combat_strands = deepcopy(character["Strands"])
 
-    enemy_sequence = random.sample(list(range(len(RAINBOW_ORDER))),
-                                   k=len(RAINBOW_ORDER)) + random.choices(range(len(RAINBOW_ORDER)),
-                                                                          k=enemy_size_by_level[
-                                                                              character["level"]])
+    enemy_sequence = (random.sample(list(range(len(RAINBOW_ORDER))), k=3)
+                      + random.choices(range(len(RAINBOW_ORDER)),
+                                       k=enemy_size_by_level[character["level"]]))
 
     colour_sequence = print_colour_sequence(enemy_sequence, combat_strands)
     strands_knotted = False
