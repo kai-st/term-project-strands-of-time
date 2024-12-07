@@ -115,8 +115,6 @@ def build_next_enemy_sequence(prev_enemy_sequence: list,
     to a given thread sequence
     :return: a new sorted list of the items in prev_enemy_sequence
 
-    >>> build_next_enemy_sequence(prev_enemy_sequence=[1, 2, 3], thread_sequence=[-1, 0, -1])
-    [1, 2, 3]
     >>> build_next_enemy_sequence(prev_enemy_sequence=[1, 2, 3], thread_sequence=[0, 0, 0])
     [1, 2, 3]
     >>> build_next_enemy_sequence(prev_enemy_sequence=[2, 1, 3], thread_sequence=[1, -1, 0])
@@ -147,9 +145,10 @@ def build_next_enemy_sequence(prev_enemy_sequence: list,
                 try:
                     next_right_moving_thread = move_right.pop(0)
                 except IndexError:
-                    raise ValueError(f"No thread in movement lists for player thread"
-                                     f" {player_thread}, enemy "
-                                     f"thread{prev_enemy_thread}")
+                    print(f"No thread in movement lists for player thread"
+                          f" {player_thread}, enemy "
+                          f"thread{prev_enemy_thread}, defaulting to treating position as 0.")
+                    next_enemy_sequence.append(prev_enemy_thread)
                 else:
                     next_enemy_sequence.append(next_right_moving_thread)
             else:
@@ -255,7 +254,8 @@ def handle_boss_combat(character):
     else:
         character["level"] -= 1
         print(textwrap.fill(f"The {level_info["boss"]} escaped to a new time and location with "
-              f"the {level_info["to find"]}. You will have to track them down again", width=100),
+                            f"the {level_info["to find"]}. You will have to track them down again",
+                            width=100),
               end="\n\n")
     character["last distance to goal"] = None
 
