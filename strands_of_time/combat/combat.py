@@ -3,7 +3,7 @@ import textwrap
 from copy import deepcopy
 
 from strands_of_time import RAINBOW_ORDER
-from strands_of_time.character.character import print_strands, has_strands, remove_random_strand, \
+from strands_of_time.character.character import print_strands, remove_random_strand, \
     create_character, has_all_colours_strands
 from strands_of_time.location.board import check_for_restore, update_distance_to_level_goal, \
     create_game_board, set_level_goal
