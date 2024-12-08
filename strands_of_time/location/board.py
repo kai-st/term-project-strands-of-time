@@ -590,7 +590,7 @@ def check_for_restore(board: dict, character: dict):
     print("Spindle vibrates in your hand.",
           colourize('"Aha! A light spring!"', "magenta"),
           f"Your {colour_given} Strands seem to be pulsating here. You gain a new "
-          f"{colour_given} Strand.", sep="\n", end="\n\n")
+          f"{colour_given} Strand.", sep="\n\n", end="\n\n")
 
     board[current_location]["revealed"] = True
 
@@ -618,7 +618,7 @@ def update_distance_to_level_goal(board: dict, character: dict):
             temperature = "getting closer"
         elif distance_to_level_goal > character["last distance to goal"]:
             temperature = "getting farther away"
-        print(colourize(f"From my calculations, it seems like we're {temperature}.",
+        print(colourize(f'"From my calculations, it seems like we\'re {temperature}."',
                         "magenta"), end="\n\n")
 
     character["last distance to goal"] = distance_to_level_goal
