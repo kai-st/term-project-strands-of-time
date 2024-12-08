@@ -4,7 +4,7 @@ from copy import deepcopy
 
 from strands_of_time import RAINBOW_ORDER
 from strands_of_time.character.character import print_strands, has_strands, remove_random_strand, \
-    create_character
+    create_character, has_all_colours_strands
 from strands_of_time.location.board import check_for_restore, update_distance_to_level_goal, \
     create_game_board, set_level_goal
 from strands_of_time.narrative import get_level_info
@@ -187,7 +187,7 @@ def combat(character: dict) -> bool:
 
     colour_sequence = print_colour_sequence(enemy_sequence, combat_strands)
     strands_knotted = False
-    while not strands_knotted and has_strands({"Strands": combat_strands}):
+    while not strands_knotted and has_all_colours_strands({"Strands": combat_strands}):
         thread_sequence = handle_player_response(enemy_sequence, colour_sequence, combat_strands)
 
         has_sequence_error = True
