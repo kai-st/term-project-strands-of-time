@@ -268,7 +268,7 @@ def check_move_format(player_input: str) -> bool:
     if jump_length != 2 and jump_length != 4:
         return False
 
-    if not jump_sequence[0].isdigit() or not jump_sequence[1] in wasd[2:4]:
+    if not jump_sequence[0].isdigit() or not jump_sequence[1] in wasd:
         return False
 
     if jump_length == 4 and (not jump_sequence[2].isdigit() or not jump_sequence[3] in wasd[:2]):
