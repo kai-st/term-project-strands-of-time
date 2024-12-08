@@ -89,7 +89,7 @@ def demonstrate_functions(functions: list[tuple[callable, list]]):
                 pprint(argument)
             else:
                 print(f"{argument}", end=", ")
-        if not isinstance(arguments[-1], dict):
+        if arguments and not isinstance(arguments[-1], dict):
             print()
         print("Result:", end=" ")
         result = function(*arguments)
