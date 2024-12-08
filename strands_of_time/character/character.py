@@ -58,6 +58,10 @@ def has_strands(character: dict) -> bool:
     >>> character_with_strands = create_character(3)
     >>> has_strands(character_with_strands)
     True
+    >>> character_without_Red_strands = create_character(1)
+    >>> character_without_Red_strands["Strands"]["Red"] = 0
+    >>> has_strands(character_without_Red_strands)
+    True
     >>> character_without_strands = create_character(0)
     >>> has_strands(character_without_strands)
     False
@@ -76,6 +80,90 @@ def has_strands(character: dict) -> bool:
             raise TypeError("character['Strands'] must have number values")
 
     return max(list(character["Strands"].values())) > 0
+
+
+def has_all_colours_strands(character: dict) -> bool:
+    """
+    Determine if the character has at least one of each colour Strands remaining.
+
+    :param character: a well-formed character dictionary
+    :precondition: character must be a dictionary with a "Strands" key that is a dictionary with
+    number values
+    :postcondition: determines as a Boolean if character has all Strand colours greater
+    than 0
+    :return: a boolean that is True if character has all Strand colours greater
+    than 0
+    :raises KeyError: if character does not have a "Strands" key
+    :raises TypeError: if character is not a dictionary
+    :raises TypeError: if "Strands" is not a dictionary
+    :raises TypeError: if values in "Strands" are not ints or floats
+
+    >>> character_with_strands = create_character(3)
+    >>> has_all_colours_strands(character_with_strands)
+    True
+    >>> character_without_Red_strands = create_character(3)
+    >>> character_without_Red_strands["Strands"]["Red"] = 0
+    >>> has_all_colours_strands(character_without_Red_strands)
+    False
+    >>> character_without_strands = create_character(0)
+    >>> has_all_colours_strands(character_without_strands)
+    False
+    """
+    if not isinstance(character, dict):
+        raise TypeError("character must be an dictionary")
+
+    if "Strands" not in character:
+        raise KeyError("character must have 'Strands' key")
+
+    if not isinstance(character["Strands"], dict):
+        raise TypeError("character['Strands'] must be an dictionary")
+
+    for value in character["Strands"].values():
+        if not (isinstance(value, int) or isinstance(value, float)):
+            raise TypeError("character['Strands'] must have number values")
+
+    return 0 not in character["Strands"].values()
+
+
+def find_colours_with_0_strands(character: dict) -> list[str]:
+    """
+    Find any colours for which the character has 0 Strands remaining.
+
+    :param character: a well-formed character dictionary
+    :precondition: character must be a dictionary with a "Strands" key that is a dictionary with
+    number values
+    :postcondition: creates a list of any colours for which character has 0 Strands remaining
+    :return: a possibly empty list of Strand colours for which the character has 0 Strands remaining
+    :raises KeyError: if character does not have a "Strands" key
+    :raises TypeError: if character is not a dictionary
+    :raises TypeError: if "Strands" is not a dictionary
+    :raises TypeError: if values in "Strands" are not ints or floats
+
+    >>> character_with_strands = create_character(3)
+    >>> find_colours_with_0_strands(character_with_strands)
+    []
+    >>> character_without_Red_strands = create_character(3)
+    >>> character_without_Red_strands["Strands"]["Red"] = 0
+    >>> find_colours_with_0_strands(character_without_Red_strands)
+    ['Red']
+    >>> character_without_strands = create_character(0)
+    >>> find_colours_with_0_strands(character_without_strands)
+    ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Violet']
+    """
+    if not isinstance(character, dict):
+        raise TypeError("character must be an dictionary")
+
+    if "Strands" not in character:
+        raise KeyError("character must have 'Strands' key")
+
+    if not isinstance(character["Strands"], dict):
+        raise TypeError("character['Strands'] must be an dictionary")
+
+    for value in character["Strands"].values():
+        if not (isinstance(value, int) or isinstance(value, float)):
+            raise TypeError("character['Strands'] must have number values")
+
+    return [colour for colour, number in character["Strands"].items() if number < 1]
 
 
 def print_strands(character: dict):

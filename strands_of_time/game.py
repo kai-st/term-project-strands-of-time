@@ -2,8 +2,8 @@
 Kai Steingarten
 A01435070
 """
-from strands_of_time.character.character import print_strands, create_character, has_strands, \
-    get_character_location_as_tuple
+from strands_of_time.character.character import print_strands, create_character, \
+    get_character_location_as_tuple, has_all_colours_strands, find_colours_with_0_strands
 from strands_of_time.combat.combat import handle_regular_combat, check_for_foes, handle_boss_combat
 from strands_of_time.location.board import print_current_epoch, print_map, create_game_board, \
     set_starting_location, describe_current_location, set_level_goal, check_for_restore
@@ -36,7 +36,7 @@ def game():
     rows = 3
     columns = 9
     epoch_boundaries = [3, 6]
-    initial_number_of_strands = 6
+    initial_number_of_strands = 5
     board, get_random_locations = create_game_board(columns, rows, epoch_boundaries)
 
     print_intro()
@@ -51,11 +51,11 @@ def game():
     print_combat_instructions()
     handle_regular_combat(board, character)
 
-    while has_strands(character) and character["level"] <= 3:
+    while has_all_colours_strands(character) and character["level"] <= 3:
         set_level_goal(board, character, get_random_locations)
         show_game_state(board, character)
 
-        while has_strands(character):
+        while has_all_colours_strands(character):
             handle_movement(board, character)
             # Tell the user where they are
             describe_current_location(board, character)
@@ -77,7 +77,8 @@ def game():
         print("Congratulation, you win!")
     else:
         show_game_state(board, character)
-        print("You ran out of strands and are now trapped in time.", end="\n\n")
+        print(f"You ran out of {find_colours_with_0_strands(character)[0]} strands.", ("Spindle's "
+              "glow fades and you are now trapped in time."), sep="\n\n", end="\n\n")
         print("Game Over")
 
 
