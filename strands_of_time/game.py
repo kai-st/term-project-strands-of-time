@@ -53,6 +53,7 @@ def game():
 
     while has_strands(character) and character["level"] <= 3:
         set_level_goal(board, character, get_random_locations)
+        show_game_state(board, character)
 
         while has_strands(character):
             handle_movement(board, character)
@@ -65,6 +66,7 @@ def game():
                 there_is_a_challenger = check_for_foes()
                 if there_is_a_challenger:
                     handle_regular_combat(board, character)
+                    show_game_state(board, character)
                 else:
                     check_for_restore(board, character)
             else:
