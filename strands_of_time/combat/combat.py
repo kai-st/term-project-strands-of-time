@@ -64,9 +64,14 @@ def handle_player_response(enemy_sequence: list[int], colour_sequence: list[str]
     thread_sequence = []
     thread_options = {-1: "/", 0: "|", 1: "\\"}
     for player_number, enemy_number in zip(player_sequence, enemy_sequence):
-        if (player_number == -1
+        player_has_strand = combat_strands[RAINBOW_ORDER[player_number]] >= 1
+        if player_has_strand and enemy_number == 5 and player_number == 0:
+            thread_sequence.append(1)
+        elif player_has_strand and enemy_number == 0 and player_number == 5:
+            thread_sequence.append(-1)
+        elif (player_number == -1
                 or player_number - enemy_number not in thread_options
-                or combat_strands[RAINBOW_ORDER[player_number]] < 1):
+                or not player_has_strand):
             thread_sequence.append(random.choice(list(thread_options.keys())))
         else:
             thread_sequence.append(player_number - enemy_number)
@@ -215,6 +220,7 @@ def handle_regular_combat(board, character):
     :param character:
     :return:
     """
+    print(colourize('"Look, a Tear!"', "magenta"), end="\n\n")
     if combat(character):
         print("You have successfully mended the fabric of spacetime!", end="\n\n")
         update_distance_to_level_goal(board, character)
@@ -243,14 +249,14 @@ def handle_boss_combat(character):
         for colour in character["Strands"]:
             character["Strands"][colour] = 5 * character["level"]
         print(f"You have driven away the {level_info["boss"]} and liberated "
-              f"the {level_info["to find"]}.", textwrap.fill(level_info["success"], width=100),
+              f"the {level_info["to find"]}!", textwrap.fill(level_info["success"], width=100),
               end="\n\n",
               sep="\n\n")
         if character["level"] < 4:
             new_level_info = get_level_info(character["level"])
-            print(colourize(f"Now that you have the {level_info["to find"]}, "
-                            f"we should be able to track "
-                            f"down the {new_level_info["to find"]}.", "magenta"), end="\n\n")
+            print(colourize(f'"Now that you have the {level_info["to find"]}, '
+                            f'we should be able to track '
+                            f'down the {new_level_info["to find"]}!"', "magenta"), end="\n\n")
     else:
         character["level"] -= 1
         print(textwrap.fill(f"The {level_info["boss"]} escaped to a new time and location with "
