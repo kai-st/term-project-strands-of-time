@@ -131,11 +131,12 @@ def print_combat_instructions():
                       f"thread will keep it in the same place for the next round while playing "
                       f"the colour immediately before it in rainbow order will pull it to the "
                       f"left and playing the colour immediately after it will pull it to the "
-                      f"right. You can also play a 0 if you want to let a tread behave "
+                      f"right. Reds and Violets will pull each other towards the outsides. You "
+                      f"can also play a 0 if you want to let a tread behave "
                       f"randomly.\n\nIt may take a few rounds "
                       f"to get all the threads in order, but each round comes with a chance your "
                       f"Strands will become knotted, and if that happens, or you play all your "
-                      f"threads, you'll love the fight.\n\n Give it a try.", width=100
+                      f"threads of any colour, you'll lose the fight.\n\n Give it a try.", width=100
                       ),
         sep="\n\n",
         end="\n\n")
