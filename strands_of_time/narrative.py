@@ -1,6 +1,6 @@
 import textwrap
 
-from strands_of_time.utils import colourize
+from strands_of_time.utils import colourize, demonstrate_functions
 
 
 def get_level_info(level: int) -> dict:
@@ -25,13 +25,14 @@ def get_level_info(level: int) -> dict:
         2: {
             "to find": "Loom",
             "boss": "moths",
-            "goal description": (f"Here you see what look like nothing so much as a pair of "
-                                 f"shiny bracers.\n\n"
+            "goal description": (f"Here you see what look like nothing so much as a shiny pair of "
+                                 f"vambraces.\n\n"
                                  f"{colourize('"Yes, that\'s the Loom. It\'s metaphorical."',
                                               "magenta")}\n\nAn even large swarm of moths "
                                  f"surround the Loom than were drawn to the Bobbin"),
             "success": f"You pick the Loom up and it does seem to function very much like a pair "
-                       f"of bracers. At least until you get them on. Then you see why it's called "
+                       f"of vambraces. At least until you get them on. Then you see why it's "
+                       f"called "
                        f"the Loom as your Strands seem to fan out in front of you, multiplied "
                        f"again into a dazzling array.",
         },
@@ -39,20 +40,21 @@ def get_level_info(level: int) -> dict:
             "to find": "Time Weaver",
             "boss": "void creature",
             "goal description": (f"Here you finally find the Time Weaver. They look remarkably "
-                                 f"human, if taller and thinner than most, and dressed in what "
+                                 f"human, if taller and thinner than most, and dressed in "
+                                 f"what "
                                  f"look like layered wrappings of braided metals. The creature "
                                  f"looming over them, however, is not human at all. It appears "
                                  f"to be made of the same dark void that the moths were, "
                                  f"but it's well over two meters tall."),
-            "success": (f"The freed Time Weaver offers you a slight bow."
-                        f"\n\n{colourize('Thank you.I\'m not sure I would have been able to '
+            "success": (f'The freed Time Weaver offers you a slight bow.'
+                        f'\n\n{colourize('"Thank you.I\'m not sure I would have been able to '
                                          'defeat that void crawler without my Spindle. Those things'
-                                         ' think spacetime is a tasty snack.', "aqua")}"
-                        f"\n\nThey take Spindle from your hand and your rainbow of "
-                        f"Strands fades away.\n\n"
-                        f"{colourize('Come now, I will return you to your time.\n\nUnless'
+                                         ' think spacetime is a tasty snack."', "aqua")}'
+                        f'\n\nThey take Spindle from your hand and your rainbow of '
+                        f'Strands fades away.\n\n'
+                        f'{colourize('"Come now, I will return you to your time.\n\nUnless'
                                      ' you would rather join us? You seem to have the makings of '
-                                     'a Time Weaver...', "aqua")}"),
+                                     'a Time Weaver..."', "aqua")}'),
         },
     }
     return level_info[level]
@@ -95,7 +97,8 @@ def print_intro():
                       'periods. Your guess is as good as mine where to start. You\'ll be able to '
                       'make small hops '
                       'freely within each time period, but you will need to spend a Strand to '
-                      'jump farther distances or between periods."',
+                      'jump farther distances or between periods. Just remember you need at least '
+                      'one Strand of each colour to keep me powered on."',
                       "magenta"), width=100),
         sep="\n\n",
         end="\n\n")
@@ -140,9 +143,16 @@ def print_combat_instructions():
 
 def main():
     """
-    Draive the program.
+    Drive the program.
     """
-    pass
+    demonstrate_functions([
+        (print_intro, []),
+        (print_combat_instructions, []),
+        (get_level_info, [1]),
+        (get_level_info, [2]),
+        (get_level_info, [3]),
+    ]
+    )
 
 
 if __name__ == '__main__':
