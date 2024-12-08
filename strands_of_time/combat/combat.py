@@ -174,14 +174,14 @@ def combat(character: dict) -> bool:
     """
     enemy_size_by_level = {
         1: 0,
-        2: 1,
-        3: 2,
-        4: 3
+        2: 2,
+        3: 4,
+        4: 6
     }
 
     combat_strands = deepcopy(character["Strands"])
 
-    enemy_sequence = (random.sample(list(range(len(RAINBOW_ORDER))), k=3)
+    enemy_sequence = (random.sample(list(range(len(RAINBOW_ORDER))), k=len(RAINBOW_ORDER))
                       + random.choices(range(len(RAINBOW_ORDER)),
                                        k=enemy_size_by_level[character["level"]]))
 
@@ -270,7 +270,7 @@ def main():
     """
     Drive the program
     """
-    chosen_level = input("enter a level 1-3 to run a combat for, or q to quit: ")
+    chosen_level = input("Enter a level 1-3 to run a combat for, or q to quit: ")
     while chosen_level.casefold() != "q":
         level_error = True
         level = 1
@@ -281,11 +281,11 @@ def main():
                 if chosen_level == "q":
                     return
                 print("level must be an integer greater than 0")
-                chosen_level = input("enter a level 1-3 to run a combat for, or q to quit: ")
+                chosen_level = input("Enter a level 1-3 to run a combat for, or q to quit: ")
             else:
                 if level < 1:
                     print("level must be greater than 0")
-                    chosen_level = input("enter a level 1-3 to run a combat for, or q to quit: ")
+                    chosen_level = input("Enter a level 1-3 to run a combat for, or q to quit: ")
                 else:
                     level_error = False
 
