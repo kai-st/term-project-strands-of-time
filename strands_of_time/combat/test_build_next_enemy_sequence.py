@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 
-import combat
+from strands_of_time.combat import combat
 
 
 class TestBuildNextEnemySequence(TestCase):

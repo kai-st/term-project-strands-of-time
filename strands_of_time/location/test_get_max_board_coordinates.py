@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 
-import board
+from strands_of_time.location import board
 
 
 class TestGetMaxBoardCoordinates(TestCase):

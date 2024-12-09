@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import move
+from strands_of_time.location import move
 
 
 class TestValidateMove(TestCase):

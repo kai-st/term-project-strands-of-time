@@ -1,7 +1,6 @@
 from unittest import TestCase
 
 
-import game
 import strands_of_time.utils
 
 

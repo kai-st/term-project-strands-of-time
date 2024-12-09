@@ -3,7 +3,7 @@ from unittest import TestCase
 from unittest.mock import patch
 
 
-import character
+from strands_of_time.character import character
 
 
 class TestPrintStrands(TestCase):

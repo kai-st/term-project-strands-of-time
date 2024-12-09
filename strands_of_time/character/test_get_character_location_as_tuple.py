@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-import character
+from strands_of_time.character import character
 
 
 class TestGetCharacterLocationAsTuple(TestCase):
