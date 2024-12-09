@@ -30,14 +30,45 @@ def check_for_foes():
     return percentage_chance_result(35)
 
 
+def build_thread_sequence(player_sequence: list[int], enemy_sequence: list[int],
+                          colour_sequence: list[str], combat_strands: dict) -> list:
+    """
+    
+    :param player_sequence:
+    :param enemy_sequence:
+    :param colour_sequence:
+    :param combat_strands: 
+    :return: 
+    """
+    thread_sequence = []
+    thread_options = {-1: "/", 0: "|", 1: "\\"}
+    for player_number, enemy_number in zip(player_sequence, enemy_sequence):
+        player_has_strand = combat_strands[RAINBOW_ORDER[player_number]] >= 1
+        if player_has_strand and enemy_number == 5 and player_number == 0:
+            thread_sequence.append(1)
+        elif player_has_strand and enemy_number == 0 and player_number == 5:
+            thread_sequence.append(-1)
+        elif (player_number == -1
+                or player_number - enemy_number not in thread_options
+                or not player_has_strand):
+            thread_sequence.append(random.choice(list(thread_options.keys())))
+        else:
+            thread_sequence.append(player_number - enemy_number)
+            combat_strands[RAINBOW_ORDER[player_number]] -= 1
+
+    for thread, colour in zip(thread_sequence, colour_sequence):
+        print(colourize(thread_options[thread], colour), end="")
+    return thread_sequence
+
+
 def handle_player_response(enemy_sequence: list[int], colour_sequence: list[str],
                            combat_strands: dict) -> list:
     """
-    
-    :param enemy_sequence: 
-    :param colour_sequence: 
-    :param combat_strands: 
-    :return: 
+
+    :param enemy_sequence:
+    :param colour_sequence:
+    :param combat_strands:
+    :return:
     """
     player_input_sequence = input()
     player_sequence = None
@@ -61,24 +92,8 @@ def handle_player_response(enemy_sequence: list[int], colour_sequence: list[str]
             else:
                 has_error = False
 
-    thread_sequence = []
-    thread_options = {-1: "/", 0: "|", 1: "\\"}
-    for player_number, enemy_number in zip(player_sequence, enemy_sequence):
-        player_has_strand = combat_strands[RAINBOW_ORDER[player_number]] >= 1
-        if player_has_strand and enemy_number == 5 and player_number == 0:
-            thread_sequence.append(1)
-        elif player_has_strand and enemy_number == 0 and player_number == 5:
-            thread_sequence.append(-1)
-        elif (player_number == -1
-                or player_number - enemy_number not in thread_options
-                or not player_has_strand):
-            thread_sequence.append(random.choice(list(thread_options.keys())))
-        else:
-            thread_sequence.append(player_number - enemy_number)
-            combat_strands[RAINBOW_ORDER[player_number]] -= 1
-
-    for thread, colour in zip(thread_sequence, colour_sequence):
-        print(colourize(thread_options[thread], colour), end="")
+    thread_sequence = build_thread_sequence(player_sequence, enemy_sequence, colour_sequence,
+                                            combat_strands)
     print()
     return thread_sequence
 
@@ -266,10 +281,85 @@ def handle_boss_combat(character):
     character["last distance to goal"] = None
 
 
+def print_combat_example():
+    """
+    Print an example of Time Weaving combat for the player.
+
+    :postcondition: prints an example of Time Weaving combat for the player
+    """
+    example_character_strands = create_character(5)["Strands"]
+    example_enemy_sequence = [2, 1, 0, 4, 5, 3]
+    example_input = "426613"
+    example_player_sequence = [int(digit) - 1 for digit in example_input]
+
+    colour_sequence = print_colour_sequence(example_enemy_sequence, example_character_strands)
+    print(example_input, "<-- Your play for the round")
+    example_thread_sequence = build_thread_sequence(example_player_sequence,
+                                                    example_enemy_sequence,
+                                                    colour_sequence,
+                                                    example_character_strands)
+    print(" <-- How the threads are moving")
+    new_enemy_sequence = build_next_enemy_sequence(example_enemy_sequence, example_thread_sequence)
+    print_colour_sequence(new_enemy_sequence, example_character_strands)
+    print("Tear mended!", end="\n\n")
+
+
+def print_combat_instructions():
+    """
+    Print the instructions for Time Weaving combat for the player.
+
+    :postcondition: prints the instructions for Time Weaving combat for the player
+    """
+    print(
+        textwrap.fill(
+            colourize('"Aha! A Tear! Whatever got the Time Weaver has definitely been here."',
+                      "magenta"), width=100
+        ),
+        textwrap.fill("With your spacetime sight you can see what looks like a dark hole in the "
+                      "fabric of reality", width=100
+                      ),
+        textwrap.fill(
+            colourize('"You should be able to mend the Tear with your Strands, just be careful '
+                      'they don\'t get knotted, or you\'ll lose one permanently until we can '
+                      'find the Bobbin. If you can mend the Tear, I should be able to start '
+                      'tracking it."',
+                      "magenta"), width=100
+        ),
+        textwrap.fill(f"To mend a Tear, you need to put the tangled threads of spacetime back "
+                      f"into rainbow order (Reds, Oranges, Yellows, Greens, Blues, "
+                      f"Violets).", width=100
+                      ),
+        textwrap.fill(f"The Tear will have pattern of coloured threads "
+                      f"represented "
+                      f"by their first letter. You can use your Strands to pull them into order. "
+                      f"Play your Strands under each of the Tear's threads by entering the "
+                      f"a Strand colour's number from 1 to 6. Playing the same colour under a "
+                      f"thread will keep it in the same place for the next round while playing "
+                      f"the colour immediately before it in rainbow order will pull it to the "
+                      f"left and playing the colour immediately after it will pull it to the "
+                      f"right. Reds and Violets will pull each other towards the outsides. You "
+                      f"can also play a 0 if you want to let a tread behave "
+                      f"randomly. For example:", width=100
+                      ),
+        sep="\n\n",
+        end="\n\n")
+    print_combat_example()
+    print(
+        textwrap.fill(f"It may take a few rounds "
+                      f"to get all the threads in order, but each round comes with a chance your "
+                      f"Strands will become knotted, and if that happens, or you play all your "
+                      f"threads of any colour, you won't be able to mend the Tear and Spindle "
+                      f"won't be able to tell if you are getting closer to your goal.", width=100),
+        f"Give it a try.",
+        sep="\n\n",
+        end="\n\n")
+
+
 def main():
     """
     Drive the program
     """
+    print_combat_instructions()
     chosen_level = input("Enter a level 1-3 to run a combat for, or q to quit: ")
     while chosen_level.casefold() != "q":
         level_error = True

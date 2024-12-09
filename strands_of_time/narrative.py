@@ -104,51 +104,12 @@ def print_intro():
         end="\n\n")
 
 
-def print_combat_instructions():
-    print(
-        textwrap.fill(
-            colourize('"Aha! A Tear! Whatever got the Time Weaver has definitely been here."',
-                      "magenta"), width=100
-        ),
-        textwrap.fill("With your spacetime sight you can see what looks like a dark hole in the "
-                      "fabric of reality", width=100
-                      ),
-        textwrap.fill(
-            colourize('"You should be able to mend the Tear with your Strands, just be careful '
-                      'they don\'t get knotted, or you\'ll lose one permanently until we can '
-                      'find the Bobbin. If you can mend the Tear, I should be able to start '
-                      'tracking it."',
-                      "magenta"), width=100
-        ),
-        textwrap.fill(f"To mend a Tear, you need to put the tangled threads of spacetime back "
-                      f"into rainbow order (Reds, Oranges, Yellows, Greens, Blues, "
-                      f"Violets).\n\nThe "
-                      f"Tear will have pattern of coloured threads "
-                      f"represented "
-                      f"by their first letter. You can use your Strands to pull them into order. "
-                      f"Play your Strands under each of the Tear's threads by entering the "
-                      f"a Strand colour's number from 1 to 6. Playing the same colour under a "
-                      f"thread will keep it in the same place for the next round while playing "
-                      f"the colour immediately before it in rainbow order will pull it to the "
-                      f"left and playing the colour immediately after it will pull it to the "
-                      f"right. Reds and Violets will pull each other towards the outsides. You "
-                      f"can also play a 0 if you want to let a tread behave "
-                      f"randomly.\n\nIt may take a few rounds "
-                      f"to get all the threads in order, but each round comes with a chance your "
-                      f"Strands will become knotted, and if that happens, or you play all your "
-                      f"threads of any colour, you'll lose the fight.\n\n Give it a try.", width=100
-                      ),
-        sep="\n\n",
-        end="\n\n")
-
-
 def main():
     """
     Drive the program.
     """
     demonstrate_functions([
         (print_intro, []),
-        (print_combat_instructions, []),
         (get_level_info, [1]),
         (get_level_info, [2]),
         (get_level_info, [3]),
