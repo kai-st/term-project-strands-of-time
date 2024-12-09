@@ -338,7 +338,7 @@ def print_combat_instructions():
                       f"the colour immediately before it in rainbow order will pull it to the "
                       f"left and playing the colour immediately after it will pull it to the "
                       f"right. Reds and Violets will pull each other towards the outsides. You "
-                      f"can also play a 0 if you want to let a tread behave "
+                      f"can also play a 0 if you want to let a thread behave "
                       f"randomly. For example:", width=100
                       ),
         sep="\n\n",
