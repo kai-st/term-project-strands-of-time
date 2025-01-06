@@ -65,6 +65,11 @@ def get_level_info(level: int) -> dict:
 
 
 def print_intro():
+    """
+    Print the narrative text for the game's introduction.
+
+    :postcondition: prints the narrative text for the game's introduction
+    """
     print(
         textwrap.fill("You awaken lying on freezing cold stone surrounded by darkness so black you "
                       "could never have imagined it. You try to feel around to get a sense of "
