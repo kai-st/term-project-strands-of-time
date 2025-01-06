@@ -68,18 +68,27 @@ def print_intro():
                       "object that suddenly lights up "
                       "with a dim glow and you hear a voice in your head,", width=100),
         textwrap.fill(
-            colourize('"Oh, thank god you\'re here, I don\'t even know how long-\n\nWait, '
-                      'you\'re not a Time Weaver! How in spacetime did you get here?\n\nWell, '
+            colourize('"Oh, thank god you\'re here, I don\'t even know how long-', "magenta"),
+            width=100),
+        textwrap.fill(
+            colourize('"Wait, you\'re not a Time Weaver! How in spacetime did you get here?',
+                      "magenta"), width=100),
+        textwrap.fill(
+            colourize('"Well, '
                       'nothing for it, I guess. I\'m Spindle. Welcome to the heat death of the '
                       'universe."', "magenta"), width=100),
-        textwrap.fill("You try to take this in.\n\nSpindle is made of a strange silvery material. "
+        textwrap.fill("You try to take this in.", width=100),
+        textwrap.fill("Spindle is made of a strange silvery material. "
                       "Maybe some sort of alien alloy? It's shape does sort of resemble a "
                       "spindle, you suppose.", width=100),
         textwrap.fill(
             colourize('"But now that you\'re here, we might just be able to get sometime else. I '
                       'don\'t know what happened to my Time Weaver, but certainly something '
                       'drastic to get me stuck out here without a source of bio-power. We have '
-                      'to find them.\n\nI think you\'ve got what it takes to time travel. Here, '
+                      'to find them.',
+                      "magenta"), width=100),
+        textwrap.fill(
+            colourize('"I think you\'ve got what it takes to time travel. Here, '
                       'try this."',
                       "magenta"), width=100),
         textwrap.fill("Spindle seems to do something to your brain and suddenly it\'s like you "
@@ -92,7 +101,10 @@ def print_intro():
                       'provide you with a few of each colour by myself, but if we can '
                       'track down the other two '
                       'instruments my Time Weaver was carrying, they should boost your Stand '
-                      'count and eventually lead us to the Time Weaver.\n\nWe\'ll go after '
+                      'count and eventually lead us to the Time Weaver.',
+                      "magenta"), width=100),
+        textwrap.fill(
+            colourize('"We\'ll go after '
                       'the Bobbin first. My readings say it\'s somewhere in these three time '
                       'periods. Your guess is as good as mine where to start. You\'ll be able to '
                       'make small hops '
