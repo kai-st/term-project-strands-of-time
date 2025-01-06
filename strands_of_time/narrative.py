@@ -5,9 +5,13 @@ from strands_of_time.utils import colourize, demonstrate_functions
 
 def get_level_info(level: int) -> dict:
     """
+    Provide the information to customize the narrative for a given level.
 
-    :param level:
-    :return:
+    :param level: an integer between 1 and 3 indicating the level being described
+    :precondition: level is an integer from 1 to 3
+    :postcondition: provides a dictionary with the information to customize the narrative for level
+    :return: a dictionary for level with the keys "to find", "boss", "goal description",
+    and "success"
     """
     level_info = {
         1: {
