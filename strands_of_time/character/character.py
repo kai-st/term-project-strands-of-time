@@ -315,6 +315,28 @@ def main():
                 'Yellow': 0
             }}
         ]),
+        (has_all_colours_strands, [strands_demo_character]),
+        (has_all_colours_strands, [{
+            'Strands': {
+                'Blue': 0,
+                'Green': 2,
+                'Orange': 2,
+                'Red': 2,
+                'Violet': 0,
+                'Yellow': 0
+            }}
+        ]),
+        (find_colours_with_0_strands, [strands_demo_character]),
+        (find_colours_with_0_strands, [{
+            'Strands': {
+                'Blue': 0,
+                'Green': 2,
+                'Orange': 2,
+                'Red': 2,
+                'Violet': 0,
+                'Yellow': 0
+            }}
+        ]),
         (print_strands, [strands_demo_character]),
         (get_character_location_as_tuple, [{"X-coordinate": 5, "Y-coordinate": 2}]),
         (remove_random_strand, [strands_demo_character])
