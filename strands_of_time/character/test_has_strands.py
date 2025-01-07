@@ -85,6 +85,8 @@ class TestHasStrands(TestCase):
                                         "last distance to goal": None,
                                         "Strands": {"Red": 0, "Orange": 0, "Yellow": 0, "Green": 0,
                                                     "Blue": 1, "Violet": 0}})
+        expected = True
+        self.assertEqual(expected, actual)
 
     def test_has_strands_no_strands_left(self):
         actual = character.has_strands({"X-coordinate": -1,
