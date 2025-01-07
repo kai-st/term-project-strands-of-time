@@ -118,11 +118,15 @@ def has_all_colours_strands(character: dict) -> bool:
     if not isinstance(character["Strands"], dict):
         raise TypeError("character['Strands'] must be an dictionary")
 
+    has_all_strands = True
     for value in character["Strands"].values():
         if not (isinstance(value, int) or isinstance(value, float)):
             raise TypeError("character['Strands'] must have number values")
 
-    return 0 not in character["Strands"].values()
+        if value < 1:
+            has_all_strands = False
+
+    return has_all_strands
 
 
 def find_colours_with_0_strands(character: dict) -> list[str]:
